@@ -1,0 +1,50 @@
+# Proje sitesini (site/ klasörü) GitHub Pages'e yayınlar.
+# İlk kez: depo → Settings → Pages → Build and deployment → Source: "GitHub Actions".
+name: Site
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'site/**'
+      - 'src/DevNanotek/Resources/Kilavuz.html'
+      - 'CHANGELOG.md'
+      - '.github/workflows/pages.yml'
+  release:
+    types: [published]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Siteyi hazırla
+        run: |
+          mkdir -p _site
+          cp -r site/. _site/
+          cp src/DevNanotek/Resources/Kilavuz.html _site/kilavuz.html
+          cp CHANGELOG.md _site/CHANGELOG.md
+          touch _site/.nojekyll
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - id: deployment
+        uses: actions/deploy-pages@v4

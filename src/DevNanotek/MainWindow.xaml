@@ -1,0 +1,131 @@
+<Window x:Class="DevNanotek.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:v="clr-namespace:DevNanotek.Views"
+        Title="DEVNANOTEK" Height="760" Width="1180" MinHeight="620" MinWidth="960"
+        WindowStartupLocation="CenterScreen" Background="{DynamicResource Bg}" Foreground="{DynamicResource Text}"
+        Icon="pack://application:,,,/Assets/devnanotek.ico" FontFamily="{StaticResource FontUI}" FontSize="13.5"
+        Closing="Window_Closing" StateChanged="Window_StateChanged">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="232"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- ================= Sol menü ================= -->
+        <Border Background="{DynamicResource Sidebar}" BorderBrush="{DynamicResource SidebarLine}" BorderThickness="0,0,1,0">
+            <DockPanel>
+                <!-- Marka -->
+                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="20,22,16,22">
+                    <Border Width="38" Height="38" CornerRadius="10" Background="#232425">
+                        <Viewbox Margin="2"><Path Data="{StaticResource BrandD}" Fill="#FAA41A" Width="64" Height="64"/></Viewbox>
+                    </Border>
+                    <StackPanel Margin="11,0,0,0" VerticalAlignment="Center">
+                        <TextBlock FontFamily="{StaticResource FontBrand}" FontSize="25" Margin="0,0,0,-4" TextWrapping="NoWrap">
+                            <Run Text="DEV" Foreground="#FAA41A"/><Run Text="NANOTEK" Foreground="{DynamicResource Text}"/>
+                        </TextBlock>
+                        <TextBlock Text="LOCAL SERVER" FontSize="10" FontWeight="SemiBold" Foreground="{DynamicResource Muted}" TextWrapping="NoWrap"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- Alt: durum + tema -->
+                <StackPanel DockPanel.Dock="Bottom" Margin="14,0,14,14">
+                    <Border Background="{DynamicResource Surface2}" BorderBrush="{DynamicResource Line}" BorderThickness="1" CornerRadius="10" Padding="12,10" Margin="0,0,0,10"
+                            Cursor="Hand" MouseLeftButtonUp="SideStatus_Click" ToolTip="Durum penceresini aç">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+                                <Ellipse x:Name="SideDot" Style="{StaticResource Dot}" Margin="0,0,8,0" Fill="{DynamicResource Muted}"/>
+                                <TextBlock x:Name="SideStatus" Text="Durum alınıyor…" FontSize="12.5" FontWeight="SemiBold" Foreground="{DynamicResource Text}"/>
+                            </StackPanel>
+                            <ItemsControl x:Name="SideRows">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal" Margin="0,2" ToolTip="{Binding State}">
+                                            <Ellipse Width="7" Height="7" Margin="1,0,9,0" VerticalAlignment="Center" Fill="{Binding Level, Converter={StaticResource LevelBrush}}"/>
+                                            <TextBlock Text="{Binding TitleWithVersion}" Foreground="{DynamicResource Muted}" FontSize="12" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" MaxWidth="160"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                            <TextBlock x:Name="SidePhp" Foreground="{DynamicResource Muted}" FontSize="12" Margin="17,3,0,0" TextWrapping="NoWrap" TextTrimming="CharacterEllipsis"/>
+                        </StackPanel>
+                    </Border>
+                    <DockPanel>
+                        <Button x:Name="ThemeBtn" DockPanel.Dock="Right" Style="{StaticResource IconBtn}" Margin="0" Click="Theme_Click" ToolTip="Tema"/>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock x:Name="SideVersion" Text="v1.0.0" Foreground="{DynamicResource Muted}" FontSize="11"/>
+                            <TextBlock x:Name="SideRoot" Text="C:\devnanotek" Foreground="{DynamicResource Muted}" FontSize="11" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap"/>
+                        </StackPanel>
+                    </DockPanel>
+                </StackPanel>
+
+                <!-- Menü -->
+                <StackPanel>
+                    <RadioButton Style="{StaticResource NavButton}" GroupName="nav" Tag="dashboard" IsChecked="True" Checked="Nav_Checked">
+                        <StackPanel Orientation="Horizontal"><TextBlock Style="{StaticResource Icon}" Text="&#xE80F;" Margin="0,0,12,0"/><TextBlock Text="Genel Bakış"/></StackPanel>
+                    </RadioButton>
+                    <RadioButton Style="{StaticResource NavButton}" GroupName="nav" Tag="projects" Checked="Nav_Checked">
+                        <StackPanel Orientation="Horizontal"><TextBlock Style="{StaticResource Icon}" Text="&#xE8B7;" Margin="0,0,12,0"/><TextBlock Text="Projeler"/></StackPanel>
+                    </RadioButton>
+                    <RadioButton Style="{StaticResource NavButton}" GroupName="nav" Tag="versions" Checked="Nav_Checked">
+                        <DockPanel>
+                            <Border x:Name="UpdateBadge" DockPanel.Dock="Right" Background="{DynamicResource Accent}" CornerRadius="9" Padding="7,0" Margin="8,0,0,0" Visibility="Collapsed" VerticalAlignment="Center">
+                                <TextBlock x:Name="UpdateBadgeText" Text="0" FontSize="11" FontWeight="Bold" Foreground="{DynamicResource AccentInk}"/>
+                            </Border>
+                            <StackPanel Orientation="Horizontal"><TextBlock Style="{StaticResource Icon}" Text="&#xE896;" Margin="0,0,12,0"/><TextBlock Text="Sürümler"/></StackPanel>
+                        </DockPanel>
+                    </RadioButton>
+                    <RadioButton Style="{StaticResource NavButton}" GroupName="nav" Tag="settings" Checked="Nav_Checked">
+                        <StackPanel Orientation="Horizontal"><TextBlock Style="{StaticResource Icon}" Text="&#xE713;" Margin="0,0,12,0"/><TextBlock Text="Ayarlar"/></StackPanel>
+                    </RadioButton>
+                    <RadioButton Style="{StaticResource NavButton}" GroupName="nav" Tag="logs" Checked="Nav_Checked">
+                        <StackPanel Orientation="Horizontal"><TextBlock Style="{StaticResource Icon}" Text="&#xE9F9;" Margin="0,0,12,0"/><TextBlock Text="Günlükler"/></StackPanel>
+                    </RadioButton>
+                    <RadioButton Style="{StaticResource NavButton}" GroupName="nav" Tag="help" Checked="Nav_Checked">
+                        <StackPanel Orientation="Horizontal"><TextBlock Style="{StaticResource Icon}" Text="&#xE897;" Margin="0,0,12,0"/><TextBlock Text="Yardım"/></StackPanel>
+                    </RadioButton>
+                </StackPanel>
+            </DockPanel>
+        </Border>
+
+        <!-- ================= İçerik ================= -->
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <ContentControl x:Name="Host" Margin="28,24,16,4"/>
+
+            <!-- Uzun işlem çubuğu -->
+            <Border x:Name="BusyBar" Grid.Row="1" Visibility="Collapsed" Background="{DynamicResource Surface}" BorderBrush="{DynamicResource Line}" BorderThickness="0,1,0,0" Padding="28,12">
+                <StackPanel>
+                    <DockPanel>
+                        <Button x:Name="BusyLogBtn" DockPanel.Dock="Right" Style="{StaticResource Link}" Content="Ayrıntı" Click="BusyLog_Click"/>
+                        <TextBlock x:Name="BusyTitle" FontWeight="SemiBold" Text="Çalışıyor…" Foreground="{DynamicResource Text}"/>
+                        <TextBlock x:Name="BusyText" Margin="12,0,0,0" Style="{StaticResource MutedText}" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap"/>
+                    </DockPanel>
+                    <ProgressBar x:Name="BusyProgress" IsIndeterminate="True" Margin="0,8,0,0"/>
+                    <v:ColoredLog x:Name="BusyLog" Height="150" Margin="0,10,0,0" Visibility="Collapsed"/>
+                </StackPanel>
+            </Border>
+
+            <TextBlock x:Name="StatusText" Grid.Row="2" Margin="28,2,16,8" Style="{StaticResource MutedText}" FontSize="11.5" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Text=""/>
+
+            <!-- Renkli bildirim (başarılı yeşil, hata kırmızı, uyarı sarı) -->
+            <Border x:Name="ToastBox" Grid.RowSpan="3" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,22,22" MaxWidth="440" MinWidth="280"
+                    CornerRadius="10" BorderThickness="1" Padding="14,11" Visibility="Collapsed">
+                <Border.Effect><DropShadowEffect BlurRadius="18" ShadowDepth="2" Opacity="0.22"/></Border.Effect>
+                <DockPanel>
+                    <Button DockPanel.Dock="Right" Style="{StaticResource IconBtn}" Width="24" Height="24" FontSize="10" Content="&#xE711;" Margin="8,0,0,0" VerticalAlignment="Top" Click="ToastClose_Click"/>
+                    <TextBlock x:Name="ToastIcon" DockPanel.Dock="Left" Style="{StaticResource Icon}" FontSize="16" Margin="0,1,10,0" VerticalAlignment="Top"/>
+                    <StackPanel>
+                        <TextBlock x:Name="ToastText" FontWeight="SemiBold"/>
+                        <Button x:Name="ToastMore" Style="{StaticResource Link}" Content="Ayrıntılar" HorizontalAlignment="Left" Padding="0,4,0,0" Visibility="Collapsed" Click="ToastMore_Click"/>
+                    </StackPanel>
+                </DockPanel>
+            </Border>
+        </Grid>
+    </Grid>
+</Window>

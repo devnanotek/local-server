@@ -1,0 +1,27 @@
+<local:ViewBase x:Class="DevNanotek.Views.LogsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:DevNanotek.Views">
+    <Grid Margin="0,0,12,12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
+            <TextBlock Style="{StaticResource H1}" Text="Günlükler"/>
+            <local:InfoTip Margin="10,4,0,0" Text="Bir şey çalışmıyorsa önce buraya bakın. Seçilen dosyanın son 400 satırı gösterilir."/>
+        </StackPanel>
+        <DockPanel Grid.Row="1" Margin="0,0,0,10">
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
+                <CheckBox x:Name="AutoRefresh" Style="{StaticResource Switch}" Content="Canlı" VerticalAlignment="Center" Margin="0,0,12,0" ToolTip="3 saniyede bir yenile"/>
+                <Button Style="{StaticResource IconBtn}" Content="&#xE72C;" ToolTip="Yenile" Click="Reload_Click"/>
+                <Button Style="{StaticResource IconBtn}" Content="&#xE8A7;" ToolTip="Not Defteri'nde aç" Click="Open_Click"/>
+                <Button Style="{StaticResource IconBtn}" Content="&#xE74D;" ToolTip="Temizle" Click="Clear_Click"/>
+                <Button Style="{StaticResource IconBtn}" Content="&#xE838;" ToolTip="Günlük klasörü" Click="Folder_Click" Margin="0"/>
+            </StackPanel>
+            <ComboBox x:Name="LogCombo" HorizontalAlignment="Left" Width="380" SelectionChanged="LogCombo_Changed" DisplayMemberPath="Title"/>
+        </DockPanel>
+        <TextBox x:Name="LogText" Grid.Row="2" Style="{StaticResource Mono}" IsReadOnly="True"/>
+    </Grid>
+</local:ViewBase>

@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DEVNANOTEK Local Server — Windows ve Linux için ücretsiz yerel PHP sunucusu</title>
+<meta name="description" content="XAMPP ve Laragon'a ücretsiz, açık kaynak alternatif: çoklu PHP, Apache/Nginx, MariaDB, MySQL, PostgreSQL, phpMyAdmin, Adminer, Mailpit, HTTPS. Windows ve Linux.">
+<meta name="theme-color" content="#232425">
+<meta property="og:title" content="DEVNANOTEK Local Server">
+<meta property="og:description" content="Windows ve Linux için ücretsiz, açık kaynak yerel PHP geliştirme sunucusu.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="assets/img/dashboard-dark.png">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="stylesheet" href="assets/style.css">
+<script>
+  // tema ve dil sayfa çizilmeden uygulanır (yanıp sönme olmasın)
+  (function () {
+    try {
+      var t = localStorage.getItem('dn-theme'); if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+      var l = localStorage.getItem('dn-lang') || ((navigator.language || 'tr').toLowerCase().indexOf('tr') === 0 ? 'tr' : 'en');
+      document.documentElement.setAttribute('lang', l);
+    } catch (e) {}
+  })();
+</script>
+</head>
+<body>
+<a class="skip" href="#main" data-i18n="skip">İçeriğe geç</a>
+
+<!-- ============ Üst menü ============ -->
+<header class="nav" id="top">
+  <div class="wrap nav-in">
+    <a class="brand" href="#top" aria-label="DEVNANOTEK Local Server">
+      <svg class="mark" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="16" fill="#232425"/><path d="M16 14h17c11 0 18 7 18 18S44 50 33 50H16V14zm10 9v18h6c6 0 9-3 9-9s-3-9-9-9h-6z" fill="#FAA41A"/></svg>
+      <svg class="wordmark" viewBox="4 24 426 72" aria-hidden="true">
+        <path fill="#FAA41A" d="M15.1,35L15.1,85 20.7,85C22.5,85 23.9,84.5 24.9,83.4 25.8,82.3 26.3,80.6 26.3,78.2L26.3,41.8C26.3,39.4 25.8,37.7 24.9,36.6 23.9,35.5 22.5,35 20.7,35L15.1,35z M4.1,25L20.9,25C26.4,25 30.5,26.5 33.2,29.4 35.9,32.3 37.3,36.6 37.3,42.3L37.3,77.7C37.3,83.4 35.9,87.7 33.2,90.6 30.5,93.5 26.4,95 20.9,95L4.1,95 4.1,25z M48.7,25L78.7,25 78.7,35 59.7,35 59.7,53.5 74.8,53.5 74.8,63.5 59.7,63.5 59.7,85 78.7,85 78.7,95 48.7,95 48.7,25z M86.1,25L97.2,25 104.4,79.3 104.6,79.3 111.8,25 121.9,25 111.3,95 96.7,95 86.1,25z"/>
+        <path class="n" d="M131.2,25L145,25 155.7,66.9 155.9,66.9 155.9,25 165.7,25 165.7,95 154.4,95 141.2,43.9 141,43.9 141,95 131.2,95 131.2,25z M193.3,37.2L188.5,71.8 198.4,71.8 193.5,37.2 193.3,37.2z M186.4,25L201.3,25 212.7,95 201.7,95 199.7,81.1 199.7,81.3 187.2,81.3 185.2,95 175,95 186.4,25z M222,25L235.8,25 246.5,66.9 246.7,66.9 246.7,25 256.5,25 256.5,95 245.2,95 232,43.9 231.8,43.9 231.8,95 222,95 222,25z M284.6,34C280.8,34,278.9,36.3,278.9,40.9L278.9,79.1C278.9,83.7 280.8,86 284.6,86 288.4,86 290.3,83.7 290.3,79.1L290.3,40.9C290.3,36.3,288.4,34,284.6,34z M284.6,24C290,24 294.1,25.5 297,28.6 299.9,31.7 301.3,36 301.3,41.6L301.3,78.4C301.3,84 299.9,88.3 297,91.4 294.1,94.5 290,96 284.6,96 279.2,96 275.1,94.5 272.2,91.4 269.3,88.3 267.9,84 267.9,78.4L267.9,41.6C267.9,36 269.3,31.7 272.2,28.6 275.1,25.5 279.2,24 284.6,24z M309.8,25L343.8,25 343.8,35 332.3,35 332.3,95 321.3,95 321.3,35 309.8,35 309.8,25z M353.1,25L383.1,25 383.1,35 364.1,35 364.1,53.5 379.2,53.5 379.2,63.5 364.1,63.5 364.1,85 383.1,85 383.1,95 353.1,95 353.1,25z M393.4,25L404.4,25 404.4,54.5 418.4,25 429.4,25 416.3,50.7 429.6,95 418.1,95 408.8,63.8 404.4,72.7 404.4,95 393.4,95 393.4,25z"/>
+      </svg>
+    </a>
+    <nav class="links" aria-label="Menü">
+      <a href="#ozellikler" data-i18n="nav.features">Özellikler</a>
+      <a href="#ekran" data-i18n="nav.shots">Ekran görüntüleri</a>
+      <a href="#linux" data-i18n="nav.linux">Linux</a>
+      <a href="#surumler" data-i18n="nav.releases">Sürümler</a>
+      <a href="kilavuz.html" data-i18n="nav.guide">Kılavuz</a>
+      <a class="gh" data-repo-link="" href="https://github.com/devnanotek/local-server" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+    <div class="tools">
+      <button class="tbtn" id="langBtn" type="button" aria-label="Dil / Language">EN</button>
+      <button class="tbtn" id="themeBtn" type="button" aria-label="Tema"><svg class="ico-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="ico-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+<!-- ============ Giriş ============ -->
+<section class="hero">
+  <div class="wrap hero-in">
+    <div class="hero-text">
+      <p class="pill"><span class="dot"></span> <span data-i18n="hero.pill">Ücretsiz · Açık kaynak (MIT)</span> · <span class="ver-text" data-ver>v1.2.0</span></p>
+      <h1 data-i18n="hero.title">Windows ve Linux için <em>yerel PHP sunucusu</em></h1>
+      <p class="lead" data-i18n="hero.lead">XAMPP ve Laragon yerine: birden çok PHP sürümü, Apache veya Nginx, MariaDB, MySQL, PostgreSQL, phpMyAdmin, test e-postası ve HTTPS. Tek dosya, birkaç tıkla kurulum, lisans uyarısı yok.</p>
+      <div class="cta">
+        <a class="btn primary" id="dlWin" href="https://github.com/devnanotek/local-server/releases/latest/download/DevNanotek.exe">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5.5l7.5-1v7H3zm8.5-1.2L21 3v8.5h-9.5zM3 12.5h7.5v7L3 18.5zm8.5 0H21V21l-9.5-1.3z"/></svg>
+          <span><b data-i18n="hero.win">Windows için indir</b><small><span data-ver>v1.2.0</span> · <span data-size>DevNanotek.exe</span></small></span>
+        </a>
+        <a class="btn" href="#linux">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM6 9l3 3-3 3m5 0h6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span><b data-i18n="hero.linux">Linux için kur</b><small>Ubuntu · Debian · AlmaLinux · Fedora</small></span>
+        </a>
+      </div>
+      <p class="req" data-i18n="hero.req">Windows 10 / 11 · 64 bit, 32 bit, ARM64 · yönetici izni ve internet bağlantısı gerekir</p>
+    </div>
+    <figure class="hero-shot">
+      <img class="theme-img" data-light="assets/img/dashboard-light.png" data-dark="assets/img/dashboard-dark.png" src="assets/img/dashboard-light.png" alt="DEVNANOTEK Genel Bakış ekranı" width="1186" height="743">
+    </figure>
+  </div>
+  <div class="wrap stats">
+    <div><b>7</b><span data-i18n="stats.php">PHP sürümü (7.4–8.5)</span></div>
+    <div><b>5</b><span data-i18n="stats.db">veritabanı motoru</span></div>
+    <div><b>2</b><span data-i18n="stats.web">web sunucu</span></div>
+    <div><b>8+</b><span data-i18n="stats.linux">Linux dağıtımı</span></div>
+  </div>
+</section>
+
+<!-- ============ Özellikler ============ -->
+<section id="ozellikler" class="sec">
+  <div class="wrap">
+    <h2 data-i18n="feat.h">Neler var?</h2>
+    <p class="sub" data-i18n="feat.sub">Her bileşen resmi kaynağından indirilir ve gerçek Windows servisi olarak çalışır: program kapalıyken de siteleriniz açık kalır.</p>
+    <div class="grid">
+      <article class="card"><div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 12.5l9 5 9-5"/><path d="M3 17l9 5 9-5"/></svg></div><h3 data-i18n="f1.h">Çoklu PHP</h3><p data-i18n="f1.p">PHP 7.4'ten 8.5'e istediğiniz kadar sürüm; tek tıkla geçiş. gd, zip, intl gibi eklentiler anahtarla açılıp kapanır.</p></article>
+      <article class="card"><div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z"/></svg></div><h3 data-i18n="f2.h">Apache veya Nginx</h3><p data-i18n="f2.p">.htaccess ve mod_rewrite (cPanel / Plesk ile aynı). Alt klasörler: httpdocs\GITHUB\proje1 → localhost/GITHUB/proje1.</p></article>
+      <article class="card"><div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="5.5" rx="8" ry="3"/><path d="M4 5.5v13c0 1.7 3.6 3 8 3s8-1.3 8-3v-13M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg></div><h3 data-i18n="f3.h">Tüm SQL veritabanları</h3><p data-i18n="f3.p">MariaDB veya MySQL, yanında PostgreSQL, SQLite ve SQL Server sürücüsü. phpMyAdmin ve hepsini yöneten Adminer.</p></article>
+      <article class="card"><div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4.5" y="10.5" width="15" height="10" rx="2"/><path d="M8 10.5v-3a4 4 0 0 1 8 0v3M12 14.5v2"/></svg></div><h3 data-i18n="f4.h">Uyarısız HTTPS</h3><p data-i18n="f4.p">mkcert ile https://localhost ve proje.test alan adları tarayıcıda yeşil kilitle açılır.</p></article>
+      <article class="card"><div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3.5 6.5l8.5 6.5 8.5-6.5"/></svg></div><h3 data-i18n="f5.h">Test e-posta kutusu</h3><p data-i18n="f5.p">Mailpit: PHP'nin gönderdiği e-postalar gerçek alıcıya gitmez, tarayıcıda görünür.</p></article>
+      <article class="card"><div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg></div><h3 data-i18n="f6.h">Linux uyumluluk denetimi</h3><p data-i18n="f6.p">Sunucuya göndermeden önce projeyi tarar: büyük/küçük harf, ters bölü, C:\ yolları, tablo adları, .htaccess php_value.</p></article>
+      <article class="card"><div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 0 0-14.3-4.9L4 8M4 4v4h4M4 13a8 8 0 0 0 14.3 4.9L20 16M20 20v-4h-4"/></svg></div><h3 data-i18n="f7.h">Kendini güncel tutar</h3><p data-i18n="f7.p">Yeni PHP, MariaDB, Node.js… sürümlerini ve DEVNANOTEK'in yeni sürümünü otomatik bulur; ÖNERİLEN sürümü gösterir, tek tıkla günceller.</p></article>
+      <article class="card"><div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg></div><h3 data-i18n="f8.h">Renkli durum, tepsi simgesi</h3><p data-i18n="f8.p">Servisler yeşil / sarı / kırmızı. Saatin yanındaki simgeden başlat, durdur, sürümleri gör.</p></article>
+      <article class="card"><div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><path d="M5.6 5.6l3.6 3.6M14.8 14.8l3.6 3.6M18.4 5.6l-3.6 3.6M9.2 14.8l-3.6 3.6"/></svg></div><h3 data-i18n="f9.h">Onarım ve temiz kaldırma</h3><p data-i18n="f9.p">Hızlı onarımdan fabrika ayarlarına dört seviye. Kaldırınca servis, hosts, PATH, sertifika ve güvenlik duvarı kaydı bırakmaz.</p></article>
+      <article class="card"><div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9l3 3-3 3M12 15h5"/></svg></div><h3 data-i18n="f10.h">Node.js ve Composer</h3><p data-i18n="f10.p">node, npm, npx, composer, mysql, psql terminalde hazır. socket.io ve Vue/React derlemeleri için.</p></article>
+      <article class="card"><div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18z" fill="currentColor"/></svg></div><h3 data-i18n="f11.h">Sade arayüz</h3><p data-i18n="f11.p">Gündüz / gece teması, açıklamalar ? simgelerinde, Türkçe kılavuz. Başlarken kurulum sihirbazı.</p></article>
+      <article class="card"><div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M12 12v6M9 15l3 3 3-3"/></svg></div><h3 data-i18n="f12.h">Tek dosya, her bilgisayar</h3><p data-i18n="f12.p">Bir exe; 64 / 32 bit ve ARM64'ü kendisi algılar. Ek kurulum gerektirmez (.NET 4.8 Windows'ta hazır).</p></article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Ekran görüntüleri ============ -->
+<section id="ekran" class="sec alt">
+  <div class="wrap">
+    <h2 data-i18n="shots.h">Ekran görüntüleri</h2>
+    <div class="tabs" role="tablist">
+      <button class="tab on" role="tab" data-shot="dashboard" data-i18n="shots.t1">Genel Bakış</button>
+      <button class="tab" role="tab" data-shot="versions" data-i18n="shots.t2">Sürümler</button>
+      <button class="tab" role="tab" data-shot="php-extensions" data-i18n="shots.t3">PHP eklentileri</button>
+      <button class="tab" role="tab" data-shot="databases" data-i18n="shots.t4">Veritabanları</button>
+      <button class="tab" role="tab" data-shot="linux-check" data-i18n="shots.t5">Linux denetimi</button>
+      <button class="tab" role="tab" data-shot="setup" data-i18n="shots.t6">Kurulum sihirbazı</button>
+      <button class="tab" role="tab" data-shot="tray" data-i18n="shots.t7">Tepsi penceresi</button>
+    </div>
+    <figure class="shot">
+      <img id="shotImg" class="theme-img" data-light="assets/img/dashboard-light.png" data-dark="assets/img/dashboard-dark.png" src="assets/img/dashboard-light.png" alt="" loading="lazy">
+      <figcaption id="shotCap"></figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ Linux ============ -->
+<section id="linux" class="sec">
+  <div class="wrap two">
+    <div>
+      <h2 data-i18n="lx.h">Linux'ta da aynı ortam</h2>
+      <p data-i18n="lx.p">Tek komutla kurulur; sonra <code>devnanotek</code> komutuyla yönetilir: PHP sürümü değiştirme, eklenti açma, alan adı ekleme, yedek alma, kaldırma.</p>
+      <div class="cmd">
+        <code id="lxCmd">curl -fsSLO https://github.com/devnanotek/local-server/releases/latest/download/devnanotek.sh &amp;&amp; sudo bash devnanotek.sh install</code>
+        <button class="copy" type="button" data-copy="#lxCmd" data-i18n="copy">Kopyala</button>
+      </div>
+      <p class="muted small" data-i18n="lx.note">Normal kullanıcınızla çalıştırın (sudo ile). Projeler /opt/devnanotek/httpdocs klasöründe, ~/httpdocs kısayoluyla.</p>
+    </div>
+    <div class="distros">
+      <span>Ubuntu 22.04 · 24.04 · 26.04</span><span>Debian 11 · 12 · 13</span><span>Linux Mint</span><span>Pop!_OS · Zorin</span>
+      <span>AlmaLinux 8 · 9 · 10</span><span>Rocky Linux</span><span>RHEL · CentOS Stream</span><span>Oracle · CloudLinux</span><span>Fedora</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Sürümler ============ -->
+<section id="surumler" class="sec alt">
+  <div class="wrap">
+    <h2 data-i18n="rel.h">Sürümler</h2>
+    <p class="sub" data-i18n="rel.sub">Kurulu program yeni sürümü kendiliğinden görür ve tek tıkla güncellenir. Tüm dosyalar ve SHA256 özetleri GitHub Releases'tadır.</p>
+    <div id="releases" class="releases">
+      <p class="muted" data-i18n="rel.loading">Sürümler yükleniyor…</p>
+    </div>
+    <p><a class="more" data-repo-link="/releases" href="https://github.com/devnanotek/local-server/releases" target="_blank" rel="noopener" data-i18n="rel.all">Tüm sürümler ve dosyalar →</a></p>
+  </div>
+</section>
+
+<!-- ============ SSS ============ -->
+<section id="sss" class="sec">
+  <div class="wrap narrow">
+    <h2 data-i18n="faq.h">Sık sorulanlar</h2>
+    <details><summary data-i18n="q1">"Windows bilgisayarınızı korudu" uyarısı çıkıyor</summary><p data-i18n="a1">Program ücretsiz olduğu için kod imzası yok. "Ek bilgi → Yine de çalıştır" ile açın. Dosyanın doğruluğunu sürüm sayfasındaki SHA256 özetiyle kontrol edebilirsiniz.</p></details>
+    <details><summary data-i18n="q2">Windows 11'de program veya Apache açılmıyor</summary><p data-i18n="a2">Akıllı Uygulama Denetimi (Smart App Control) açıksa imzasız programları engeller. Program bunu algılar ve nasıl kapatılacağını gösterir. Bu bir güvenlik ayarıdır; kararı siz verirsiniz.</p></details>
+    <details><summary data-i18n="q3">XAMPP veya Laragon ile birlikte çalışır mı?</summary><p data-i18n="a3">Aynı portları (80, 443, 3306) kullandıkları için aynı anda çalışmazlar. Program çakışmayı gösterir; diğerini durdurun ya da Ayarlar'dan portu değiştirin.</p></details>
+    <details><summary data-i18n="q4">Projelerim ve veritabanlarım nerede?</summary><p data-i18n="a4">Projeler C:\devnanotek\httpdocs, veritabanları C:\devnanotek\data klasöründe. Kaldırırken isterseniz ikisi de korunur.</p></details>
+    <details><summary data-i18n="q5">Projem Linux sunucuda (Plesk / cPanel) çalışacak mı?</summary><p data-i18n="a5">Projeler → klasörü seçin → Linux uyumluluğu → Denetle. Sunucuda hata verecek şeyleri satır satır ve nasıl düzelteceğinizle gösterir.</p></details>
+    <details><summary data-i18n="q6">Ücretli mi? Ticari projede kullanabilir miyim?</summary><p data-i18n="a6">Tamamen ücretsiz ve MIT lisanslı açık kaynak: kişisel ve ticari projelerde serbestçe kullanabilirsiniz.</p></details>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-in">
+    <span>© 2026 <a href="https://devnanotek.net" target="_blank" rel="noopener">DEVNANOTEK</a> · <span data-i18n="foot.lic">MIT lisansı</span></span>
+    <span><a data-repo-link="" href="https://github.com/devnanotek/local-server" target="_blank" rel="noopener">GitHub</a> · <a data-repo-link="/issues" href="https://github.com/devnanotek/local-server/issues" target="_blank" rel="noopener" data-i18n="foot.issue">Hata bildir</a> · <a href="kilavuz.html" data-i18n="nav.guide">Kılavuz</a></span>
+  </div>
+</footer>
+
+<div id="lightbox" class="lightbox" hidden><img alt=""></div>
+<script src="assets/app.js"></script>
+</body>
+</html>

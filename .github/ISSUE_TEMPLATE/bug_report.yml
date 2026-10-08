@@ -1,0 +1,42 @@
+name: Hata bildirimi / Bug report
+description: Bir şey çalışmıyor veya beklenmedik davranıyor
+labels: [hata]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Teşekkürler! Lütfen aşağıyı doldurun. Program günlüğü: **Yardım → Program günlüğü** (`C:\devnanotek\logs\devnanotek.log`).
+        Thanks for reporting! English is welcome too.
+  - type: input
+    id: version
+    attributes:
+      label: DEVNANOTEK sürümü
+      description: Sol alt köşede yazar (ör. v1.2.0) · Linux'ta `devnanotek version`
+      placeholder: v1.2.0
+    validations:
+      required: true
+  - type: dropdown
+    id: os
+    attributes:
+      label: İşletim sistemi
+      options:
+        - Windows 11
+        - Windows 10
+        - Linux (Ubuntu / Debian / Mint)
+        - Linux (AlmaLinux / Rocky / RHEL / Fedora)
+        - Diğer
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: Ne oldu?
+      description: Ne yaptınız, ne bekliyordunuz, ne oldu?
+    validations:
+      required: true
+  - type: textarea
+    id: log
+    attributes:
+      label: Günlük / hata mesajı
+      description: Hata penceresindeki metin veya günlüğün son satırları
+      render: text

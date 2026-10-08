@@ -1,0 +1,48 @@
+# Her gönderimde (push) ve çekme isteğinde (pull request) programı derler ve Linux betiğini denetler.
+name: Derleme
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  windows:
+    name: Windows programı
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Derle
+        run: dotnet build src/DevNanotek/DevNanotek.csproj -c Release -o build/release --nologo
+
+      - name: Exe'yi sakla (14 gün)
+        uses: actions/upload-artifact@v4
+        with:
+          name: DevNanotek-exe
+          path: build/release/DevNanotek.exe
+          retention-days: 14
+
+  linux:
+    name: Linux betiği
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Sözdizimi
+        run: bash -n linux/devnanotek.sh
+
+      - name: ShellCheck
+        run: shellcheck -S error linux/devnanotek.sh
+
+      - name: Satır sonları LF mi
+        run: |
+          if grep -q $'\r' linux/devnanotek.sh; then echo "devnanotek.sh CRLF içeriyor"; exit 1; fi

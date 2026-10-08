@@ -1,0 +1,29 @@
+# Derleme çıktıları (sürümler GitHub Actions ile Releases'a yüklenir)
+bin/
+obj/
+build/
+dist/
+out/
+_site/
+
+# Visual Studio / Rider / VS Code
+.vs/
+.idea/
+*.user
+*.suo
+*.rsuser
+.vscode/*
+!.vscode/extensions.json
+.claude/
+
+# Simge betiğinin ara çıktısı (devnanotek.ico depoda)
+src/DevNanotek/Assets/devnanotek.png
+
+# Windows / macOS
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Günlük ve geçici dosyalar
+*.log
+*.tmp

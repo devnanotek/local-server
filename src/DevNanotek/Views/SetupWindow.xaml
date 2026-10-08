@@ -1,0 +1,137 @@
+<Window x:Class="DevNanotek.Views.SetupWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:DevNanotek.Views"
+        Title="DEVNANOTEK — Kurulum" Height="740" Width="760" MinHeight="600" MinWidth="680"
+        WindowStartupLocation="CenterScreen" Background="{DynamicResource Bg}" Foreground="{DynamicResource Text}" ResizeMode="CanResize"
+        Icon="pack://application:,,,/Assets/devnanotek.ico" FontFamily="{StaticResource FontUI}" FontSize="13.5" Closing="Window_Closing">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Marka şeridi -->
+        <Border Background="{DynamicResource Header}" Padding="26,20">
+            <StackPanel Orientation="Horizontal">
+                <Border Width="46" Height="46" CornerRadius="12" Background="#232425" BorderBrush="#3A3B3D" BorderThickness="1">
+                    <Viewbox Margin="3"><Path Data="{StaticResource BrandD}" Fill="#FAA41A" Width="64" Height="64"/></Viewbox>
+                </Border>
+                <StackPanel Margin="14,0,0,0" VerticalAlignment="Center">
+                    <TextBlock FontFamily="{StaticResource FontBrand}" FontSize="30" Margin="0,0,0,-4" TextWrapping="NoWrap">
+                        <Run Text="DEV" Foreground="#FAA41A"/><Run Text="NANOTEK" Foreground="{DynamicResource HeaderText}"/>
+                    </TextBlock>
+                    <TextBlock x:Name="SysText" Foreground="{DynamicResource HeaderMuted}" FontSize="12"/>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="26,18,26,8">
+                <StackPanel x:Name="ChoicePanel">
+                    <TextBlock Style="{StaticResource H2}" FontSize="18" Text="Hoş geldiniz — birkaç seçim yeter" Margin="0,0,0,4"/>
+                    <TextBlock Style="{StaticResource MutedText}" Text="Bileşenler resmi kaynaklarından indirilip C:\devnanotek altına kurulur ve Windows servisi olarak başlatılır." Margin="0,0,0,16"/>
+
+                    <Border Style="{StaticResource Card}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,0,12">
+                                <TextBlock Text="PHP" FontWeight="SemiBold"/><local:InfoTip Text="Hosting'inizdeki PHP sürümünü seçmeniz önerilir. Sonra istediğiniz kadar sürüm ekleyip tek tıkla geçebilirsiniz."/>
+                            </StackPanel>
+                            <ComboBox x:Name="CbPhp" Grid.Column="1" Width="340" HorizontalAlignment="Left" Margin="0,0,0,12" DisplayMemberPath="Display"/>
+
+                            <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,0,12">
+                                <TextBlock Text="Web sunucu" FontWeight="SemiBold"/><local:InfoTip Text="Apache .htaccess dosyalarını okur (cPanel/Plesk ile aynı) — önerilir. Nginx daha hafiftir."/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" Margin="0,0,0,12">
+                                <RadioButton x:Name="RbApache" GroupName="w" Content="Apache" IsChecked="True"/>
+                                <RadioButton x:Name="RbNginx" GroupName="w" Content="Nginx"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,0,12">
+                                <TextBlock Text="Veritabanı" FontWeight="SemiBold"/><local:InfoTip Text="MariaDB, Plesk ve cPanel'de en yaygın olanıdır ve MySQL ile uyumludur. Kullanıcı root, şifre boş kurulur."/>
+                            </StackPanel>
+                            <ComboBox x:Name="CbDb" Grid.Row="2" Grid.Column="1" Width="340" HorizontalAlignment="Left" Margin="0,0,0,12" DisplayMemberPath="Display"/>
+
+                            <CheckBox x:Name="CbNode" Grid.Row="3" Content="Node.js" FontWeight="SemiBold" IsChecked="True" VerticalAlignment="Center"/>
+                            <ComboBox x:Name="CbNodeVer" Grid.Row="3" Grid.Column="1" Width="340" HorizontalAlignment="Left" DisplayMemberPath="Display"/>
+                        </Grid>
+                    </Border>
+
+                    <Border Style="{StaticResource Card}">
+                        <StackPanel>
+                            <TextBlock Style="{StaticResource Caption}" Text="ARAÇLAR" Margin="0,0,0,8"/>
+                            <WrapPanel>
+                                <CheckBox x:Name="CbPma" Content="phpMyAdmin" IsChecked="True" Margin="0,4,22,4"/>
+                                <CheckBox x:Name="CbAdminer" Content="Adminer (tüm veritabanları)" IsChecked="True" Margin="0,4,22,4"/>
+                                <CheckBox x:Name="CbPg" Content="PostgreSQL" IsChecked="False" Margin="0,4,22,4" ToolTip="İsteğe bağlı: MariaDB/MySQL ile birlikte çalışır (port 5432, yaklaşık 340 MB indirme)"/>
+                                <CheckBox x:Name="CbMail" Content="Test e-posta (Mailpit)" IsChecked="True" Margin="0,4,22,4"/>
+                                <CheckBox x:Name="CbSsl" Content="Yerel HTTPS (mkcert)" IsChecked="True" Margin="0,4,22,4"/>
+                                <CheckBox x:Name="CbComposer" Content="Composer" IsChecked="True" Margin="0,4,22,4"/>
+                            </WrapPanel>
+                            <TextBlock x:Name="ArchNote" Style="{StaticResource MutedText}" Foreground="{DynamicResource Warn}" Margin="0,6,0,0" Visibility="Collapsed"/>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Style="{StaticResource Card}">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+                                <TextBlock Style="{StaticResource Caption}" Text="ÇALIŞMA MODU" VerticalAlignment="Center"/>
+                                <local:InfoTip Text="Sonradan Genel Bakış'taki anahtarla tek tıkla değiştirebilirsiniz."/>
+                            </StackPanel>
+                            <RadioButton x:Name="RbAlways" GroupName="mode" IsChecked="True" Content="Her zaman açık — bilgisayar açılınca servisler başlar"/>
+                            <RadioButton x:Name="RbManual" GroupName="mode" Content="Sadece ben açınca — program açılınca başlar, Çıkış'ta durur"/>
+                            <CheckBox x:Name="CbPath" Content="php, composer, node, mysql komutları her terminalde çalışsın (PATH)" IsChecked="True" Margin="0,10,0,0"/>
+                        </StackPanel>
+                    </Border>
+
+                    <Border x:Name="SacBox" Style="{StaticResource Card}" Background="{DynamicResource ErrBg}" BorderBrush="{DynamicResource Err}" Visibility="Collapsed">
+                        <StackPanel>
+                            <TextBlock Text="Akıllı Uygulama Denetimi açık" FontWeight="SemiBold" Foreground="{DynamicResource Err}"/>
+                            <TextBlock x:Name="SacText" Foreground="{DynamicResource Err}" Margin="0,4,0,0"/>
+                        </StackPanel>
+                    </Border>
+
+                    <Border x:Name="PortWarnBox" Style="{StaticResource Card}" Background="{DynamicResource WarnBg}" BorderBrush="{DynamicResource Warn}" Visibility="Collapsed">
+                        <StackPanel>
+                            <TextBlock Text="Port uyarısı" FontWeight="SemiBold" Foreground="{DynamicResource Warn}"/>
+                            <TextBlock x:Name="PortWarn" Foreground="{DynamicResource Text}" Margin="0,4,0,0"/>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+
+                <StackPanel x:Name="ProgressPanel" Visibility="Collapsed">
+                    <TextBlock x:Name="StepTitle" Style="{StaticResource H2}" FontSize="17" Text="Kuruluyor…"/>
+                    <ProgressBar x:Name="Bar" Height="8" Margin="0,10,0,6"/>
+                    <TextBlock x:Name="StepText" Style="{StaticResource MutedText}" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap"/>
+                    <ProgressBar x:Name="TotalBar" Height="4" Margin="0,12,0,4" Foreground="{DynamicResource Ok}"/>
+                    <TextBlock x:Name="TotalText" Style="{StaticResource MutedText}"/>
+                    <local:ColoredLog x:Name="LogBox" Height="300" Margin="0,12,0,0"/>
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+
+        <Border Grid.Row="2" Background="{DynamicResource Surface}" BorderBrush="{DynamicResource Line}" BorderThickness="0,1,0,0" Padding="26,12">
+            <DockPanel>
+                <TextBlock x:Name="SizeInfo" Style="{StaticResource MutedText}" VerticalAlignment="Center"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button x:Name="BtnSkip" Content="Şimdilik atla" Click="Skip_Click"/>
+                    <Button x:Name="BtnCancel" Content="İptal" Click="Cancel_Click" Visibility="Collapsed"/>
+                    <Button x:Name="BtnOpen" Style="{StaticResource Success}" Content="localhost'u aç" Click="Open_Click" Visibility="Collapsed"/>
+                    <Button x:Name="BtnInstall" Style="{StaticResource Primary}" Padding="18,8" Content="Kur ve başlat" Click="Install_Click" Margin="0"/>
+                    <Button x:Name="BtnDone" Style="{StaticResource Primary}" Padding="18,8" Content="Bitti" Click="Done_Click" Visibility="Collapsed" Margin="0"/>
+                </StackPanel>
+            </DockPanel>
+        </Border>
+    </Grid>
+</Window>

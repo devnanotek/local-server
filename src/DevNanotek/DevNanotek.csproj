@@ -1,0 +1,71 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    DevNanotek — .NET Framework 4.8 (Windows 10/11 ile birlikte gelir, ek çalışma zamanı kurulumu gerekmez).
+    Derleme:  dotnet build -c Release
+    Test (yönetici istemeyen sürüm):  dotnet build -c Release -p:AsInvoker=true
+  -->
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net48</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <LangVersion>latest</LangVersion>
+    <Nullable>disable</Nullable>
+    <AssemblyName>DevNanotek</AssemblyName>
+    <RootNamespace>DevNanotek</RootNamespace>
+    <StartupObject>DevNanotek.Program</StartupObject>
+    <ApplicationIcon>Assets\devnanotek.ico</ApplicationIcon>
+    <Version>1.2.0</Version>
+    <FileVersion>1.2.0.0</FileVersion>
+    <Product>DEVNANOTEK Local Server</Product>
+    <AssemblyTitle>DEVNANOTEK Local Server</AssemblyTitle>
+    <Description>DEVNANOTEK - PHP / MariaDB / MySQL / Apache / Nginx / Node.js yerel gelistirme sunucusu</Description>
+    <Company>DEVNANOTEK</Company>
+    <Copyright>DEVNANOTEK - devnanotek.net</Copyright>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
+    <!-- AnyCPU: 64 bit Windows'ta 64 bit, 32 bit Windows'ta 32 bit, ARM64'te yerel çalışır -->
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
+    <DebugType>embedded</DebugType>
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+    <NoWarn>CS1591;CA1416;NU1701</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(AsInvoker)' == 'true'">
+    <ApplicationManifest>app.asinvoker.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(AsInvoker)' != 'true'">
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+
+  <!-- .NET Framework 4.8 başvuru derlemeleri: makinede Developer Pack olmasa da (ör. GitHub Actions) derlenir -->
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Management" />
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\**\*" />
+    <EmbeddedResource Include="Resources\**\*" />
+    <!-- Linux sürümü: Yardım > Linux sürümü ile docs\linux klasörüne çıkarılır -->
+    <EmbeddedResource Include="..\..\linux\devnanotek.sh" LogicalName="DevNanotek.Resources.linux.devnanotek.sh" />
+    <EmbeddedResource Include="..\..\linux\KURULUM.md" LogicalName="DevNanotek.Resources.linux.KURULUM.md" />
+    <None Remove="Assets\**\*" />
+    <Resource Include="Assets\devnanotek.ico" />
+    <Resource Include="Assets\Fonts\BebasNeue-Regular.ttf" />
+  </ItemGroup>
+
+</Project>

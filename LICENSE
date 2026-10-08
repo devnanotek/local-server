@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2026 islam
+Copyright (c) 2026 DEVNANOTEK (https://devnanotek.net)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -19,3 +19,13 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+---------------------------------------------------------------------------
+Third-party components
+
+* Bebas Neue font (src/DevNanotek/Assets/Fonts/BebasNeue-Regular.ttf) is
+  licensed under the SIL Open Font License 1.1 — see OFL-BebasNeue.txt next to it.
+* PHP, Apache, Nginx, MariaDB, MySQL, PostgreSQL, Node.js, phpMyAdmin, Adminer,
+  Mailpit, mkcert, Composer, WinSW and the Microsoft SQL Server drivers are NOT
+  included in this repository. DEVNANOTEK downloads them from their official
+  sources at install time; each is distributed under its own license.

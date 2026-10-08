@@ -1,0 +1,80 @@
+<Window x:Class="DevNanotek.Views.ResetWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:DevNanotek.Views"
+        Title="DEVNANOTEK — Onarım ve Sıfırlama" Height="700" Width="740" MinHeight="560" MinWidth="640"
+        WindowStartupLocation="CenterOwner" Background="{DynamicResource Bg}" Foreground="{DynamicResource Text}"
+        Icon="pack://application:,,,/Assets/devnanotek.ico" FontFamily="{StaticResource FontUI}" FontSize="13.5" Closing="Window_Closing">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Border Background="{DynamicResource Header}" Padding="24,18">
+            <DockPanel>
+                <Border Width="40" Height="40" CornerRadius="10" Background="#232425" BorderBrush="#3A3B3D" BorderThickness="1" Margin="0,0,14,0">
+                    <TextBlock Style="{StaticResource Icon}" Text="&#xE90F;" FontSize="18" Foreground="#FAA41A" HorizontalAlignment="Center"/>
+                </Border>
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Text="Onarım ve Sıfırlama" Foreground="{DynamicResource HeaderText}" FontSize="19" FontWeight="SemiBold"/>
+                    <TextBlock Foreground="{DynamicResource HeaderMuted}" FontSize="12.5" Margin="0,2,0,0" Text="Projeleriniz (httpdocs) hiçbir seçenekte silinmez; silinen her şey önce yedeklenir."/>
+                </StackPanel>
+            </DockPanel>
+        </Border>
+
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="24,16,24,8">
+                <StackPanel x:Name="ChoicePanel">
+                    <Border Style="{StaticResource Card}" Padding="16,13" Margin="0,0,0,10">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <RadioButton x:Name="RbQuick" GroupName="r" IsChecked="True" FontWeight="SemiBold" Content="Hızlı onarım" Margin="0,0,8,0"/>
+                                <Border Background="{DynamicResource OkBg}" CornerRadius="9" Padding="8,1" VerticalAlignment="Center">
+                                    <TextBlock Text="önce bunu deneyin" FontSize="11" FontWeight="SemiBold" Foreground="{DynamicResource Ok}"/>
+                                </Border>
+                            </StackPanel>
+                            <TextBlock Style="{StaticResource MutedText}" Margin="27,4,0,0" Text="Servisler yeniden kurulur, yapılandırma yeniden üretilir. Hiçbir ayar ve veri silinmez."/>
+                        </StackPanel>
+                    </Border>
+                    <Border Style="{StaticResource Card}" Padding="16,13" Margin="0,0,0,10">
+                        <StackPanel>
+                            <RadioButton x:Name="RbFull" GroupName="r" FontWeight="SemiBold" Content="Tam onarım"/>
+                            <TextBlock Style="{StaticResource MutedText}" Margin="27,4,0,0" Text="PHP, web sunucu, veritabanı programı ve araçlar sıfırdan kurulur; php.ini ve custom ayarlar varsayılana döner (eskileri yedeklenir). Veritabanları korunur."/>
+                        </StackPanel>
+                    </Border>
+                    <Border Style="{StaticResource Card}" Padding="16,13" Margin="0,0,0,10">
+                        <StackPanel>
+                            <RadioButton x:Name="RbDb" GroupName="r" FontWeight="SemiBold" Content="Veritabanını sıfırla"/>
+                            <TextBlock Style="{StaticResource MutedText}" Margin="27,4,0,0" Text="MySQL/MariaDB hiç açılmıyorsa. Önce .sql yedeği alınır ve veri klasörü yedeğe taşınır; sonra boş bir veritabanı kurulur, root şifresi boşalır."/>
+                        </StackPanel>
+                    </Border>
+                    <Border Style="{StaticResource Card}" Padding="16,13" Margin="0,0,0,10" BorderBrush="{DynamicResource Err}">
+                        <StackPanel>
+                            <RadioButton x:Name="RbFactory" GroupName="r" FontWeight="SemiBold" Foreground="{DynamicResource Err}" Content="Fabrika ayarlarına dön"/>
+                            <TextBlock Style="{StaticResource MutedText}" Margin="27,4,0,0" Text="Servisler, programlar ve sistem kayıtları kaldırılır; veritabanları ve ayarlar yedeğe taşınır. Program yeniden açılır ve kurulum sihirbazı başlar."/>
+                            <CheckBox x:Name="CbDeleteDownloads" Margin="27,8,0,0" Content="İndirilmiş kurulum dosyalarını da sil"/>
+                        </StackPanel>
+                    </Border>
+                    <TextBlock x:Name="BackupInfo" Style="{StaticResource MutedText}" Margin="2,2,0,0"/>
+                </StackPanel>
+
+                <StackPanel x:Name="ProgressPanel" Visibility="Collapsed">
+                    <TextBlock x:Name="StepTitle" Style="{StaticResource H2}" FontSize="17" Text="Çalışıyor…"/>
+                    <ProgressBar x:Name="Bar" Height="8" IsIndeterminate="True" Margin="0,10,0,6"/>
+                    <TextBlock x:Name="StepText" Style="{StaticResource MutedText}" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap"/>
+                    <local:ColoredLog x:Name="LogBox" Height="320" Margin="0,12,0,0"/>
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+
+        <Border Grid.Row="2" Background="{DynamicResource Surface}" BorderBrush="{DynamicResource Line}" BorderThickness="0,1,0,0" Padding="24,12">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button x:Name="BtnBackups" Style="{StaticResource Small}" Content="Yedek klasörü" Click="Backups_Click"/>
+                <Button x:Name="BtnClose" Content="Kapat" Click="Close_Click"/>
+                <Button x:Name="BtnRun" Style="{StaticResource Primary}" Padding="18,8" Content="Başlat" Click="Run_Click" Margin="0"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>

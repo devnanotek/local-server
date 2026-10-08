@@ -1,0 +1,25 @@
+# Metin dosyaları depoda LF ile saklanır
+* text=auto
+
+# Linux betikleri her zaman LF olmalı (CRLF ile "bad interpreter" hatası verir)
+*.sh text eol=lf
+linux/** text eol=lf
+
+# Windows'a özgü dosyalar
+*.ps1 text eol=crlf
+*.cmd text eol=crlf
+*.bat text eol=crlf
+*.sln text eol=crlf
+*.csproj text eol=crlf
+
+# İkili dosyalar
+*.ico binary
+*.png binary
+*.jpg binary
+*.ttf binary
+*.exe binary
+*.zip binary
+
+# GitHub dil istatistiklerinde site ve kılavuz HTML'i sayılmasın
+site/** linguist-documentation
+src/DevNanotek/Resources/Kilavuz.html linguist-documentation

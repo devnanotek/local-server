@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sayfa bulunamadı · DEVNANOTEK</title>
+<link rel="icon" type="image/svg+xml" href="/local-server/favicon.svg">
+<style>
+  :root { --bg: #FAF9F7; --txt: #232425; --muted: #6E675B; --acc: #9A6400; --line: #E7E1D5; --card: #FFFFFF; }
+  @media (prefers-color-scheme: dark) { :root { --bg: #1B1C1D; --txt: #F2EFE8; --muted: #A49B8C; --acc: #FFB43A; --line: #333436; --card: #232425; } }
+  body { margin: 0; background: var(--bg); color: var(--txt); font: 16px/1.6 "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif; }
+  main { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 12px; padding: 40px 16px; }
+  svg { width: 64px; height: 64px; }
+  h1 { font-size: 56px; margin: 6px 0 0; line-height: 1; }
+  p { color: var(--muted); margin: 0; }
+  a { display: inline-block; margin-top: 12px; background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 9px 16px; color: var(--acc); font-weight: 600; text-decoration: none; }
+</style>
+</head>
+<body>
+<main>
+  <svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="16" fill="#232425"/><path d="M16 14h17c11 0 18 7 18 18S44 50 33 50H16V14zm10 9v18h6c6 0 9-3 9-9s-3-9-9-9h-6z" fill="#FAA41A"/></svg>
+  <h1>404</h1>
+  <p>Aradığınız sayfa bulunamadı · Page not found</p>
+  <a id="home" href="/local-server/">Ana sayfaya dön · Home</a>
+</main>
+<script>
+  // depo adı değişse de ana sayfa bağlantısı doğru olsun
+  (function () {
+    var seg = location.pathname.split('/').filter(Boolean)[0];
+    if (!/\.github\.io$/i.test(location.hostname) || !seg) return;
+    document.getElementById('home').href = '/' + seg + '/';
+    document.querySelector('link[rel=icon]').href = '/' + seg + '/favicon.svg';
+  })();
+</script>
+</body>
+</html>

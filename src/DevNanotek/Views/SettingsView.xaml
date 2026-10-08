@@ -1,0 +1,386 @@
+<local:ViewBase x:Class="DevNanotek.Views.SettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:DevNanotek.Views">
+    <Grid Margin="0,0,12,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <DockPanel Margin="0,0,0,8">
+            <Button DockPanel.Dock="Right" Style="{StaticResource Primary}" VerticalAlignment="Center" Click="SaveApply_Click" Margin="0">
+                <StackPanel Orientation="Horizontal"><TextBlock Style="{StaticResource Icon}" FontSize="13" Text="&#xE74E;" Margin="0,0,8,0"/><TextBlock Text="Kaydet ve uygula"/></StackPanel>
+            </Button>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Style="{StaticResource H1}" Text="Ayarlar"/>
+                <local:InfoTip Margin="10,4,0,0" Text="Genel, SSL ve sistem ayarları 'Kaydet ve uygula' ile yazılır; ilgili servisler otomatik yeniden başlar. PHP, Web sunucu ve Veritabanı sekmelerindeki kayıt düğmeleri kendi başına uygular."/>
+            </StackPanel>
+        </DockPanel>
+
+        <TabControl x:Name="Tabs" Grid.Row="1">
+            <!-- ===================== GENEL ===================== -->
+            <TabItem Header="Genel" Tag="general">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="0,0,10,10">
+                        <GroupBox>
+                            <GroupBox.Header>
+                                <StackPanel Orientation="Horizontal"><TextBlock Text="Görünüm"/><local:InfoTip Text="Sistem: Windows'un açık/koyu ayarını izler. Sol alttaki tema düğmesiyle de hızlıca değiştirebilirsiniz."/></StackPanel>
+                            </GroupBox.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <RadioButton x:Name="RbThemeSystem" GroupName="theme" Content="Sistem" Checked="Theme_Checked"/>
+                                <RadioButton x:Name="RbThemeLight" GroupName="theme" Content="Gündüz" Checked="Theme_Checked"/>
+                                <RadioButton x:Name="RbThemeDark" GroupName="theme" Content="Gece" Checked="Theme_Checked"/>
+                            </StackPanel>
+                        </GroupBox>
+
+                        <GroupBox>
+                            <GroupBox.Header>
+                                <StackPanel Orientation="Horizontal"><TextBlock Text="Çalışma modu"/><local:InfoTip Text="Her zaman açık: servisler Windows ile başlar, program tepside açılır.&#10;Sadece ben açınca: hiçbir şey kendiliğinden başlamaz; program açılınca servisler başlar, tepsiden Çıkış'ta durur.&#10;Aşağıdaki kutucuklarla ince ayar yapabilirsiniz."/></StackPanel>
+                            </GroupBox.Header>
+                            <StackPanel>
+                                <RadioButton x:Name="RbRunAlways" GroupName="runmode" Checked="RunMode_Checked" Content="Her zaman açık"/>
+                                <RadioButton x:Name="RbRunManual" GroupName="runmode" Checked="RunMode_Checked" Content="Sadece ben açınca"/>
+                                <Border BorderBrush="{DynamicResource Line}" BorderThickness="0,1,0,0" Margin="0,10,0,0" Padding="0,8,0,0">
+                                    <StackPanel>
+                                        <CheckBox x:Name="CbAutoServices" Content="Servisler bilgisayar açılınca başlasın"/>
+                                        <CheckBox x:Name="CbAppWithWindows" Content="Program Windows ile tepside başlasın"/>
+                                        <CheckBox x:Name="CbStartOnLaunch" Content="Program açılınca durmuş servisleri başlat"/>
+                                        <CheckBox x:Name="CbStopOnExit" Content="Programdan Çıkış yapınca servisleri durdur"/>
+                                        <CheckBox x:Name="CbMinToTray" Content="Kapat (X) düğmesi tepsiye küçültsün"/>
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+                        </GroupBox>
+
+                        <GroupBox>
+                            <GroupBox.Header>
+                                <StackPanel Orientation="Horizontal"><TextBlock Text="Web sunucu ve belge kökü"/><local:InfoTip Text="Apache .htaccess dosyalarını okur (cPanel/Plesk ile aynı). Nginx daha hafiftir ama .htaccess okumaz.&#10;Belge kökü boşsa C:\devnanotek\httpdocs kullanılır."/></StackPanel>
+                            </GroupBox.Header>
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <RadioButton x:Name="RbApache" GroupName="web" Content="Apache"/>
+                                    <RadioButton x:Name="RbNginx" GroupName="web" Content="Nginx"/>
+                                </StackPanel>
+                                <DockPanel Margin="0,8,0,0">
+                                    <Button DockPanel.Dock="Right" Style="{StaticResource Small}" Content="Varsayılan" Click="DefaultDocRoot_Click" Margin="6,0,0,0"/>
+                                    <Button DockPanel.Dock="Right" Style="{StaticResource Small}" Content="Gözat…" Click="BrowseDocRoot_Click" Margin="8,0,0,0"/>
+                                    <TextBox x:Name="TbDocRoot"/>
+                                </DockPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                                    <CheckBox x:Name="CbLan" Content="Yerel ağdan erişim (telefon / diğer bilgisayarlardan test)"/>
+                                    <local:InfoTip Text="Kapalıyken (önerilen) siteleriniz yalnızca bu bilgisayardan açılır; Windows güvenlik duvarı soru sormaz.&#10;Açınca aynı ağdaki cihazlardan http://BU-BİLGİSAYARIN-IP adresiyle erişilir ve yalnızca ÖZEL ağ için güvenlik duvarı kuralı eklenir."/>
+                                </StackPanel>
+                            </StackPanel>
+                        </GroupBox>
+
+                        <GroupBox>
+                            <GroupBox.Header>
+                                <StackPanel Orientation="Horizontal"><TextBlock Text="Portlar"/><local:InfoTip Text="80/443/3306 başka bir program (IIS, XAMPP, Skype…) tarafından kullanılıyorsa burada değiştirin. Sistem sekmesindeki 'Port kontrolü' kimin kullandığını gösterir."/></StackPanel>
+                            </GroupBox.Header>
+                            <WrapPanel>
+                                <StackPanel Margin="0,0,14,6"><TextBlock Style="{StaticResource MutedText}" Text="HTTP"/><TextBox x:Name="TbHttp" Width="86" Margin="0,3,0,0"/></StackPanel>
+                                <StackPanel Margin="0,0,14,6"><TextBlock Style="{StaticResource MutedText}" Text="HTTPS"/><TextBox x:Name="TbHttps" Width="86" Margin="0,3,0,0"/></StackPanel>
+                                <StackPanel Margin="0,0,14,6"><TextBlock Style="{StaticResource MutedText}" Text="Veritabanı"/><TextBox x:Name="TbDb" Width="86" Margin="0,3,0,0"/></StackPanel>
+                                <StackPanel Margin="0,0,14,6"><TextBlock Style="{StaticResource MutedText}" Text="PostgreSQL"/><TextBox x:Name="TbPg" Width="86" Margin="0,3,0,0"/></StackPanel>
+                                <StackPanel Margin="0,0,14,6"><TextBlock Style="{StaticResource MutedText}" Text="SMTP"/><TextBox x:Name="TbSmtp" Width="86" Margin="0,3,0,0"/></StackPanel>
+                                <StackPanel Margin="0,0,14,6"><TextBlock Style="{StaticResource MutedText}" Text="Mailpit arayüz"/><TextBox x:Name="TbMailUi" Width="86" Margin="0,3,0,0"/></StackPanel>
+                                <StackPanel Margin="0,0,14,6"><TextBlock Style="{StaticResource MutedText}" Text="FastCGI (Nginx)"/><TextBox x:Name="TbFcgi" Width="86" Margin="0,3,0,0"/></StackPanel>
+                                <StackPanel Margin="0,0,14,6"><TextBlock Style="{StaticResource MutedText}" Text="php-cgi sayısı"/><TextBox x:Name="TbFcgiCount" Width="86" Margin="0,3,0,0"/></StackPanel>
+                            </WrapPanel>
+                        </GroupBox>
+
+                        <GroupBox Header="Diğer">
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <CheckBox x:Name="CbMailpit" Content="Test e-posta kutusu (Mailpit)"/>
+                                    <local:InfoTip Text="PHP mail() ve SMTP 127.0.0.1:1025 ile gönderilen e-postalar gerçek alıcıya gitmez; http://localhost:8025 adresinde görünür."/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <CheckBox x:Name="CbPath" Content="php, composer, node, mysql komutları her terminalde çalışsın (PATH)"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </GroupBox>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- ===================== PHP ===================== -->
+            <TabItem Header="PHP" Tag="php">
+                <Grid Margin="0,0,0,10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                        <TextBlock Text="Sürüm" VerticalAlignment="Center" Margin="0,0,10,0" Foreground="{DynamicResource Text}"/>
+                        <ComboBox x:Name="CbPhpVer" Width="140" SelectionChanged="PhpVer_Changed"/>
+                        <TextBlock x:Name="PhpActiveNote" Style="{StaticResource MutedText}" VerticalAlignment="Center" Margin="12,0,0,0"/>
+                    </StackPanel>
+                    <TabControl Grid.Row="1">
+                        <TabItem Header="Hızlı ayarlar">
+                            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                <StackPanel Margin="0,0,10,0">
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+                                        <TextBlock Style="{StaticResource Caption}" Text="SIK KULLANILAN EKLENTİLER" VerticalAlignment="Center"/>
+                                        <local:InfoTip Text="gd, zip, intl gibi projelerin sık istediği eklentileri buradan açıp kapatın; 'Kaydet ve uygula' ile web sunucu yeniden başlar. Tüm eklentiler için Eklentiler sekmesine bakın."/>
+                                    </StackPanel>
+                                    <local:PhpExtSwitches x:Name="QuickExt" ItemWidth="200"/>
+                                    <TextBlock Style="{StaticResource Caption}" Text="PHP.INI DEĞERLERİ" Margin="0,16,0,6"/>
+                                    <ItemsControl x:Name="QuickList">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" Margin="0,3">
+                                                    <TextBlock Text="{Binding Key}" Width="210" VerticalAlignment="Center" FontFamily="{StaticResource FontMono}" FontSize="12.5" Foreground="{DynamicResource Text}"/>
+                                                    <TextBox Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}" Width="260"/>
+                                                    <local:InfoTip Text="{Binding Hint}" Margin="10,0,0,0"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                    <StackPanel Orientation="Horizontal" Margin="0,14,0,0">
+                                        <Button Style="{StaticResource Primary}" Content="Kaydet ve uygula" Click="QuickSave_Click"/>
+                                        <Button Style="{StaticResource Small}" Content="Geliştirme varsayılanları" Click="QuickDefaults_Click"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </ScrollViewer>
+                        </TabItem>
+                        <TabItem Header="Eklentiler">
+                            <DockPanel>
+                                <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="0,10,0,0">
+                                    <Button Style="{StaticResource Primary}" Content="Kaydet ve uygula" Click="ExtSave_Click"/>
+                                </StackPanel>
+                                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                    <ItemsControl x:Name="ExtList">
+                                        <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel/></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <CheckBox Content="{Binding Name}" IsChecked="{Binding Enabled}" Width="170" FontFamily="{StaticResource FontMono}" FontSize="12.5"/>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </ScrollViewer>
+                            </DockPanel>
+                        </TabItem>
+                        <TabItem Header="php.ini">
+                            <DockPanel>
+                                <DockPanel DockPanel.Dock="Bottom" Margin="0,10,0,0">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Style="{StaticResource Primary}" Content="Kaydet ve uygula" Click="IniSave_Click"/>
+                                        <Button Style="{StaticResource IconBtn}" Content="&#xE72C;" ToolTip="Yeniden yükle" Click="IniReload_Click"/>
+                                        <Button Style="{StaticResource IconBtn}" Content="&#xE8A7;" ToolTip="Not Defteri'nde aç" Click="IniOpen_Click"/>
+                                        <Button Style="{StaticResource IconBtn}" Content="&#xE7A7;" ToolTip="Son kayıttan önceki hale dön (.bak)" Click="IniRestore_Click"/>
+                                    </StackPanel>
+                                    <TextBlock x:Name="IniPath" Style="{StaticResource MutedText}" VerticalAlignment="Center" HorizontalAlignment="Right" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap"/>
+                                </DockPanel>
+                                <TextBox x:Name="IniText" Style="{StaticResource Mono}"/>
+                            </DockPanel>
+                        </TabItem>
+                    </TabControl>
+                </Grid>
+            </TabItem>
+
+            <!-- ===================== WEB SUNUCU ===================== -->
+            <TabItem Header="Web sunucu" Tag="web">
+                <DockPanel Margin="0,0,0,10">
+                    <DockPanel DockPanel.Dock="Top" Margin="0,0,0,10">
+                        <local:InfoTip DockPanel.Dock="Right" Text="Ana yapılandırma (httpd.conf / nginx.conf) otomatik üretilir. Kendi kurallarınızı (proxy, rewrite, socket.io yönlendirmesi…) custom.conf'a yazın; bu dosya asla üzerine yazılmaz. Kaydetmeden önce test edilir, hatalıysa değişiklik geri alınır."/>
+                        <StackPanel Orientation="Horizontal">
+                            <RadioButton x:Name="RbConfApache" GroupName="conf" Content="Apache custom.conf" IsChecked="True" Checked="ConfKind_Checked"/>
+                            <RadioButton x:Name="RbConfNginx" GroupName="conf" Content="Nginx custom.conf" Checked="ConfKind_Checked"/>
+                        </StackPanel>
+                    </DockPanel>
+                    <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="0,10,0,0">
+                        <Button Style="{StaticResource Primary}" Content="Test et, kaydet, uygula" Click="ConfSave_Click"/>
+                        <Button Style="{StaticResource Small}" Content="Yapılandırmayı test et" Click="ConfTest_Click"/>
+                        <Button Style="{StaticResource Small}" Content="Ana yapılandırma" Click="ConfViewMain_Click"/>
+                        <Button Style="{StaticResource Small}" Content="vhosts klasörü" Click="ConfVhosts_Click"/>
+                    </StackPanel>
+                    <TextBox x:Name="ConfText" Style="{StaticResource Mono}"/>
+                </DockPanel>
+            </TabItem>
+
+            <!-- ===================== VERİTABANI ===================== -->
+            <TabItem Header="Veritabanı" Tag="db">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="0,0,10,10">
+                        <GroupBox Header="Bağlantı">
+                            <StackPanel>
+                                <TextBlock x:Name="DbConnInfo" FontFamily="{StaticResource FontMono}" FontSize="12.5" Foreground="{DynamicResource Text}"/>
+                                <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                                    <CheckBox x:Name="CbDbNetwork" Content="Ağdaki cihazlardan veritabanına erişim"/>
+                                    <local:InfoTip Text="Açınca bind-address 0.0.0.0 olur ve yalnızca ÖZEL ağ için güvenlik duvarı kuralı eklenir. Yalnız güvendiğiniz ağlarda ve root şifresi belirleyerek kullanın."/>
+                                </StackPanel>
+                            </StackPanel>
+                        </GroupBox>
+                        <GroupBox>
+                            <GroupBox.Header>
+                                <StackPanel Orientation="Horizontal"><TextBlock Text="root şifresi"/><local:InfoTip Text="Varsayılan şifre boştur. Değiştirirseniz phpMyAdmin otomatik güncellenir; Navicat'te yeni şifreyi kullanın. Boş kaydetmek şifreyi kaldırır."/></StackPanel>
+                            </GroupBox.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <PasswordBox x:Name="PbRoot" Width="220"/>
+                                <Button Style="{StaticResource Small}" Content="Şifreyi ayarla" Margin="8,0,0,0" Click="SetRootPw_Click"/>
+                            </StackPanel>
+                        </GroupBox>
+                        <GroupBox Header="Veritabanları">
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBox x:Name="TbNewDb" Width="220" ToolTip="Yeni veritabanı adı"/>
+                                    <Button Style="{StaticResource Small}" Content="Oluştur (utf8mb4)" Margin="8,0,0,0" Click="CreateDb_Click"/>
+                                    <Button Style="{StaticResource IconBtn}" Content="&#xE72C;" ToolTip="Listeyi yenile" Click="ListDb_Click"/>
+                                    <Button Style="{StaticResource Small}" Content="phpMyAdmin" Click="Pma_Click"/>
+                                </StackPanel>
+                                <TextBlock x:Name="DbList" FontFamily="{StaticResource FontMono}" FontSize="12.5" Foreground="{DynamicResource Muted}" Margin="0,10,0,0"/>
+                            </StackPanel>
+                        </GroupBox>
+                        <GroupBox>
+                            <GroupBox.Header>
+                                <StackPanel Orientation="Horizontal"><TextBlock Text="Yedekleme"/><local:InfoTip Text="Tüm veritabanlarını tek .sql dosyasına yedekler (C:\devnanotek\backups). Farklı dala (örn. 11.4 → 11.8) geçerken: Yedek al → yeni sürüme geç → Geri yükle."/></StackPanel>
+                            </GroupBox.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Style="{StaticResource Small}" Content="Yedek al" Click="Backup_Click"/>
+                                <Button Style="{StaticResource Small}" Content="Yedekten geri yükle…" Click="Restore_Click"/>
+                                <Button Style="{StaticResource IconBtn}" Content="&#xE838;" ToolTip="Yedek klasörü" Click="BackupFolder_Click"/>
+                            </StackPanel>
+                        </GroupBox>
+                        <GroupBox>
+                            <GroupBox.Header>
+                                <StackPanel Orientation="Horizontal"><TextBlock Text="Ek ayarlar (custom.cnf)"/><local:InfoTip Text="[mysqld] bölümüne eklenir, asla üzerine yazılmaz. Örnek: sql_mode=&quot;&quot; · innodb_buffer_pool_size=1G · lower_case_table_names=2"/></StackPanel>
+                            </GroupBox.Header>
+                            <StackPanel>
+                                <TextBox x:Name="CnfText" Style="{StaticResource Mono}" Height="150"/>
+                                <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                                    <Button Style="{StaticResource Primary}" Content="Kaydet ve yeniden başlat" Click="CnfSave_Click"/>
+                                    <Button Style="{StaticResource Small}" Content="Üretilen my.ini" Click="MyIniView_Click"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </GroupBox>
+
+                        <!-- PostgreSQL -->
+                        <GroupBox>
+                            <GroupBox.Header>
+                                <StackPanel Orientation="Horizontal"><TextBlock Text="PostgreSQL"/><local:InfoTip Text="MariaDB/MySQL ile aynı anda çalışan isteğe bağlı veritabanı. Kullanıcı postgres; bu bilgisayardan bağlanırken şifre gerekmez (trust). Her ana sürümün (16, 17, 18) kendi veri klasörü vardır. Yedek: tüm veritabanları tek .sql dosyasına (pg_dumpall)."/></StackPanel>
+                            </GroupBox.Header>
+                            <StackPanel>
+                                <TextBlock x:Name="PgInfo" FontFamily="{StaticResource FontMono}" FontSize="12.5" Foreground="{DynamicResource Text}"/>
+                                <StackPanel x:Name="PgActions" Margin="0,10,0,0">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBox x:Name="TbNewPgDb" Width="220" ToolTip="Yeni PostgreSQL veritabanı adı"/>
+                                        <Button Style="{StaticResource Small}" Content="Oluştur (UTF8)" Margin="8,0,0,0" Click="PgCreateDb_Click"/>
+                                        <Button Style="{StaticResource IconBtn}" Content="&#xE72C;" ToolTip="Listeyi yenile" Click="PgListDb_Click"/>
+                                        <Button Style="{StaticResource Small}" Content="Adminer" Click="PgAdminer_Click"/>
+                                    </StackPanel>
+                                    <TextBlock x:Name="PgDbList" FontFamily="{StaticResource FontMono}" FontSize="12.5" Foreground="{DynamicResource Muted}" Margin="0,8,0,0"/>
+                                    <WrapPanel Margin="0,8,0,0">
+                                        <Button Style="{StaticResource Small}" Content="Yedek al" Click="PgBackup_Click"/>
+                                        <Button Style="{StaticResource Small}" Content="Yedekten geri yükle…" Click="PgRestore_Click"/>
+                                        <Button Style="{StaticResource Small}" Content="custom.conf" ToolTip="Kendi PostgreSQL ayarlarınız (asla üzerine yazılmaz). Kaydettikten sonra Genel sekmesinden Kaydet ve uygula." Click="PgCustom_Click"/>
+                                        <Button Style="{StaticResource Small}" Content="psql terminali" Click="PgTerminal_Click"/>
+                                    </WrapPanel>
+                                </StackPanel>
+                                <Button x:Name="PgInstallBtn" Style="{StaticResource Small}" Content="Sürümler sayfasından kur →" HorizontalAlignment="Left" Margin="0,10,0,0" Click="GoVersions_Click"/>
+                            </StackPanel>
+                        </GroupBox>
+
+                        <!-- SQLite / SQL Server -->
+                        <GroupBox>
+                            <GroupBox.Header>
+                                <StackPanel Orientation="Horizontal"><TextBlock Text="SQLite ve SQL Server"/><local:InfoTip Text="SQLite dosya tabanlıdır, sunucu gerekmez: PHP'de pdo_sqlite ve sqlite3 eklentileri hazırdır. .sqlite dosyalarını Adminer ile açabilirsiniz.&#10;SQL Server: PHP'nin sqlsrv / pdo_sqlsrv eklentileri ve Microsoft ODBC Driver 18 (Sürümler > Araçlar > SQL Server sürücüsü). SQL Server'ın kendisi kurulmaz; mevcut bir sunucuya (ör. Docker, uzak sunucu) bağlanırsınız."/></StackPanel>
+                            </GroupBox.Header>
+                            <TextBlock x:Name="OtherDbInfo" FontFamily="{StaticResource FontMono}" FontSize="12.5" Foreground="{DynamicResource Text}"/>
+                        </GroupBox>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- ===================== SSL & ALAN ADLARI ===================== -->
+            <TabItem Header="SSL ve alan adları" Tag="ssl">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="0,0,10,10">
+                        <GroupBox>
+                            <GroupBox.Header>
+                                <StackPanel Orientation="Horizontal"><TextBlock Text="HTTPS"/><local:InfoTip Text="mkcert ile yalnızca bu bilgisayarda geçerli bir kök sertifika üretilir ve Windows'a güvenilir olarak eklenir; https://localhost uyarısız açılır. Firefox açıksa yeniden başlatın."/></StackPanel>
+                            </GroupBox.Header>
+                            <StackPanel>
+                                <CheckBox x:Name="CbSsl" Content="HTTPS açık"/>
+                                <TextBlock x:Name="SslInfo" Style="{StaticResource MutedText}" Margin="0,6,0,0"/>
+                                <WrapPanel Margin="0,10,0,0">
+                                    <Button Style="{StaticResource Small}" Content="Kök sertifikayı güvenilir ekle" Click="TrustCa_Click"/>
+                                    <Button Style="{StaticResource Small}" Content="Sertifikayı yeniden üret" Click="RegenCert_Click"/>
+                                    <Button Style="{StaticResource Small}" Content="Kök sertifikayı kaldır" Click="UntrustCa_Click"/>
+                                    <Button Style="{StaticResource IconBtn}" Content="&#xE838;" ToolTip="SSL klasörü" Click="SslFolder_Click"/>
+                                </WrapPanel>
+                            </StackPanel>
+                        </GroupBox>
+                        <GroupBox>
+                            <GroupBox.Header>
+                                <StackPanel Orientation="Horizontal"><TextBlock Text="Otomatik alan adları"/><local:InfoTip Text="Açıksa httpdocs içindeki her üst klasör kendiliğinden klasoradi.test olur. Tek tek alan adı için Projeler sayfasını kullanın. .test önerilir (.dev ve .app tarayıcıda HTTPS'e zorlanır)."/></StackPanel>
+                            </GroupBox.Header>
+                            <StackPanel>
+                                <CheckBox x:Name="CbAutoVhost" Content="Her üst klasör için alan adı oluştur"/>
+                                <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
+                                    <TextBlock Text="Uzantı" VerticalAlignment="Center" Margin="0,0,10,0" Foreground="{DynamicResource Text}"/>
+                                    <TextBox x:Name="TbTld" Width="100"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </GroupBox>
+                        <GroupBox Header="hosts dosyasındaki kayıtlar">
+                            <StackPanel>
+                                <TextBlock x:Name="HostsList" FontFamily="{StaticResource FontMono}" FontSize="12.5" Foreground="{DynamicResource Muted}"/>
+                                <Button Style="{StaticResource Small}" Content="hosts dosyasını aç" HorizontalAlignment="Left" Margin="0,10,0,0" Click="HostsOpen_Click"/>
+                            </StackPanel>
+                        </GroupBox>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- ===================== SİSTEM ===================== -->
+            <TabItem Header="Sistem" Tag="system">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="0,0,10,10">
+                        <GroupBox>
+                            <GroupBox.Header>
+                                <StackPanel Orientation="Horizontal"><TextBlock Text="Onarım ve sıfırlama"/><local:InfoTip Text="Hızlı onarım (hiçbir şey silinmez) → Tam onarım (programlar sıfırdan kurulur, veriler korunur) → Veritabanını sıfırla → Fabrika ayarları. Projeler hiç silinmez; silinen her şey önce yedeklenir."/></StackPanel>
+                            </GroupBox.Header>
+                            <WrapPanel>
+                                <Button Style="{StaticResource Primary}" Click="Reset_Click">
+                                    <StackPanel Orientation="Horizontal"><TextBlock Style="{StaticResource Icon}" FontSize="13" Text="&#xE90F;" Margin="0,0,8,0"/><TextBlock Text="Onar / Sıfırla…"/></StackPanel>
+                                </Button>
+                                <Button Style="{StaticResource Small}" Content="Port kontrolü" Click="PortCheck_Click"/>
+                                <Button Style="{StaticResource Small}" Content="Açılış sayfasını geri yükle" Click="Landing_Click"/>
+                            </WrapPanel>
+                        </GroupBox>
+                        <GroupBox>
+                            <GroupBox.Header>
+                                <StackPanel Orientation="Horizontal"><TextBlock Text="Hız"/><local:InfoTip Text="Windows Defender, phpMyAdmin gibi binlerce PHP dosyasını ilk açılışta tek tek tarar; bu ilk yüklemeyi yavaşlatır. C:\devnanotek klasörünü taramadan hariç tutmak bunu belirgin hızlandırır.&#10;Güvenlik ödünleşimidir: yalnızca güvendiğiniz kodları bu klasöre koyun. DEVNANOTEK kaldırılırken istisna da kaldırılır."/></StackPanel>
+                            </GroupBox.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <Button x:Name="DefenderBtn" Style="{StaticResource Small}" Click="Defender_Click"/>
+                                <TextBlock x:Name="DefenderInfo" Style="{StaticResource MutedText}" VerticalAlignment="Center" Margin="6,0,0,0"/>
+                            </StackPanel>
+                        </GroupBox>
+                        <GroupBox Header="Klasörler">
+                            <WrapPanel>
+                                <Button Style="{StaticResource Small}" Content="devnanotek" Click="OpenRoot_Click"/>
+                                <Button Style="{StaticResource Small}" Content="httpdocs" Click="OpenDocs_Click"/>
+                                <Button Style="{StaticResource Small}" Content="bin" Click="OpenBin_Click"/>
+                                <Button Style="{StaticResource Small}" Content="data" Click="OpenData_Click"/>
+                                <Button Style="{StaticResource Small}" Content="etc" Click="OpenEtc_Click"/>
+                                <Button Style="{StaticResource Small}" Content="logs" Click="OpenLogs_Click"/>
+                                <Button Style="{StaticResource Small}" Content="config.json" Click="OpenConfig_Click"/>
+                            </WrapPanel>
+                        </GroupBox>
+                        <GroupBox>
+                            <GroupBox.Header>
+                                <StackPanel Orientation="Horizontal"><TextBlock Text="Kaldırma"/><local:InfoTip Text="Servisler, hosts, PATH, otomatik başlatma, SSL sertifikası, kısayollar, güvenlik duvarı kuralları ve Denetim Masası kaydı kaldırılır. İsterseniz projeleri ve veritabanlarını korur, isterseniz her şeyi siler. Denetim Masası > Programlar ve Özellikler'den de yapılabilir."/></StackPanel>
+                            </GroupBox.Header>
+                            <Button Style="{StaticResource Danger}" Content="DEVNANOTEK'i kaldır…" HorizontalAlignment="Left" Click="Uninstall_Click"/>
+                        </GroupBox>
+                        <GroupBox Header="Hakkında">
+                            <TextBlock x:Name="AboutText" Style="{StaticResource MutedText}"/>
+                        </GroupBox>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</local:ViewBase>

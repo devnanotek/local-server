@@ -1,0 +1,532 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DEVNANOTEK Kılavuzu</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23232425'/%3E%3Cpath d='M16 14h17c11 0 18 7 18 18S44 50 33 50H16V14zm10 9v18h6c6 0 9-3 9-9s-3-9-9-9h-6z' fill='%23FAA41A'/%3E%3C/svg%3E">
+<style>
+  /* DEVNANOTEK paleti (devnanotek.net) — gündüz / gece */
+  :root{--bg:#FAF9F7;--card:#FFFFFF;--line:#E7E1D5;--txt:#232425;--muted:#6E675B;--acc:#9A6400;--gold:#FAA41A;--code:#F4F1EB;--warn:#FFF4DE;--warnline:#F5A524;--ok:#E3F5EC;--okline:#22B573}
+  @media (prefers-color-scheme: dark){:root{--bg:#1B1C1D;--card:#232425;--line:#333436;--txt:#F2EFE8;--muted:#A49B8C;--acc:#FFB43A;--code:#2A2B2D;--warn:#3A2E14;--warnline:#F5A524;--ok:#143024;--okline:#22B573}}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--txt);font:16px/1.65 "Segoe UI",system-ui,-apple-system,Roboto,sans-serif}
+  .wrap{max-width:980px;margin:0 auto;padding:32px 20px 80px}
+  header{display:flex;gap:16px;align-items:center;margin-bottom:28px}
+  .logo{width:56px;height:56px;flex:none;display:block}
+  .brand{margin:0 0 6px;display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap;font-size:16px;font-weight:600}
+  .wordmark{height:30px;width:auto;display:block}
+  .wordmark .n{fill:var(--txt)}
+  h2{margin:44px 0 12px;font-size:22px;padding-top:8px;border-top:1px solid var(--line)}
+  h3{margin:24px 0 8px;font-size:17px}
+  p{margin:8px 0}
+  a{color:var(--acc)}
+  code{background:var(--code);border:1px solid var(--line);border-radius:6px;padding:1px 6px;font:13.5px Consolas,"Cascadia Mono",monospace}
+  pre{background:var(--code);border:1px solid var(--line);border-radius:10px;padding:14px 16px;overflow:auto;font:13.5px/1.5 Consolas,"Cascadia Mono",monospace}
+  pre code{background:none;border:0;padding:0}
+  td,th,p,li{overflow-wrap:anywhere}
+  td code,p code,li code{word-break:break-word}
+  table{border-collapse:collapse;width:100%;margin:10px 0;font-size:15px}
+  th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+  th{background:var(--code)}
+  .muted{color:var(--muted)}
+  .note{background:var(--warn);border-left:4px solid var(--warnline);padding:10px 14px;border-radius:8px;margin:12px 0}
+  .tip{background:var(--ok);border-left:4px solid var(--okline);padding:10px 14px;border-radius:8px;margin:12px 0}
+  nav{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 18px;columns:2;column-gap:28px}
+  nav a{display:block;text-decoration:none;padding:2px 0}
+  .steps{counter-reset:s;list-style:none;padding:0}
+  .steps li{counter-increment:s;position:relative;padding:6px 0 6px 42px}
+  .steps li::before{content:counter(s);position:absolute;left:0;top:6px;width:28px;height:28px;border-radius:50%;background:var(--gold);color:#232425;display:grid;place-items:center;font-weight:700;font-size:14px}
+  .dot{display:inline-block;width:10px;height:10px;border-radius:50%;vertical-align:middle;margin-right:4px}
+  @media (max-width:640px){nav{columns:1}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <svg class="logo" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="16" fill="#232425"/><path d="M16 14h17c11 0 18 7 18 18S44 50 33 50H16V14zm10 9v18h6c6 0 9-3 9-9s-3-9-9-9h-6z" fill="#FAA41A"/></svg>
+  <div>
+    <h1 class="brand">
+      <svg class="wordmark" viewBox="4 24 426 72" role="img" aria-label="DEVNANOTEK">
+        <path fill="#FAA41A" d="M15.1,35L15.1,85 20.7,85C22.5,85 23.9,84.5 24.9,83.4 25.8,82.3 26.3,80.6 26.3,78.2L26.3,41.8C26.3,39.4 25.8,37.7 24.9,36.6 23.9,35.5 22.5,35 20.7,35L15.1,35z M4.1,25L20.9,25C26.4,25 30.5,26.5 33.2,29.4 35.9,32.3 37.3,36.6 37.3,42.3L37.3,77.7C37.3,83.4 35.9,87.7 33.2,90.6 30.5,93.5 26.4,95 20.9,95L4.1,95 4.1,25z M48.7,25L78.7,25 78.7,35 59.7,35 59.7,53.5 74.8,53.5 74.8,63.5 59.7,63.5 59.7,85 78.7,85 78.7,95 48.7,95 48.7,25z M86.1,25L97.2,25 104.4,79.3 104.6,79.3 111.8,25 121.9,25 111.3,95 96.7,95 86.1,25z"/>
+        <path class="n" d="M131.2,25L145,25 155.7,66.9 155.9,66.9 155.9,25 165.7,25 165.7,95 154.4,95 141.2,43.9 141,43.9 141,95 131.2,95 131.2,25z M193.3,37.2L188.5,71.8 198.4,71.8 193.5,37.2 193.3,37.2z M186.4,25L201.3,25 212.7,95 201.7,95 199.7,81.1 199.7,81.3 187.2,81.3 185.2,95 175,95 186.4,25z M222,25L235.8,25 246.5,66.9 246.7,66.9 246.7,25 256.5,25 256.5,95 245.2,95 232,43.9 231.8,43.9 231.8,95 222,95 222,25z M284.6,34C280.8,34,278.9,36.3,278.9,40.9L278.9,79.1C278.9,83.7 280.8,86 284.6,86 288.4,86 290.3,83.7 290.3,79.1L290.3,40.9C290.3,36.3,288.4,34,284.6,34z M284.6,24C290,24 294.1,25.5 297,28.6 299.9,31.7 301.3,36 301.3,41.6L301.3,78.4C301.3,84 299.9,88.3 297,91.4 294.1,94.5 290,96 284.6,96 279.2,96 275.1,94.5 272.2,91.4 269.3,88.3 267.9,84 267.9,78.4L267.9,41.6C267.9,36 269.3,31.7 272.2,28.6 275.1,25.5 279.2,24 284.6,24z M309.8,25L343.8,25 343.8,35 332.3,35 332.3,95 321.3,95 321.3,35 309.8,35 309.8,25z M353.1,25L383.1,25 383.1,35 364.1,35 364.1,53.5 379.2,53.5 379.2,63.5 364.1,63.5 364.1,85 383.1,85 383.1,95 353.1,95 353.1,25z M393.4,25L404.4,25 404.4,54.5 418.4,25 429.4,25 416.3,50.7 429.6,95 418.1,95 408.8,63.8 404.4,72.7 404.4,95 393.4,95 393.4,25z"/>
+      </svg>
+      <span>Kullanım Kılavuzu</span>
+    </h1>
+    <div class="muted">Windows ve Linux için PHP · MariaDB/MySQL · PostgreSQL · Apache/Nginx · Node.js yerel geliştirme sunucusu — ücretsiz · <a href="https://devnanotek.net">devnanotek.net</a></div>
+  </div>
+</header>
+
+<nav>
+  <a href="#nedir">1. DEVNANOTEK nedir?</a>
+  <a href="#kurulum">2. İlk kurulum</a>
+  <a href="#arayuz">3. Arayüz, gündüz / gece modu</a>
+  <a href="#klasorler">4. Klasör yapısı</a>
+  <a href="#projeler">5. Projeler ve adresler</a>
+  <a href="#vt">6. Veritabanı (phpMyAdmin, Navicat)</a>
+  <a href="#php">7. PHP sürümü, php.ini, eklentiler</a>
+  <a href="#web">8. Apache / Nginx ve özel ayarlar</a>
+  <a href="#ssl">9. HTTPS ve alan adları (proje.test)</a>
+  <a href="#mail">10. Test e-posta (Mailpit)</a>
+  <a href="#node">11. Node.js ve socket.io</a>
+  <a href="#surumler">12. Yeni sürümler ve güncellemeler</a>
+  <a href="#servis">13. Çalışma modu, açılış ve kapanış</a>
+  <a href="#onarim">14. Onarım ve sıfırlama</a>
+  <a href="#guvenlik">15. Güvenlik ve yerel ağdan erişim</a>
+  <a href="#hiz">16. Hız: phpMyAdmin neden ilk açılışta yavaş?</a>
+  <a href="#baska">17. Başka bilgisayarda, 32 / 64 bit</a>
+  <a href="#hosting">18. Hosting'e taşırken dikkat</a>
+  <a href="#sorun">19. Sorun giderme</a>
+  <a href="#cli">20. Komut satırı</a>
+  <a href="#kaldir">21. Kaldırma (Denetim Masası)</a>
+  <a href="#tepsi">22. Saatin yanındaki simge</a>
+  <a href="#linux">23. Linux sürümü</a>
+</nav>
+
+<h2 id="nedir">1. DEVNANOTEK nedir?</h2>
+<p>DEVNANOTEK, XAMPP ve Laragon benzeri ücretsiz bir yerel sunucu yöneticisidir. Kapalı bir pakete bağlı değildir; her bileşeni resmi kaynağından indirir:</p>
+<table>
+  <tr><th>Bileşen</th><th>Kaynak</th><th>Ne işe yarar</th></tr>
+  <tr><td>PHP (7.4 – 8.5)</td><td>windows.php.net</td><td>Birden çok sürüm kurulur, tek tıkla geçilir.</td></tr>
+  <tr><td>Apache 2.4</td><td>apachelounge.com</td><td>.htaccess destekli web sunucu (cPanel/Plesk ile aynı mantık).</td></tr>
+  <tr><td>Nginx</td><td>nginx.org</td><td>İsteğe bağlı, daha hafif web sunucu.</td></tr>
+  <tr><td>MariaDB / MySQL</td><td>mariadb.org / mysql.com</td><td>Sürümü seçilebilen veritabanı.</td></tr>
+  <tr><td>PostgreSQL (isteğe bağlı)</td><td>postgresql.org (EDB paketleri)</td><td>MariaDB/MySQL ile birlikte çalışan ikinci veritabanı.</td></tr>
+  <tr><td>SQLite</td><td>PHP içinde</td><td>Dosya tabanlı veritabanı; kurulum gerekmez.</td></tr>
+  <tr><td>SQL Server sürücüsü (isteğe bağlı)</td><td>Microsoft</td><td>PHP'nin SQL Server'a bağlanması için.</td></tr>
+  <tr><td>phpMyAdmin</td><td>phpmyadmin.net</td><td><code>http://localhost/phpmyadmin</code></td></tr>
+  <tr><td>Adminer</td><td>adminer.org</td><td>Tüm veritabanları için tek sayfalık yönetici: <code>http://localhost/adminer</code></td></tr>
+  <tr><td>Mailpit</td><td>github.com/axllent/mailpit</td><td>Giden e-postaları yakalayan test posta kutusu.</td></tr>
+  <tr><td>mkcert</td><td>github.com/FiloSottile/mkcert</td><td>Tarayıcının güvendiği yerel HTTPS sertifikası.</td></tr>
+  <tr><td>Node.js, Composer</td><td>nodejs.org, getcomposer.org</td><td>Terminalde hazır gelir.</td></tr>
+</table>
+<p>En önemli fark: Apache/Nginx, veritabanı ve Mailpit <b>gerçek Windows servisi</b> olarak çalışır. Program penceresi kapalıyken bile siteleriniz açılır. Bilgisayar kapanırken Windows servisleri düzgünce durdurur. Bir servis çökerse Windows onu kendiliğinden yeniden başlatır.</p>
+
+<h2 id="kurulum">2. İlk kurulum</h2>
+<ol class="steps">
+  <li><code>DevNanotek.exe</code> dosyasını çift tıklayın. Program yönetici izni ister; servis kurmak ve hosts dosyasını düzenlemek için bu gereklidir.</li>
+  <li>Program kendini <code>C:\devnanotek\app</code> klasörüne kopyalar, Masaüstüne ve Başlat menüsüne kısayol ekler. Bundan sonra bu kısayolları kullanın. İndirdiğiniz exe'yi silebilirsiniz.</li>
+  <li><b>Kurulum sihirbazı</b> açılır. Üstte bilgisayarınızın Windows sürümü ve mimarisi (64 bit / 32 bit / ARM64) görünür; uygun dosyalar otomatik seçilir. PHP sürümünü, web sunucuyu (Apache önerilir), veritabanını, araçları ve çalışma modunu seçip <b>Kur ve başlat</b>'a tıklayın.</li>
+  <li>Bileşenler indirilip kurulur (yaklaşık 200 MB). Bitince <b>localhost'u aç</b> ile <a href="http://localhost/">http://localhost</a> sayfasını açın.</li>
+</ol>
+<div class="tip">Sihirbazı atladıysanız <b>Sürümler → Kurulum sihirbazı</b> düğmesiyle istediğiniz zaman yeniden açabilirsiniz.</div>
+<div class="note">XAMPP, Laragon veya WAMP çalışıyorsa önce onları kapatın. Aynı portları (80, 443, 3306) kullanırlar. Sihirbaz çakışma görürse sizi uyarır.</div>
+<div class="note"><b>Akıllı Uygulama Denetimi (Smart App Control):</b> Windows 11'de bu özellik açıksa imzasız veya yeni yayınlanmış programları engeller. Apache'nin DLL'leri, Mailpit, Nginx ve DevNanotek.exe'nin kendisi de engellenebilir. XAMPP ve Laragon'un "kendiliğinden bozulmasının" en yaygın nedeni budur. DEVNANOTEK bu durumu algılar ve Genel Bakış'ta uyarı gösterir. Ayrıntılar için bölüm 19'a bakın.</div>
+
+<h2 id="arayuz">3. Arayüz, gündüz / gece modu</h2>
+<p>Sol menüde altı sayfa vardır: <b>Genel Bakış</b>, <b>Projeler</b>, <b>Sürümler</b>, <b>Ayarlar</b>, <b>Günlükler</b> ve <b>Yardım</b>. Sol alttaki kutu servislerin durumunu renkli noktalarla gösterir; tıklayınca tepsi durum penceresi açılır.</p>
+<h3>Gündüz / gece modu</h3>
+<p>Sol alttaki tema düğmesi (ekran / güneş / ay simgesi) temayı sırayla <b>Sistem → Gündüz → Gece</b> olarak değiştirir. Aynı seçim <b>Ayarlar → Genel → Görünüm</b>'de de vardır. "Sistem" seçiliyken program, Windows'un açık/koyu ayarını izler ve Windows teması değişince kendiliğinden geçer. Pencere başlık çubuğu da temaya uyar.</p>
+<h3>Açıklamalar ve bildirimler</h3>
+<ul>
+  <li>Ekranı sade tutmak için açıklamalar <b>?</b> simgelerinin arkasındadır. Fareyi üzerine getirince açıklama görünür.</li>
+  <li>İşlem sonuçları sağ altta renkli bildirim olarak çıkar: <span class="dot" style="background:#22B573"></span><b>yeşil</b> başarılı, <span class="dot" style="background:#F5A524"></span><b>sarı</b> uyarı, <span class="dot" style="background:#E5484D"></span><b>kırmızı</b> hata. Ayrıntısı olan bildirimlerde <b>Ayrıntılar</b> bağlantısı vardır.</li>
+  <li>Uzun işlemlerde (kurulum, onarım) ilerleme günlüğü de aynı renklerle gösterilir.</li>
+</ul>
+
+<h2 id="klasorler">4. Klasör yapısı</h2>
+<pre><code>C:\devnanotek\
+├─ httpdocs\        ← PROJELERİNİZ (localhost burayı gösterir)
+├─ app\             ← DevNanotek.exe
+├─ bin\             ← php\php-8.4.x, apache\httpd-2.4.x, mariadb\mariadb-11.4.x, nodejs\…, phpmyadmin, mailpit …
+│   ├─ current\     ← aktif PHP / Node / DB sürümüne kısayollar (PATH bunları kullanır)
+│   └─ shims\       ← composer.cmd, mysql.cmd …
+├─ data\            ← VERİTABANLARI (mariadb-11.4, mysql-8.4, postgresql-17 … her dalın kendi klasörü)
+├─ etc\             ← yapılandırma (apache\httpd.conf, apache\custom.conf, nginx\…, db\my.ini, ssl\…)
+├─ logs\            ← apache, nginx, php, db, mailpit günlükleri
+├─ backups\         ← veritabanı yedekleri (.sql)
+├─ docs\            ← bu kılavuz
+├─ tmp\             ← oturum ve yükleme geçici dosyaları
+└─ config.json      ← DEVNANOTEK ayarları</code></pre>
+<div class="tip">Projelerinizi yedeklemek için <code>httpdocs</code> klasörünü kopyalayın. Veritabanlarını yedeklemek için <b>Ayarlar → Veritabanı → Yedek al</b> kullanın.</div>
+
+<h2 id="projeler">5. Projeler ve adresler</h2>
+<p><code>httpdocs</code> içine istediğiniz klasör yapısını kurabilirsiniz. İç içe klasörler sınırsızdır:</p>
+<table>
+  <tr><th>Klasör</th><th>Tarayıcı adresi</th></tr>
+  <tr><td><code>C:\devnanotek\httpdocs\GITHUB\proje1</code></td><td><code>http://localhost/GITHUB/proje1/</code></td></tr>
+  <tr><td><code>C:\devnanotek\httpdocs\musteriler\abc\site</code></td><td><code>http://localhost/musteriler/abc/site/</code></td></tr>
+  <tr><td><code>C:\devnanotek\httpdocs\test.php</code></td><td><code>http://localhost/test.php</code></td></tr>
+</table>
+<p><code>http://localhost</code> açılış sayfası şunları gösterir:</p>
+<ul>
+  <li>PHP sürümü ve phpinfo bağlantısı</li>
+  <li>MariaDB/MySQL, PostgreSQL ve Mailpit durumu (renkli noktalarla)</li>
+  <li>phpMyAdmin ve Adminer'a tek tıkla giriş</li>
+  <li>projeleriniz</li>
+</ul>
+<p>Sayfa gündüz/gece temasına uyar. <code>httpdocs\index.php</code> dosyasını silebilir veya değiştirebilirsiniz; kendi yazdığınız sayfaya program dokunmaz. Program güncellenince önceki DEVNANOTEK sayfası yenisiyle değiştirilir; eskisi <code>index.php.yedek-TARİH</code> adıyla saklanır. Varsayılan sayfayı geri getirmek için: <b>Ayarlar → Sistem → Açılış sayfasını geri yükle</b>.</p>
+<p><b>Projeler</b> sayfasında klasör ağacını gezebilir, <b>Yeni proje</b> oluşturabilir, projeyi tarayıcıda, Explorer'da, terminalde veya VS Code'da açabilirsiniz.</p>
+<div class="note"><b>Alt klasörde çalışan projeler:</b> Laravel, WordPress ve benzeri uygulamalarda <code>APP_URL</code> veya site adresi ayarını alt klasöre göre yapın (örn. <code>http://localhost/GITHUB/proje1/public</code>). Kök adres isteyen projeler için bir alan adı oluşturun (bölüm 9).</div>
+
+<h2 id="vt">6. Veritabanı</h2>
+<table>
+  <tr><th>Ayar</th><th>Değer</th></tr>
+  <tr><td>Sunucu (host)</td><td><code>127.0.0.1</code> (veya <code>localhost</code>)</td></tr>
+  <tr><td>Port</td><td><code>3306</code></td></tr>
+  <tr><td>Kullanıcı</td><td><code>root</code></td></tr>
+  <tr><td>Şifre</td><td>boş (<b>Ayarlar → Veritabanı → root şifresi</b>'nden belirleyebilirsiniz)</td></tr>
+  <tr><td>Karakter seti</td><td><code>utf8mb4</code> (Türkçe karakterler ve emoji sorunsuz)</td></tr>
+</table>
+<h3>phpMyAdmin</h3>
+<p><a href="http://localhost/phpmyadmin/">http://localhost/phpmyadmin</a> adresi otomatik giriş yapar. Güvenlik için yalnızca bu bilgisayardan erişilebilir. İlk açılışın neden birkaç saniye sürebileceğini bölüm 16 anlatır.</p>
+<h3>Navicat / HeidiSQL / DBeaver</h3>
+<p>Yeni bir <b>MySQL</b> bağlantısı oluşturun: host <code>127.0.0.1</code>, port <code>3306</code>, kullanıcı <code>root</code>, şifre boş. MariaDB de "MySQL" bağlantı türüyle çalışır.</p>
+<h3>PHP'den bağlanma</h3>
+<pre><code>$pdo = new PDO('mysql:host=127.0.0.1;port=3306;dbname=veritabanim;charset=utf8mb4', 'root', '', [
+    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+]);</code></pre>
+<h3>Sürüm değiştirme ve verileri taşıma</h3>
+<p>Her veritabanı <b>dalının</b> ayrı bir veri klasörü vardır (örneğin <code>data\mariadb-11.4</code>). Aynı daldaki yama güncellemeleri (11.4.13 → 11.4.14) aynı veriyi kullanır. Farklı bir dala (11.4 → 11.8 gibi) geçince eski veriler yeni sürümde otomatik görünmez, ama silinmez de. Taşımak için:</p>
+<ol>
+  <li>Eski sürüm aktifken <b>Ayarlar → Veritabanı → Yedek al</b>.</li>
+  <li><b>Sürümler → Veritabanı</b> sekmesinden yeni sürümü kurun ve <b>Aktif yap</b>'a tıklayın.</li>
+  <li><b>Ayarlar → Veritabanı → Yedekten geri yükle</b>.</li>
+</ol>
+<p>Ek MySQL ayarları için (örn. <code>sql_mode</code>, <code>lower_case_table_names</code>) <b>Ayarlar → Veritabanı → Ek ayarlar (custom.cnf)</b> kullanın. Bu dosyanın üzerine asla yazılmaz.</p>
+
+<h3>PostgreSQL</h3>
+<p>PostgreSQL isteğe bağlıdır ve MariaDB/MySQL'in <b>yanında</b> çalışır (ayrı servis, port 5432). Kurmak için <b>Sürümler → Veritabanı → PostgreSQL</b> bölümünden bir sürüm seçip <b>Kur</b>'a tıklayın; kurulum sihirbazında da seçebilirsiniz. Sürüm seçenekleri 14–18'dir. ÖNERİLEN, en yeni ana sürümün bir öncesidir.</p>
+<table>
+  <tr><th>Ayar</th><th>Değer</th></tr>
+  <tr><td>Sunucu</td><td><code>127.0.0.1</code></td></tr>
+  <tr><td>Port</td><td><code>5432</code> (Ayarlar → Genel → Portlar)</td></tr>
+  <tr><td>Kullanıcı</td><td><code>postgres</code></td></tr>
+  <tr><td>Şifre</td><td>gerekmez (bu bilgisayardan bağlantılar şifresiz kabul edilir)</td></tr>
+  <tr><td>Kodlama</td><td>UTF8</td></tr>
+</table>
+<pre><code>$pdo = new PDO('pgsql:host=127.0.0.1;port=5432;dbname=postgres', 'postgres', '');
+
+# Laravel .env
+DB_CONNECTION=pgsql
+DB_HOST=127.0.0.1
+DB_PORT=5432
+DB_USERNAME=postgres
+DB_PASSWORD=</code></pre>
+<ul>
+  <li>Kurunca PHP'nin <code>pgsql</code> ve <code>pdo_pgsql</code> eklentileri kendiliğinden açılır.</li>
+  <li>Terminalde <code>psql</code>, <code>pg_dump</code> ve <code>createdb</code> komutları hazırdır.</li>
+  <li>Veri klasörü ana sürüm başınadır (<code>data\postgresql-17</code>); yama güncellemelerinde veriler korunur.</li>
+  <li><b>Ayarlar → Veritabanı → PostgreSQL</b> bölümünden veritabanı oluşturabilir, yedek alıp (<code>pg_dumpall</code>) geri yükleyebilirsiniz. Kendi ayarlarınızı <code>custom.conf</code> dosyasına yazarsınız.</li>
+</ul>
+
+<h3>SQLite</h3>
+<p>SQLite dosya tabanlıdır, sunucu gerekmez. PHP'nin <code>pdo_sqlite</code> ve <code>sqlite3</code> eklentileri varsayılan olarak açıktır:</p>
+<pre><code>$pdo = new PDO('sqlite:' . __DIR__ . '/veri.sqlite');</code></pre>
+<p><code>.sqlite</code> dosyalarını Adminer ile açabilirsiniz: giriş ekranında sistem olarak "SQLite" seçin ve dosyanın tam yolunu yazın.</p>
+
+<h3>SQL Server</h3>
+<p>PHP'nin Microsoft SQL Server'a bağlanması için <b>Sürümler → Araçlar → SQL Server sürücüsü → Kur</b>'a tıklayın. Kurulum şunları yapar:</p>
+<ul>
+  <li><code>sqlsrv</code> ve <code>pdo_sqlsrv</code> eklentilerini kurulu her PHP sürümüne (8.1 ve üstü) koyar ve açar.</li>
+  <li>Siz Microsoft lisansını onaylarsanız <b>Microsoft ODBC Driver 18</b>'i de kurar.</li>
+</ul>
+<p>SQL Server'ın kendisi kurulmaz; mevcut bir sunucuya bağlanırsınız (Docker, uzak sunucu veya SQL Server Express):</p>
+<pre><code>$pdo = new PDO('sqlsrv:Server=127.0.0.1,1433;Database=deneme;TrustServerCertificate=1', 'sa', 'sifre');</code></pre>
+
+<h3>Adminer — tüm veritabanları tek yerde</h3>
+<p><a href="http://localhost/adminer/">http://localhost/adminer</a> MySQL/MariaDB, PostgreSQL, SQLite ve SQL Server'ı yönetir. Yerel kullanım için şifresiz girişe izin verilir ve yalnız bu bilgisayardan açılır. Genel Bakış'taki <b>Adminer</b> düğmesi ve açılış sayfasındaki bağlantılar sizi doğrudan ilgili veritabanına sokar. phpMyAdmin de olduğu gibi çalışmaya devam eder.</p>
+
+<h2 id="php">7. PHP</h2>
+<h3>Sürüm değiştirme</h3>
+<p><b>Sürümler → PHP</b> sekmesinden istediğiniz sürümleri <b>Kur</b>'a tıklayarak kurun. Aktif sürümü <b>Genel Bakış → Aktif sürümler</b> bölümündeki listeden seçip <b>Geç</b>'e tıklayın ya da Sürümler sayfasında <b>Aktif yap</b>'ı kullanın. Listede olmayan bir sürüm için (örn. <code>8.2.12</code>) sayfanın altındaki alana numarayı yazıp <b>Ekle ve kur</b>'a tıklayın.</p>
+<div class="tip">Hosting'inizde hangi PHP sürümü varsa yerelde de onu kullanın. Sürpriz hatalar en çok sürüm farkından çıkar.</div>
+<h3>Eklentiler: gd, zip, intl… (hızlı erişim)</h3>
+<p>Projelerin sık istediği eklentileri iki yerden tek tıkla açıp kapatabilirsiniz:</p>
+<ul>
+  <li><b>Genel Bakış → Aktif sürümler → Eklentiler (gd, zip…)</b>: küçük bir pencere açılır. Anahtarları değiştirip <b>Kaydet ve uygula</b>'ya tıklayın.</li>
+  <li><b>Ayarlar → PHP → Hızlı ayarlar → Sık kullanılan eklentiler</b>: php.ini değerleriyle birlikte kaydedilir.</li>
+</ul>
+<p>Listede gd, zip, intl, mbstring, curl, openssl, fileinfo, exif, soap, sodium, mysqli, pdo_mysql, pdo_pgsql, pgsql, pdo_sqlite, sqlite3, gmp, xsl, ftp, sockets, ldap, bz2, gettext, tidy ve opcache bulunur. Her birinin ne işe yaradığını <b>?</b> simgesi anlatır. Web sunucu kendiliğinden yeniden başlar. Yüklenemeyen bir eklenti olursa uyarı verilir ve o eklenti kapatılır. Sık gerekenler (gd, zip, intl, mbstring, curl…) zaten varsayılan olarak açıktır.</p>
+<h3>php.ini ayarları</h3>
+<p><b>Ayarlar → PHP</b> sekmesinde üç bölüm vardır:</p>
+<ul>
+  <li><b>Hızlı ayarlar</b>: sık kullanılan eklenti anahtarları ve <code>memory_limit</code>, <code>upload_max_filesize</code>, <code>post_max_size</code>, <code>max_execution_time</code>, <code>display_errors</code>, <code>date.timezone</code> gibi değerler. <b>Geliştirme varsayılanları</b> düğmesi önerilen değerlere döndürür.</li>
+  <li><b>Eklentiler</b>: intl, gd, zip, mysqli, pdo_mysql, curl, soap, sodium ve diğerleri işaretlenerek açılır veya kapatılır.</li>
+  <li><b>php.ini</b>: Dosyanın tamamını düzenlersiniz. Her kayıttan önce <code>php.ini.bak</code> yedeği alınır.</li>
+</ul>
+<p>Kaydettiğinizde web sunucu kendiliğinden yeniden başlar. PHP başlangıçta uyarı verirse program sizi bilgilendirir. Her PHP sürümünün kendi <code>php.ini</code> dosyası vardır.</p>
+<p>Varsayılanlar geliştirmeye uygundur: 512M bellek ve yükleme sınırı, 300 sn çalışma süresi, hatalar ekranda, saat dilimi <code>Europe/Istanbul</code>, OPcache açık.</p>
+<h3>Terminal, Composer ve PHP komutları</h3>
+<p><b>Genel Bakış → Terminal</b> veya Projeler sayfasındaki <b>Terminal</b> düğmesi, aktif sürümlerle hazırlanmış bir komut istemi açar:</p>
+<pre><code>php -v
+composer install
+composer create-project laravel/laravel blog
+node -v &amp;&amp; npm install
+mysql -u root
+mysqldump -u root veritabanim &gt; yedek.sql</code></pre>
+<p>"php, composer, node, mysql komutları her terminalde çalışsın (PATH)" ayarı açıksa bu komutlar her terminalde çalışır (VS Code terminali dahil, yeni açılan pencerelerde).</p>
+
+<h2 id="web">8. Apache / Nginx</h2>
+<p><b>Apache önerilir.</b> cPanel ve Plesk sunucularıyla aynı şekilde <code>.htaccess</code> dosyalarını okur, <code>mod_rewrite</code> açıktır. <b>Nginx</b> seçilirse PHP, php-cgi havuzuyla (FastCGI) çalışır ve <code>.htaccess</code> okunmaz.</p>
+<p>Seçimi <b>Ayarlar → Genel → Web sunucu ve belge kökü</b> bölümünden yapıp <b>Kaydet ve uygula</b>'ya tıklayın.</p>
+<h3>Kendi kurallarınız (custom.conf)</h3>
+<p><code>httpd.conf</code> ve <code>nginx.conf</code> otomatik üretilir; elle değiştirmeyin. Kendi eklemelerinizi <b>Ayarlar → Web sunucu</b> sekmesindeki <code>custom.conf</code> dosyasına yazıp <b>Test et, kaydet, uygula</b>'ya tıklayın. Kaydetmeden önce yapılandırma test edilir. Hata varsa değişiklik <b>kendiliğinden geri alınır</b>, böylece sunucu bozulmaz.</p>
+<pre><code># Apache custom.conf örneği: Node uygulamasını /app altında yayınla (socket.io dahil)
+ProxyPass        "/app/socket.io/" "ws://127.0.0.1:3000/socket.io/"
+ProxyPass        "/app/"           "http://127.0.0.1:3000/"
+ProxyPassReverse "/app/"           "http://127.0.0.1:3000/"</code></pre>
+
+<h2 id="ssl">9. HTTPS ve alan adları</h2>
+<h3>HTTPS</h3>
+<p>mkcert kuruluysa <a href="https://localhost/">https://localhost</a> tarayıcıda uyarısız açılır. DEVNANOTEK yerel bir kök sertifika üretir ve Windows'un güvenilen sertifikalarına ekler. Bu sertifika yalnızca sizin bilgisayarınızda geçerlidir. Chrome ve Edge hemen tanır; Firefox'u bir kez yeniden başlatmanız gerekebilir.</p>
+<p>PHP'nin curl/openssl ayarı da bu sertifikayı tanır, bu yüzden PHP'den <code>https://proje.test</code> çağrıları doğrulama hatası vermez.</p>
+<h3>Alan adı (proje.test)</h3>
+<p>Bir projeyi kendi alan adıyla açmak için <b>Projeler</b> sayfasında klasörü seçin. <b>Alan adı (sanal host)</b> kutusuna <code>proje1.test</code> yazıp <b>Oluştur</b>'a tıklayın. Hosts dosyası, web sunucu ve SSL sertifikası kendiliğinden güncellenir. Proje artık <code>http://proje1.test</code> ve <code>https://proje1.test</code> adreslerinden açılır.</p>
+<p>Klasörde <code>public\index.php</code> varsa ve kökte index dosyası yoksa (Laravel, Symfony), belge kökü otomatik olarak <code>public</code> olur.</p>
+<p><b>Ayarlar → SSL ve alan adları → Her üst klasör için alan adı oluştur</b> açılırsa <code>httpdocs</code> içindeki her üst klasör kendiliğinden <code>klasoradi.test</code> olur.</p>
+<div class="note"><code>.test</code> uzantısını kullanın. <code>.dev</code> ve <code>.app</code> uzantılarını tarayıcılar zorla HTTPS'e çevirir. <code>.local</code> ise ağda yavaşlığa yol açabilir.</div>
+
+<h2 id="mail">10. Test e-posta (Mailpit)</h2>
+<p>PHP'nin <code>mail()</code> fonksiyonu ve SMTP ile gönderilen e-postalar <b>gerçek alıcıya gitmez</b>. Hepsi <a href="http://localhost:8025/">http://localhost:8025</a> adresindeki gelen kutusunda görünür. Böylece müşterilere yanlışlıkla e-posta gitmez.</p>
+<table>
+  <tr><th>Ayar</th><th>Değer</th></tr>
+  <tr><td>SMTP sunucu</td><td><code>127.0.0.1</code></td></tr>
+  <tr><td>Port</td><td><code>1025</code></td></tr>
+  <tr><td>Şifreleme</td><td>yok (kullanıcı/şifre yazarsanız da kabul edilir)</td></tr>
+</table>
+<pre><code>// PHPMailer
+$mail-&gt;isSMTP();
+$mail-&gt;Host = '127.0.0.1';
+$mail-&gt;Port = 1025;
+$mail-&gt;SMTPAuth = false;
+$mail-&gt;SMTPAutoTLS = false;
+
+# Laravel .env
+MAIL_MAILER=smtp
+MAIL_HOST=127.0.0.1
+MAIL_PORT=1025
+MAIL_ENCRYPTION=null</code></pre>
+
+<h2 id="node">11. Node.js ve socket.io</h2>
+<p>Node.js, npm ve npx terminalde hazırdır. Birden fazla Node sürümü kurup Genel Bakış'tan geçiş yapabilirsiniz. Geçiş, yeni açılan terminallerde geçerli olur.</p>
+<pre><code>cd C:\devnanotek\httpdocs\GITHUB\chat
+npm install socket.io express
+node server.js            # örn. http://localhost:3000</code></pre>
+<p>Node uygulamaları geliştirme sırasında terminalde çalışır. PHP sayfanız socket.io sunucusuna doğrudan <code>http://localhost:3000</code> ile bağlanabilir. İsterseniz Apache üzerinden de yayınlayabilirsiniz (bölüm 8).</p>
+
+<h2 id="surumler">12. Yeni sürümler ve güncellemeler</h2>
+<p>DEVNANOTEK, PHP, MariaDB, MySQL, Node.js, Apache, Nginx, phpMyAdmin ve diğer araçların yeni sürümlerini resmi kaynaklarından <b>12 saatte bir kendiliğinden</b> denetler. Hemen denetlemek için <b>Sürümler → Şimdi denetle</b>'ye tıklayın. Sayfanın üstünde son denetim zamanı ve bilgisayarınızın mimarisi yazar.</p>
+<h3>ÖNERİLEN rozeti</h3>
+<p>Her bileşende bir sürüm <b>ÖNERİLEN</b> olarak işaretlenir. Bu seçim hosting uyumluluğuna ve kararlılığa göre yapılır:</p>
+<table>
+  <tr><th>Bileşen</th><th>Önerilen</th></tr>
+  <tr><td>PHP</td><td>En yeni dalın bir öncesi (hosting'lerde en yaygın, eklentileri olgun). Örn. 8.5 çıktıysa 8.4.</td></tr>
+  <tr><td>MariaDB / MySQL</td><td>En yeni uzun süreli destek (LTS) sürümü.</td></tr>
+  <tr><td>Node.js</td><td>En yeni LTS sürümü.</td></tr>
+  <tr><td>Nginx</td><td>Kararlı (stable) dal.</td></tr>
+</table>
+<p>Her daldan yalnızca en yeni yama gösterilir, bu yüzden liste kısa kalır. İstediğiniz sürümü kurup <b>Aktif yap</b> ile geçebilirsiniz; önerilene geçmek zorunda değilsiniz.</p>
+<h3>Güncellemeler</h3>
+<p>Kurulu bir bileşenin <b>aynı dalında</b> yeni bir yama çıkarsa (örn. PHP 8.3.30 → 8.3.35):</p>
+<ul>
+  <li>Sol menüde <b>Sürümler</b>'in yanında turuncu bir sayı görünür ve tepsi simgesi kısa bir bildirim gösterir.</li>
+  <li>Sürümler sayfasının üstündeki kartta <b>Güncelle</b> (tek tek) veya <b>Tümünü güncelle</b>'ye tıklayın.</li>
+  <li>Güncelleme yeni sürümü kurar, <code>php.ini</code> ayarlarınızı taşır, aktif sürümü değiştirir ve servisleri yeniden başlatır. MariaDB güncellemesinde tablolar <code>mariadb-upgrade</code> ile yeni sürüme uyarlanır; MySQL bunu ilk açılışta kendisi yapar. Veriler aynı klasörde kalır. Her şey başarılıysa eski yama silinir.</li>
+</ul>
+<div class="tip">Ana sürüm geçişleri (PHP 8.3 → 8.4, MariaDB 11.4 → 11.8 gibi) otomatik yapılmaz; projelerinizi bozabileceği için bunu siz seçersiniz.</div>
+<h3>DEVNANOTEK'in kendi güncellemesi</h3>
+<p>Program açık kaynaktır ve yeni sürümleri <a href="https://github.com/devnanotek/local-server/releases">GitHub Releases</a>'ta yayınlanır. Program yeni bir sürüm olup olmadığını açılışta ve 6 saatte bir denetler. Yeni sürüm çıkınca:</p>
+<ul>
+  <li>Tepsi simgesi bir kez bildirim gösterir. <b>Sürümler</b> sayfasının üstünde yenilikleri anlatan bir kart çıkar.</li>
+  <li><b>Şimdi güncelle</b>'ye tıklayın. Yeni <code>DevNanotek.exe</code> İndirilenler klasörüne indirilir ve sürümü doğrulanır.</li>
+  <li>Program kapanır, yeni sürüm açılır ve kendini <code>C:\devnanotek\app</code> klasörüne kurar.</li>
+</ul>
+<p>Servisleriniz, projeleriniz ve ayarlarınız olduğu gibi kalır. Güncellemeyi elle yapmak isterseniz proje sitesinden (<a href="https://devnanotek.github.io/local-server/">devnanotek.github.io/local-server</a>) yeni exe'yi indirip çalıştırmanız yeterlidir. Hangi sürümü kullandığınız <b>Yardım</b> sayfasında yazar.</p>
+
+<h2 id="servis">13. Çalışma modu, açılış ve kapanış</h2>
+<p>Genel Bakış'taki <b>Bilgisayar açılınca başlat</b> anahtarı iki çalışma modu arasında tek tıkla geçiş yapar. Aynı seçim <b>Ayarlar → Genel → Çalışma modu</b>'nda ve kurulum sihirbazında da vardır.</p>
+<table>
+  <tr><th>Mod</th><th>Ne olur?</th><th>Ne zaman?</th></tr>
+  <tr><td><b>Her zaman açık</b> (anahtar açık)</td><td>Servisler bilgisayar açılınca kendiliğinden başlar. Program kapalı olsa bile siteleriniz çalışır. Program tepside açılır.</td><td>Ana geliştirme bilgisayarınız.</td></tr>
+  <tr><td><b>Sadece ben açınca</b> (anahtar kapalı)</td><td>Bilgisayar açılınca hiçbir şey başlamaz. DEVNANOTEK'i açtığınızda servisler başlar. Tepsi menüsünden "Çıkış" yapınca servisler durur.</td><td>Ara sıra çalıştığınız, arka planda sürekli bir şey çalışmasını istemediğiniz bilgisayarlar.</td></tr>
+</table>
+<p><b>Ayarlar → Genel → Çalışma modu</b> altındaki kutucuklarla bu modun parçalarını tek tek de değiştirebilirsiniz.</p>
+<h3>Servisler nasıl davranır?</h3>
+<table>
+  <tr><th>Durum</th><th>Ne olur?</th></tr>
+  <tr><td>Bilgisayar açıldı</td><td>"Her zaman açık" modunda servisler kendiliğinden başlar; program açık olmasa bile <code>localhost</code> çalışır.</td></tr>
+  <tr><td>Program penceresini kapattınız (X)</td><td>Program tepsiye küçülür; servisler çalışmaya devam eder.</td></tr>
+  <tr><td>Tepsiden "Çıkış"</td><td>"Sadece ben açınca" modunda servisler durur; "Her zaman açık" modunda çalışmaya devam eder.</td></tr>
+  <tr><td>Bilgisayarı kapattınız</td><td>Windows servisleri düzgünce durdurur; veritabanı temiz kapanır.</td></tr>
+  <tr><td>Elektrik kesildi</td><td>MariaDB/MySQL (InnoDB) bir sonraki açılışta kendini otomatik onarır.</td></tr>
+  <tr><td>Bir servis çöktü</td><td>Windows 5 / 15 / 60 saniye sonra onu kendiliğinden yeniden başlatır.</td></tr>
+</table>
+<p>Servisleri Windows'un "Hizmetler" ekranında da görebilirsiniz: <code>DevNanotek-Apache</code>, <code>DevNanotek-Nginx</code>, <code>DevNanotek-PHP-FCGI</code>, <code>DevNanotek-DB</code>, <code>DevNanotek-Mailpit</code>.</p>
+
+<h2 id="onarim">14. Onarım ve sıfırlama</h2>
+<p>PHP, MySQL/MariaDB veya Apache bozulursa Genel Bakış'ın sağ üstündeki <b>anahtar simgesine (Onar / Sıfırla)</b> tıklayın. Aynı pencere Ayarlar → Sistem sekmesinde ve tepsi menüsünde de vardır. Dört seviye vardır; en hafifinden başlayın:</p>
+<table>
+  <tr><th>Seçenek</th><th>Ne yapar?</th><th>Ne korunur?</th></tr>
+  <tr><td><b>1. Hızlı onarım</b></td><td>Windows servislerini kaldırıp yeniden kurar, tüm yapılandırmayı yeniden üretir, servisleri başlatır.</td><td>Her şey.</td></tr>
+  <tr><td><b>2. Tam onarım</b></td><td>Kullandığınız PHP, Apache/Nginx, MariaDB/MySQL, phpMyAdmin, Mailpit ve araçları silip sıfırdan kurar. <code>php.ini</code>, <code>custom.conf</code> ve <code>custom.cnf</code> varsayılana döner.</td><td>Veritabanları ve projeler. Eski ayar dosyaları yedeklenir.</td></tr>
+  <tr><td><b>3. Veritabanını sıfırla</b></td><td>Veritabanı hiç açılmıyorsa kullanılır. Önce tüm veritabanlarının <code>.sql</code> yedeğini alır, veri klasörünü yedeğe taşır, sonra boş bir veritabanı kurar. root şifresi boşalır.</td><td>Projeler. Eski veriler yedekte durur.</td></tr>
+  <tr><td><b>4. Fabrika ayarları</b></td><td>Servisleri, hosts kayıtlarını, PATH girdilerini, SSL sertifikasını ve otomatik başlatmayı kaldırır. Programları, günlükleri ve geçici dosyaları siler. Program yeniden açılır ve kurulum sihirbazı başlar.</td><td>Projeler (<code>httpdocs</code>). Veritabanları ve ayarlar yedeğe taşınır.</td></tr>
+</table>
+<p>Yedekler <code>C:\devnanotek\backups\sifirlama-TARİH</code> klasörüne alınır. Eski veritabanlarını geri almak için <b>Ayarlar → Veritabanı → Yedekten geri yükle</b> ile oradaki <code>.sql</code> dosyasını seçin.</p>
+<div class="tip">Program arayüzü hiç açılmıyorsa yönetici olarak açılmış bir komut isteminden de onarabilirsiniz:</div>
+<pre><code>"C:\devnanotek\app\DevNanotek.exe" --reset quick
+"C:\devnanotek\app\DevNanotek.exe" --reset full
+"C:\devnanotek\app\DevNanotek.exe" --reset db
+"C:\devnanotek\app\DevNanotek.exe" --reset factory</code></pre>
+
+<h2 id="guvenlik">15. Güvenlik ve yerel ağdan erişim</h2>
+<p>Varsayılan olarak web sunucu yalnızca <b>bu bilgisayardan</b> erişilebilir (<code>127.0.0.1</code> ve <code>::1</code>). Bu sayede:</p>
+<ul>
+  <li>Kafe, otel gibi ortak ağlarda başkaları sitelerinize ve phpMyAdmin'e erişemez.</li>
+  <li>Windows Güvenlik Duvarı "erişime izin verilsin mi?" diye sormaz, hiçbir güvenlik duvarı kuralı eklenmez.</li>
+</ul>
+<h3>Telefondan veya başka bilgisayardan test</h3>
+<p><b>Ayarlar → Genel → Yerel ağdan erişim</b> kutusunu işaretleyip <b>Kaydet ve uygula</b>'ya tıklayın. Aynı ağdaki cihazlardan <code>http://BU-BİLGİSAYARIN-IP</code> adresiyle erişilir. Güvenlik duvarına yalnızca <b>Özel</b> (ev/iş) ağ için kural eklenir; ortak ağlarda erişim kapalı kalır. İşiniz bitince kutuyu kaldırın; kural da silinir.</p>
+<p>Veritabanına ağdan erişim ayrı bir ayardır: <b>Ayarlar → Veritabanı → Ağdaki cihazlardan veritabanına erişim</b>. Açarsanız mutlaka bir root şifresi belirleyin.</p>
+<p>phpMyAdmin her durumda yalnızca bu bilgisayardan açılır.</p>
+
+<h2 id="hiz">16. Hız: phpMyAdmin neden ilk açılışta yavaş?</h2>
+<p>Bu bir arıza değildir. phpMyAdmin binlerce PHP dosyasından oluşur. İlk açılışta iki şey olur:</p>
+<ol>
+  <li>PHP bu dosyaları derleyip <b>OPcache</b>'e alır. Sonraki açılışlar önbellekten gelir.</li>
+  <li><b>Windows Defender</b> her dosyayı ilk okunduğunda tek tek tarar.</li>
+</ol>
+<p>DEVNANOTEK bunu iki yolla hafifletir:</p>
+<ul>
+  <li>Servisler başladıktan sonra <code>localhost</code> ve phpMyAdmin arka planda bir kez açılarak <b>ısıtılır</b>. Siz açtığınızda önbellek hazırdır.</li>
+  <li>İsteğe bağlı olarak <b>Ayarlar → Sistem → Hız → Defender taramasından hariç tut</b> ile <code>C:\devnanotek</code> klasörü taramadan çıkarılabilir. Bu ilk açılışı belirgin hızlandırır. Bir güvenlik ödünleşimidir: bu klasöre yalnızca güvendiğiniz kodları koyun. DEVNANOTEK kaldırılınca istisna da kaldırılır.</li>
+</ul>
+<p class="muted">Ölçüm örneği: phpMyAdmin ilk açılış ≈ 0,5 sn, sonraki açılışlar ≈ 0,25 sn; localhost ≈ 0,06 sn.</p>
+
+<h2 id="baska">17. Başka bilgisayarda kullanım, 32 / 64 bit</h2>
+<p><code>DevNanotek.exe</code> tek bir dosyadır. Başka bir bilgisayara kopyalayıp çalıştırdığınızda aynı ortam kurulur. Program Windows sürümünü ve işlemci mimarisini <b>kendisi algılar</b> ve uygun dosyaları indirir:</p>
+<table>
+  <tr><th>Bilgisayar</th><th>İndirilen bileşenler</th><th>Not</th></tr>
+  <tr><td>64 bit Windows 10 / 11</td><td>x64</td><td>Tüm bileşenler kullanılabilir. Önerilen.</td></tr>
+  <tr><td>ARM64 Windows 11</td><td>x64 (Windows'un emülasyonuyla)</td><td>Tüm bileşenler kullanılabilir.</td></tr>
+  <tr><td>ARM64 Windows 10</td><td>x86 (32 bit)</td><td>32 bit satırındaki sınırlar geçerlidir.</td></tr>
+  <tr><td>32 bit Windows 10</td><td>x86</td><td>PHP, Apache, Nginx, Node.js (22 ve öncesi), phpMyAdmin ve Composer kurulur. <b>MariaDB, MySQL, Mailpit ve mkcert</b> 32 bit Windows için artık yayınlanmadığından kurulamaz; sihirbaz bunu açıkça gösterir.</td></tr>
+</table>
+<p>Gerekenler:</p>
+<ul>
+  <li>Windows 10 veya Windows 11. Programın ihtiyaç duyduğu .NET Framework 4.8 bu sürümlerde hazır gelir. Windows 7 / 8.1'de program açılabilir ama güncel PHP, Apache ve veritabanı sürümleri çalışmayabilir; sihirbaz uyarır.</li>
+  <li>Yönetici hesabı. Program açılırken izin ister.</li>
+  <li>İnternet bağlantısı. Bileşenler ilk kurulumda resmi sitelerinden indirilir, yaklaşık 200 MB.</li>
+  <li>Windows 11'de <b>Akıllı Uygulama Denetimi kapalı</b> olmalı. Windows 10'da bu özellik yoktur.</li>
+  <li>80, 443 ve 3306 portlarını başka bir program kullanmamalı (IIS, XAMPP, Laragon, Skype…). Kullanılıyorsa <b>Ayarlar → Genel → Portlar</b>'dan değiştirin.</li>
+</ul>
+<p>Visual C++ Runtime eksikse veya eskiyse sihirbaz onu da (doğru mimariyle) kendisi kurar.</p>
+
+<h2 id="hosting">18. Hosting'e (Plesk / cPanel / VPS) taşırken dikkat</h2>
+<h3>Linux uyumluluk denetimi</h3>
+<p>Projenizi sunucuya yüklemeden önce <b>Projeler</b> sayfasında klasörü seçip <b>Linux uyumluluğu → Denetle</b>'ye tıklayın. Program dosyaları değiştirmeden tarar ve sorunları renkli olarak satır satır listeler:</p>
+<table>
+  <tr><th>Denetim</th><th>Neden önemli</th></tr>
+  <tr><td><span class="dot" style="background:#E5484D"></span>Büyük/küçük harf uyumsuzluğu (<code>require 'Config.php'</code>, <code>&lt;img src="Logo.PNG"&gt;</code>)</td><td>Windows'ta çalışır, Linux'ta "dosya bulunamadı" / 404 verir.</td></tr>
+  <tr><td><span class="dot" style="background:#E5484D"></span>Yollarda ters bölü (<code>lib\db.php</code>) ve <code>C:\</code> yolları</td><td>Linux'ta klasör ayırıcı <code>/</code>'dır, <code>C:</code> sürücüsü yoktur.</td></tr>
+  <tr><td><span class="dot" style="background:#E5484D"></span>Sınıf adı ile dosya adının harfi farklı (<code>class UserModel</code> → <code>userModel.php</code>)</td><td>Composer otomatik yükleyicisi Linux'ta sınıfı bulamaz.</td></tr>
+  <tr><td><span class="dot" style="background:#E5484D"></span>CRLF satır sonlu <code>.sh</code> betikleri, Windows komutları (<code>exec('dir')</code>), COM nesneleri</td><td>Linux'ta çalışmaz.</td></tr>
+  <tr><td><span class="dot" style="background:#F5A524"></span>Karışık harfli tablo adları (<code>SELECT * FROM Users</code>)</td><td>Linux'ta MySQL tablo adları harf duyarlıdır.</td></tr>
+  <tr><td><span class="dot" style="background:#F5A524"></span><code>.htaccess</code>'te <code>php_value</code> / <code>php_flag</code></td><td>Sunucu PHP-FPM kullanıyorsa 500 hatası verir; <code>.user.ini</code> kullanın.</td></tr>
+  <tr><td><span class="dot" style="background:#F5A524"></span>Türkçe karakterli dosya adları, BOM'lu PHP dosyaları</td><td>FTP aktarımında bozulma ve "headers already sent" hatası.</td></tr>
+</table>
+<p>Her satırın altında nasıl düzelteceğiniz yazar. Satıra çift tıklayınca dosya VS Code'da o satırda açılır. Raporu kopyalayabilir veya kaydedebilirsiniz. <code>vendor</code> ve <code>node_modules</code> taranmaz.</p>
+<h3>Genel kurallar</h3>
+<ul>
+  <li><b>Büyük/küçük harf:</b> Windows dosya adlarında büyük/küçük harf ayırt etmez, Linux eder. <code>require 'Config.php'</code> ile <code>config.php</code> yerelde çalışır ama sunucuda hata verir. Dosya adlarını tutarlı yazın.</li>
+  <li><b>Tablo adları:</b> Linux'ta MySQL tablo adları da büyük/küçük harfe duyarlıdır. Sorgularda tablo adlarını oluşturduğunuz şekilde yazın.</li>
+  <li><b>Sürüm eşleşmesi:</b> Yerelde de sunucudaki PHP ve MariaDB/MySQL sürümünü kullanın. Plesk ve cPanel'de genelde MariaDB 10.6/10.11/11.4 veya MySQL 8.0/8.4 bulunur.</li>
+  <li><b>Dışa aktarma:</b> phpMyAdmin → Dışa aktar veya <code>mysqldump -u root veritabanim &gt; yedek.sql</code>. Sunucuda phpMyAdmin veya <code>mysql</code> ile içe aktarın.</li>
+  <li><b>Karakter seti:</b> Hem yerelde hem sunucuda <code>utf8mb4</code> kullanın.</li>
+  <li><b>Yollar:</b> <code>C:\...</code> gibi mutlak yollar yerine <code>__DIR__</code> kullanın.</li>
+  <li><b>.htaccess:</b> Apache kullandığınız için yerelde çalışan <code>.htaccess</code> kuralları cPanel/Plesk'te (Apache veya LiteSpeed) aynı şekilde çalışır.</li>
+</ul>
+
+<h2 id="sorun">19. Sorun giderme</h2>
+<h3>"Uygulama Denetimi ilkesi bu dosyayı engelledi" / servisler hiç başlamıyor</h3>
+<p>Bu, Windows 11'in <b>Akıllı Uygulama Denetimi</b> özelliğidir. Dijital imzası olmayan veya Microsoft'un henüz tanımadığı programları çalıştırmaz; örneğin Apache Lounge, Mailpit ve Nginx'in yeni sürümleri imzasızdır. Durumunu görmek için PowerShell'de şu komutu çalıştırın:</p>
+<pre><code>Get-MpComputerStatus | Select-Object SmartAppControlState</code></pre>
+<p>Değer <code>On</code> ise yerel sunucu yazılımları (DEVNANOTEK, XAMPP, Laragon, Docker'ın bazı parçaları) güvenilir şekilde çalışamaz. Kapatmak için: <b>Ayarlar → Gizlilik ve güvenlik → Windows Güvenliği → Uygulama ve tarayıcı denetimi → Akıllı Uygulama Denetimi ayarları → Kapalı</b>.</p>
+<div class="note">Bu bir güvenlik özelliğidir; kararı siz verin. Windows sürümüne bağlı olarak kapattıktan sonra yeniden açmak için Windows'u sıfırlamak gerekebilir. Windows Defender antivirüsü kapanmaz, çalışmaya devam eder. Yazılım geliştirilen bilgisayarlarda bu özellik genellikle kapalı tutulur.</div>
+<h3>Apache başlamıyor / "port 80 kullanımda"</h3>
+<p>Önce <b>Ayarlar → Sistem → Port kontrolü</b>'ne bakın. Sık görülen nedenler:</p>
+<ul>
+  <li><b>System (PID 4)</b>: IIS veya "World Wide Web Publishing Service" çalışıyordur. Hizmetler ekranından durdurup "Devre dışı" yapın.</li>
+  <li><b>httpd.exe / mysqld.exe</b>: XAMPP veya Laragon çalışıyordur. Kapatın ve otomatik başlatmalarını kapatın.</li>
+  <li>Skype, VMware veya Docker: ilgili programın ayarlarından portu bırakın.</li>
+  <li>Ya da <b>Ayarlar → Genel → Portlar</b>'dan HTTP portunu 8080 yapın. Adres o zaman <code>http://localhost:8080</code> olur.</li>
+</ul>
+<h3>Veritabanı başlamıyor</h3>
+<p><b>Günlükler → Veritabanı — hata</b> kaydına bakın. Genellikle 3306 portu başka bir MySQL tarafından kullanılıyordur ya da <code>custom.cnf</code> dosyasında hatalı bir satır vardır. Genel Bakış'ta servisin yanındaki günlük simgesi ilgili kaydı doğrudan açar.</p>
+<h3>"VCRUNTIME140.dll bulunamadı" veya Apache/PHP açılmıyor</h3>
+<p><b>Sürümler → Araçlar → Visual C++ Runtime → Kur</b>.</p>
+<h3>Antivirüs</h3>
+<p>Bazı antivirüsler hosts dosyasının değiştirilmesini veya yeni servisleri engeller. <code>C:\devnanotek</code> klasörünü istisnalara ekleyin (Windows Defender için bölüm 16).</p>
+<h3>Her şeyi düzelt</h3>
+<p><b>Onar / Sıfırla → Hızlı onarım</b> ile başlayın; çözmezse <b>Tam onarım</b>'ı deneyin (bölüm 14).</p>
+
+<h2 id="cli">20. Komut satırı</h2>
+<p>Yönetici olarak açılmış bir komut isteminde:</p>
+<pre><code>"C:\devnanotek\app\DevNanotek.exe" --status          :: servis durumları
+"C:\devnanotek\app\DevNanotek.exe" --start-all       :: tümünü başlat
+"C:\devnanotek\app\DevNanotek.exe" --stop-all        :: tümünü durdur
+"C:\devnanotek\app\DevNanotek.exe" --apply           :: yapılandırmayı uygula
+"C:\devnanotek\app\DevNanotek.exe" --check-updates   :: yeni sürümleri denetle, önerilenleri listele
+"C:\devnanotek\app\DevNanotek.exe" --mode manual     :: çalışma modu: always | manual
+"C:\devnanotek\app\DevNanotek.exe" --install php mariadb node   :: önerilen sürümleri kur
+"C:\devnanotek\app\DevNanotek.exe" --install php:8.3.30         :: belirli bir sürümü kur
+"C:\devnanotek\app\DevNanotek.exe" --install postgresql adminer :: PostgreSQL ve Adminer ekle
+"C:\devnanotek\app\DevNanotek.exe" --linux-check C:\devnanotek\httpdocs\GITHUB\proje1   :: Linux uyumluluk raporu</code></pre>
+
+<h2 id="kaldir">21. Kaldırma</h2>
+<p>DEVNANOTEK, Windows'un <b>Denetim Masası → Programlar ve Özellikler</b> listesinde (ve Ayarlar → Uygulamalar'da) <b>"DEVNANOTEK Local Server"</b> adıyla görünür.</p>
+<ul>
+  <li><b>Kaldır</b>: DEVNANOTEK'in kaldırma penceresini açar.</li>
+  <li><b>Değiştir</b>: Onarım ve Sıfırlama penceresini açar (bölüm 14).</li>
+</ul>
+<p>Aynı kaldırma penceresi program içinde <b>Ayarlar → Sistem → DEVNANOTEK'i kaldır</b> ile de açılır. İki seçenek vardır:</p>
+<table>
+  <tr><th>Seçenek</th><th>Silinenler</th><th>Kalanlar</th></tr>
+  <tr><td><b>Programı kaldır, projelerimi ve veritabanlarımı koru</b> (önerilen)</td><td>Servisler, hosts kayıtları, PATH girdileri, otomatik başlatma, SSL sertifikası, güvenlik duvarı kuralları, Defender istisnası, tepsi simgesi kaydı, kısayollar, Denetim Masası kaydı, programlar (PHP, Apache, MariaDB…), ayar dosyaları, günlükler ve DevNanotek.exe</td><td><code>httpdocs</code> (projeler), <code>data</code> (veritabanları), <code>backups</code>. Tekrar kurarsanız kaldığınız yerden devam edersiniz.</td></tr>
+  <tr><td><b>Her şeyi sil</b></td><td>Yukarıdakilerin hepsi ve <code>C:\devnanotek</code> klasörünün tamamı (projeler ve veritabanları dahil). İsterseniz önce tüm veritabanlarının <code>.sql</code> yedeği Masaüstüne kaydedilir.</td><td>Yalnızca Masaüstüne aldığınız yedek.</td></tr>
+</table>
+<p>Program açıkken kaldırma başlatılırsa açık olan DEVNANOTEK önce kendiliğinden kapanır. Pencereyi kapattıktan birkaç saniye sonra son dosyalar da silinir.</p>
+
+<h2 id="tepsi">22. Saatin yanındaki simge (tepsi)</h2>
+<p>DEVNANOTEK çalışırken ekranın sağ altında, saatin yanında turuncu <b>D</b> logosu görünür. Logonun köşesindeki nokta genel durumu gösterir:</p>
+<table>
+  <tr><th>Nokta</th><th>Anlamı</th></tr>
+  <tr><td><span class="dot" style="background:#22B573"></span> Yeşil</td><td>Tüm servisler çalışıyor.</td></tr>
+  <tr><td><span class="dot" style="background:#F5A524"></span> Sarı</td><td>Bir veya daha fazla servis durdurulmuş ya da başlıyor.</td></tr>
+  <tr><td><span class="dot" style="background:#E5484D"></span> Kırmızı</td><td>Bir servis hata ile durdu veya bir bileşen kurulu değil.</td></tr>
+</table>
+<ul>
+  <li><b>Tek tıklama</b>: küçük durum penceresi açılır. Servisler renkli noktalarla, sürümleriyle ve durumlarıyla listelenir; aktif PHP, web sunucu, veritabanı, Node.js, phpMyAdmin ve Mailpit sürümleri görünür. Her servisi tek tek başlatıp durdurabilir, "Tümünü başlat / durdur", localhost, phpMyAdmin ve httpdocs kısayollarını kullanabilirsiniz.</li>
+  <li><b>Çift tıklama</b>: ana program penceresi açılır.</li>
+  <li><b>Sağ tıklama</b>: menü (Göster, Tümünü Başlat/Durdur, Onar / Sıfırla, Çıkış…).</li>
+</ul>
+<p>Simge görünmüyorsa görev çubuğundaki <b>^</b> okuna tıklayın. Simgeyi oradan sürükleyip görev çubuğuna bırakırsanız hep görünür kalır.</p>
+<p>Aynı renkli servis listesi ve aktif sürümler programın sol menüsünün altında ve Genel Bakış'ta da her zaman görünür.</p>
+
+<h2 id="linux">23. Linux sürümü</h2>
+<p>Aynı ortamı Linux bilgisayarda da kurabilirsiniz. En kısa yol, Linux'ta normal kullanıcınızla terminal açıp şu komutu çalıştırmaktır. Komut betiğin en yeni sürümünü GitHub'dan indirir ve kurar:</p>
+<pre><code>curl -fsSLO https://github.com/devnanotek/local-server/releases/latest/download/devnanotek.sh &amp;&amp; sudo bash devnanotek.sh install</code></pre>
+<p>İnternetten indirmek istemezseniz <b>Yardım → Linux sürümünü al</b>'a tıklayın. <code>devnanotek.sh</code> ve <code>KURULUM.md</code> dosyaları <code>C:\devnanotek\docs\linux</code> klasörüne çıkarılır. Dosyayı Linux bilgisayara kopyalayıp şunu çalıştırın:</p>
+<pre><code>sudo bash devnanotek.sh install</code></pre>
+<table>
+  <tr><th>Desteklenen</th><th>Ayrıntı</th></tr>
+  <tr><td>Ubuntu 22.04 / 24.04 / 26.04, Debian 11–13, Linux Mint, Pop!_OS, Zorin</td><td>Çoklu PHP: ppa:ondrej/php veya packages.sury.org</td></tr>
+  <tr><td>AlmaLinux, Rocky, RHEL, CentOS Stream, Oracle, CloudLinux (8–10), Fedora</td><td>Çoklu PHP: Remi deposu · SELinux ayarları kendiliğinden yapılır</td></tr>
+</table>
+<p>Kurulum sihirbazı şunları sorar: PHP sürümü, Apache veya Nginx, MariaDB veya MySQL, PostgreSQL, Node.js, Mailpit, phpMyAdmin, Adminer, Composer, yerel HTTPS ve çalışma modu. Kurulumdan sonra <code>devnanotek</code> komutu menüyü açar. Sık kullanılan komutlar:</p>
+<pre><code>devnanotek status                       # servisler: yeşil / sarı / kırmızı
+sudo devnanotek php 8.3                 # PHP sürümü kur ve geç
+sudo devnanotek ext enable gd           # eklenti aç
+sudo devnanotek ini memory_limit 1G     # php.ini ayarı
+sudo devnanotek vhost add proje1.test GITHUB/proje1
+sudo devnanotek db backup               # veritabanı yedeği
+sudo devnanotek mode manual             # sadece ben başlatınca
+sudo devnanotek uninstall               # kaldır (projeler kalır)</code></pre>
+<p>Projeler <code>/opt/devnanotek/httpdocs</code> klasöründedir (ana klasörünüzde <code>~/httpdocs</code> kısayolu da oluşur) ve <code>http://localhost/klasor</code> adresinden açılır. PHP sizin kullanıcınızla çalışır, dosya izinleriyle uğraşmazsınız. Linux'ta tablo adları sunucudaki gibi harf duyarlıdır. Ayrıntılar <code>KURULUM.md</code> dosyasındadır.</p>
+
+<p class="muted" style="margin-top:48px">DEVNANOTEK · <a href="https://devnanotek.net">devnanotek.net</a> · <a href="https://github.com/devnanotek/local-server">GitHub</a> · <a href="https://devnanotek.github.io/local-server/">Proje sitesi</a> · Bu kılavuz program içinden <b>Yardım → Tam kılavuz</b> ile açılır.<br>
+DEVNANOTEK Local Server açık kaynaklıdır ve MIT lisansıyla dağıtılır. Arayüzde kullanılan Bebas Neue yazı tipi SIL Open Font License 1.1 ile lisanslıdır.</p>
+</div>
+</body>
+</html>

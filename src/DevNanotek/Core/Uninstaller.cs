@@ -36,7 +36,7 @@ namespace DevNanotek.Core
                     k.SetValue("Publisher", "DEVNANOTEK");
                     k.SetValue("URLInfoAbout", "https://devnanotek.net/");
                     k.SetValue("HelpLink", "https://devnanotek.net/");
-                    k.SetValue("Comments", "PHP, MariaDB/MySQL, Apache/Nginx, Node.js, phpMyAdmin yerel geliştirme ortamı");
+                    k.SetValue("Comments", L.T("PHP, MariaDB/MySQL, Apache/Nginx, Node.js, phpMyAdmin yerel geliştirme ortamı"));
                     k.SetValue("DisplayIcon", exe + ",0");
                     k.SetValue("InstallLocation", Paths.Root);
                     k.SetValue("UninstallString", "\"" + exe + "\" --uninstall");
@@ -111,7 +111,7 @@ namespace DevNanotek.Core
                     {
                         var f = DbManager.Backup(cfg, log);
                         var desk = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
-                        var target = Path.Combine(desk, "DevNanotek-veritabani-yedegi-" + DateTime.Now.ToString("yyyyMMdd-HHmmss") + ".sql");
+                        var target = Path.Combine(desk, L.Pick("DevNanotek-veritabani-yedegi-", "DevNanotek-database-backup-") + DateTime.Now.ToString("yyyyMMdd-HHmmss") + ".sql");
                         File.Copy(f, target, true);
                         log("Veritabanı yedeği Masaüstüne kaydedildi: " + target);
                         res.Warnings.Add("Veritabanı yedeği: " + target);
@@ -129,7 +129,7 @@ namespace DevNanotek.Core
                     try
                     {
                         var desk = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
-                        var target = Path.Combine(desk, "DevNanotek-postgresql-yedegi-" + DateTime.Now.ToString("yyyyMMdd-HHmmss") + ".sql");
+                        var target = Path.Combine(desk, L.Pick("DevNanotek-postgresql-yedegi-", "DevNanotek-postgresql-backup-") + DateTime.Now.ToString("yyyyMMdd-HHmmss") + ".sql");
                         File.Copy(pf, target, true);
                         log("PostgreSQL yedeği Masaüstüne kaydedildi: " + target);
                         res.Warnings.Add("PostgreSQL yedeği: " + target);

@@ -35,17 +35,18 @@ namespace DevNanotek.Core
 
         public string ToText()
         {
+            // rapor arayüz dilinde (panoya kopyalama / dosyaya kaydetme)
             var sb = new StringBuilder();
-            sb.AppendLine("DEVNANOTEK — Linux uyumluluk raporu");
-            sb.AppendLine("Proje : " + Root);
-            sb.AppendLine("Tarih : " + DateTime.Now.ToString("dd.MM.yyyy HH:mm"));
-            sb.AppendLine($"Sonuç : {Errors} hata, {Warnings} uyarı, {Infos} bilgi ({FilesScanned} dosya tarandı)");
+            sb.AppendLine(L.T("DEVNANOTEK — Linux uyumluluk raporu"));
+            sb.AppendLine(L.F("Proje : {0}", Root));
+            sb.AppendLine(L.F("Tarih : {0}", DateTime.Now.ToString("dd.MM.yyyy HH:mm")));
+            sb.AppendLine(L.F("Sonuç : {0} hata, {1} uyarı, {2} bilgi ({3} dosya tarandı)", Errors, Warnings, Infos, FilesScanned));
             sb.AppendLine(new string('-', 70));
             foreach (var i in Issues)
             {
-                sb.AppendLine($"[{i.LevelText}] {i.Where}");
-                sb.AppendLine("    " + i.Message);
-                if (!string.IsNullOrEmpty(i.Hint)) sb.AppendLine("    → " + i.Hint);
+                sb.AppendLine($"[{L.T(i.LevelText)}] {i.Where}");
+                sb.AppendLine("    " + L.T(i.Message));
+                if (!string.IsNullOrEmpty(i.Hint)) sb.AppendLine("    → " + L.T(i.Hint));
             }
             return sb.ToString();
         }
@@ -263,7 +264,7 @@ namespace DevNanotek.Core
                         if (Regex.IsMatch(p, @"^(https?:|//|data:|mailto:|tel:|javascript:|\w+://)", RegexOptions.IgnoreCase) || p.Contains("<?") || p.Contains("{{")) continue;
                         if (p.IndexOf('\\') >= 0)
                         {
-                            Add(rep, Level.Error, "Bağlantı", f, no, $"Bağlantıda ters bölü (\\) var: '{p}'", "Tarayıcılar ve Linux sunucular \\ işaretini klasör ayırıcı saymaz; / kullanın.");
+                            Add(rep, Level.Error, "Dosya bağlantısı", f, no, $"Bağlantıda ters bölü (\\) var: '{p}'", "Tarayıcılar ve Linux sunucular \\ işaretini klasör ayırıcı saymaz; / kullanın.");
                             continue;
                         }
                         if (p.StartsWith("/")) CheckCase(rep, f, no, p.TrimStart('/'), webRoots.ToArray(), "bağlantı");

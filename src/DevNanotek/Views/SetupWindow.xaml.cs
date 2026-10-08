@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using DevNanotek.Core;
 
 namespace DevNanotek.Views
@@ -27,12 +28,37 @@ namespace DevNanotek.Views
         }
 
         private static string Label(CatalogEntry e, bool installed)
-            => e.Title + (installed ? "   · kurulu" : e.Recommended ? "   · önerilen" : "") + (string.IsNullOrEmpty(e.Note) || e.Recommended || e.Note == "Önerilen" ? "" : "   · " + e.Note);
+            => e.Title + (installed ? "   · " + L.T("kurulu") : e.Recommended ? "   · " + L.T("önerilen") : "") + (string.IsNullOrEmpty(e.Note) || e.Recommended || e.Note == "Önerilen" ? "" : "   · " + L.T(e.Note));
+
+        /// <summary>Kullanıcı sihirbazda dili değiştirdi: program yeni dille yeniden açılmalı.</summary>
+        public bool LanguageChanged { get; private set; }
+        private bool _loadingLang = true;
+
+        private void Language_Changed(object sender, SelectionChangedEventArgs e)
+        {
+            if (_loadingLang || _running) return;
+            var code = (CbLanguage.SelectedItem as ComboBoxItem)?.Tag as string ?? L.Turkish;
+            if (code == L.Code) return;
+            var cfg = AppConfig.Current;
+            cfg.Language = code == L.DeviceLanguage ? "" : code; // cihazın diliyle aynıysa "otomatik" kalsın
+            cfg.Save();
+            LanguageChanged = true;
+            if (Owner != null)
+            {
+                // Sürümler sayfasından açıldı: pencere kapanınca program yeni dille yeniden açılır
+                Close();
+                MainWindow.Instance?.RestartForLanguage("versions");
+                return;
+            }
+            Close(); // ilk açılış: App yeniden başlatır
+        }
 
         private void Init()
         {
             var cat = Catalog.Current;
             var cfg = AppConfig.Current;
+            CbLanguage.SelectedIndex = L.En ? 1 : 0;
+            _loadingLang = false;
             SysText.Text = "Yerel sunucu kurulumu  ·  " + SystemInfo.Summary;
 
             List<SetupChoice> Choices(params string[] comps) => comps.SelectMany(c => cat.AvailableFor(c))

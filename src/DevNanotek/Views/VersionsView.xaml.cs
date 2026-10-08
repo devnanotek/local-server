@@ -33,8 +33,8 @@ namespace DevNanotek.Views
         {
             PhpList.Reload(); WebList.Reload(); DbList.Reload(); NodeList.Reload(); ToolsList.Reload();
             var up = Catalog.Current.UpdatedAt;
-            var when = up.HasValue ? "son denetim " + up.Value.ToLocalTime().ToString("dd.MM.yyyy HH:mm") : "henüz internetten denetlenmedi";
-            CatalogInfo.Text = SystemInfo.Summary + "  ·  " + when + (UpdateChecker.LastError != null ? "  ·  ⚠ " + UpdateChecker.LastError : "");
+            var when = up.HasValue ? L.F("son denetim {0}", up.Value.ToLocalTime().ToString("dd.MM.yyyy HH:mm")) : L.T("henüz internetten denetlenmedi");
+            CatalogInfo.Text = SystemInfo.Summary + "  ·  " + when + (UpdateChecker.LastError != null ? "  ·  ⚠ " + L.T(UpdateChecker.LastError) : "");
             CheckBtn.IsEnabled = !UpdateChecker.IsChecking;
             CheckBtnText.Text = UpdateChecker.IsChecking ? "Denetleniyor…" : "Şimdi denetle";
 

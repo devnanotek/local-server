@@ -19,6 +19,9 @@ namespace DevNanotek
         {
             base.OnStartup(e);
             var args = Program.Args ?? new string[0];
+            // arayüz dili: ayar yoksa cihazın dili (Windows Türkçe ise Türkçe, değilse İngilizce)
+            L.Init(AppConfig.Current.Language);
+            Localizer.Install();
             try { ThemeManager.Init(); } catch (Exception ex) { Logger.Warn("Tema yüklenemedi: " + ex.Message); }
 
             // ---- Kaldırma (Denetim Masası > Kaldır): çalışan arayüzü kapat, kaldırma penceresini aç ----
@@ -56,6 +59,8 @@ namespace DevNanotek
             TaskSchedulerUnobserved();
 
             Paths.EnsureLayout();
+            // localhost açılış sayfası da aynı dilde açılsın (sayfa etc\language dosyasını okur)
+            try { Templates.WriteIfChanged(System.IO.Path.Combine(Paths.Etc, "language"), L.Code); } catch { }
             Logger.Info($"DevNanotek {Version} başlatıldı — kök: {Paths.Root} — exe: {Paths.ExePath}");
             SelfInstall.WriteGuide();
 
@@ -98,10 +103,23 @@ namespace DevNanotek
             {
                 var setup = new SetupWindow();
                 setup.ShowDialog();
+                if (setup.LanguageChanged)
+                {
+                    // sihirbazda dil değişti: arayüz yeni dille baştan kurulsun (servislere dokunulmaz)
+                    main.RestartForLanguage(null);
+                    return;
+                }
                 cfg = AppConfig.Current;
             }
 
             if (autostart) main.StartHidden(); else main.Show();
+            // dil değişikliğinden sonra yeniden açıldı: kullanıcı hangi sayfadaysa oraya dön
+            int open = Array.IndexOf(args, "--open");
+            if (open >= 0 && open + 1 < args.Length)
+            {
+                var page = args[open + 1];
+                Dispatcher.BeginInvoke(new Action(() => main.Navigate(page)), DispatcherPriority.ApplicationIdle);
+            }
 
             // Denetim Masası kaydı (Programlar ve Özellikler) — yalnızca kalıcı kurulum yerinden çalışırken
             if (SelfInstall.IsRunningFromAppDir) System.Threading.Tasks.Task.Run(() => UninstallRegistry.Register());

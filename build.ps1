@@ -27,6 +27,7 @@ New-Item -ItemType Directory -Force -Path $dist | Out-Null
 Copy-Item (Join-Path $tmp 'DevNanotek.exe') $dist -Force
 if (Test-Path (Join-Path $tmp 'DevNanotek.exe.config')) { Copy-Item (Join-Path $tmp 'DevNanotek.exe.config') $dist -Force }
 Copy-Item (Join-Path $root 'src\DevNanotek\Resources\Kilavuz.html') $dist -Force
+Copy-Item (Join-Path $root 'src\DevNanotek\Resources\Guide.html') $dist -Force
 Copy-Item (Join-Path $root 'src\DevNanotek\Assets\Fonts\OFL-BebasNeue.txt') $dist -Force
 # Linux sürümü (satır sonları LF olarak kalır)
 New-Item -ItemType Directory -Force -Path (Join-Path $dist 'linux') | Out-Null

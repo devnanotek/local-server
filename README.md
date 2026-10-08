@@ -24,6 +24,8 @@
   <a href="https://devnanotek.github.io/local-server/">Proje sitesi</a>
   &nbsp;·&nbsp;
   <a href="https://devnanotek.github.io/local-server/kilavuz.html">Kılavuz</a>
+  &nbsp;·&nbsp;
+  <a href="https://devnanotek.github.io/local-server/guide.html">Guide (EN)</a>
 </p>
 
 <p align="center">
@@ -54,6 +56,7 @@
   - DEVNANOTEK'in yeni sürümünü GitHub'dan görür ve tek tıkla güncellenir.
 - **Gerçek Windows servisleri:** çökünce yeniden başlar, program kapalıyken de çalışır.
 - **Alt klasörler doğrudan açılır:** `C:\devnanotek\httpdocs\GITHUB\proje1` → `http://localhost/GITHUB/proje1/`.
+- **Türkçe ve İngilizce arayüz:** program Windows'un diline göre açılır (Windows Türkçe değilse İngilizce). **Ayarlar → Genel → Dil / Language**'dan istediğiniz zaman değişir; bildirimler, günlükler, komut satırı, localhost açılış sayfası ve kılavuz da aynı dilde olur.
 - **Sade arayüz:**
   - Gündüz / gece teması; açıklamalar "?" simgelerinde.
   - Renkli durum (yeşil / sarı / kırmızı) ve tepsi simgesi.
@@ -158,6 +161,7 @@ powershell -ExecutionPolicy Bypass -File build.ps1
 | `Core\DbTools.cs` | Adminer (şifresiz yerel giriş) ve SQL Server sürücüsü + ODBC Driver 18 |
 | `Core\LinuxCompat.cs` | Linux uyumluluk tarayıcısı (Projeler → Linux uyumluluğu, `--linux-check`) |
 | `Core\AppInfo.cs` | GitHub deposu bilgisi, program güncellemesi (Releases) |
+| `Core\Lang.cs`, `Core\Lang\En.*.cs`, `Views\Localizer.cs` | Arayüz dili: Türkçe kaynak metinler, İngilizce sözlük, ekranda çeviri (`tools\i18n-check` eksik çeviriyi denetler) |
 | `Core\PhpManager.cs` | php.ini düzenleme, eklentiler, Apache modülü |
 | `Core\ToolsManager.cs` | phpMyAdmin, Mailpit, mkcert (SSL), Composer, Node, VC++ Runtime |
 | `Core\Catalog.cs`, `UpdateChecker.cs` | Çevrim içi sürüm kataloğu, önerilen sürüm seçimi, güncelleme denetimi ve uygulama |
@@ -205,7 +209,7 @@ Arayüzdeki Bebas Neue yazı tipi SIL Open Font License 1.1 ile lisanslıdır (`
 
 ## English
 
-**DEVNANOTEK Local Server** is a free, open-source (MIT) local PHP development stack, an alternative to XAMPP and Laragon. The app's interface is in Turkish; this section is a short English summary.
+**DEVNANOTEK Local Server** is a free, open-source (MIT) local PHP development stack, an alternative to XAMPP and Laragon. The app is available in **English and Turkish**: it follows your Windows display language (English unless Windows is in Turkish), and you can switch it any time in **Settings → General → Language**. Full English guide: [guide.html](https://devnanotek.github.io/local-server/guide.html).
 
 **Highlights**
 

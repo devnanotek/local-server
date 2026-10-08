@@ -60,7 +60,7 @@
 <nav>
   <a href="#nedir">1. DEVNANOTEK nedir?</a>
   <a href="#kurulum">2. İlk kurulum</a>
-  <a href="#arayuz">3. Arayüz, gündüz / gece modu</a>
+  <a href="#arayuz">3. Arayüz, dil, gündüz / gece modu</a>
   <a href="#klasorler">4. Klasör yapısı</a>
   <a href="#projeler">5. Projeler ve adresler</a>
   <a href="#vt">6. Veritabanı (phpMyAdmin, Navicat)</a>
@@ -113,8 +113,11 @@
 <div class="note">XAMPP, Laragon veya WAMP çalışıyorsa önce onları kapatın. Aynı portları (80, 443, 3306) kullanırlar. Sihirbaz çakışma görürse sizi uyarır.</div>
 <div class="note"><b>Akıllı Uygulama Denetimi (Smart App Control):</b> Windows 11'de bu özellik açıksa imzasız veya yeni yayınlanmış programları engeller. Apache'nin DLL'leri, Mailpit, Nginx ve DevNanotek.exe'nin kendisi de engellenebilir. XAMPP ve Laragon'un "kendiliğinden bozulmasının" en yaygın nedeni budur. DEVNANOTEK bu durumu algılar ve Genel Bakış'ta uyarı gösterir. Ayrıntılar için bölüm 19'a bakın.</div>
 
-<h2 id="arayuz">3. Arayüz, gündüz / gece modu</h2>
+<h2 id="arayuz">3. Arayüz, dil, gündüz / gece modu</h2>
 <p>Sol menüde altı sayfa vardır: <b>Genel Bakış</b>, <b>Projeler</b>, <b>Sürümler</b>, <b>Ayarlar</b>, <b>Günlükler</b> ve <b>Yardım</b>. Sol alttaki kutu servislerin durumunu renkli noktalarla gösterir; tıklayınca tepsi durum penceresi açılır.</p>
+<h3>Dil (Türkçe / English)</h3>
+<p>Program ilk açılışta Windows'un görüntü diline göre başlar: Windows Türkçe ise <b>Türkçe</b>, başka bir dildeyse <b>İngilizce</b>. İstediğiniz zaman <b>Ayarlar → Genel → Dil / Language</b>'dan değiştirebilirsiniz; kurulum sihirbazının sağ üstünde de aynı seçim vardır. Seçenekler: <b>Cihazın dili</b> (Windows'u izler), <b>Türkçe</b>, <b>English</b>.</p>
+<p>Dil değişince program kapanıp yeni dille yeniden açılır; servisleriniz durmaz. Bildirimler, günlük kayıtları, komut satırı çıktısı, <code>http://localhost</code> açılış sayfası ve bu kılavuz da seçilen dilde olur (İngilizce kılavuz: <code>docs\Guide.html</code>).</p>
 <h3>Gündüz / gece modu</h3>
 <p>Sol alttaki tema düğmesi (ekran / güneş / ay simgesi) temayı sırayla <b>Sistem → Gündüz → Gece</b> olarak değiştirir. Aynı seçim <b>Ayarlar → Genel → Görünüm</b>'de de vardır. "Sistem" seçiliyken program, Windows'un açık/koyu ayarını izler ve Windows teması değişince kendiliğinden geçer. Pencere başlık çubuğu da temaya uyar.</p>
 <h3>Açıklamalar ve bildirimler</h3>
@@ -352,7 +355,7 @@ node server.js            # örn. http://localhost:3000</code></pre>
   <tr><td>Elektrik kesildi</td><td>MariaDB/MySQL (InnoDB) bir sonraki açılışta kendini otomatik onarır.</td></tr>
   <tr><td>Bir servis çöktü</td><td>Windows 5 / 15 / 60 saniye sonra onu kendiliğinden yeniden başlatır.</td></tr>
 </table>
-<p>Servisleri Windows'un "Hizmetler" ekranında da görebilirsiniz: <code>DevNanotek-Apache</code>, <code>DevNanotek-Nginx</code>, <code>DevNanotek-PHP-FCGI</code>, <code>DevNanotek-DB</code>, <code>DevNanotek-Mailpit</code>.</p>
+<p>Servisleri Windows'un "Hizmetler" ekranında da görebilirsiniz: <code>DevNanotek-Apache</code>, <code>DevNanotek-Nginx</code>, <code>DevNanotek-PHP-FCGI</code>, <code>DevNanotek-DB</code>, <code>DevNanotek-Mailpit</code>, <code>DevNanotek-PostgreSQL</code>.</p>
 
 <h2 id="onarim">14. Onarım ve sıfırlama</h2>
 <p>PHP, MySQL/MariaDB veya Apache bozulursa Genel Bakış'ın sağ üstündeki <b>anahtar simgesine (Onar / Sıfırla)</b> tıklayın. Aynı pencere Ayarlar → Sistem sekmesinde ve tepsi menüsünde de vardır. Dört seviye vardır; en hafifinden başlayın:</p>
@@ -401,7 +404,7 @@ node server.js            # örn. http://localhost:3000</code></pre>
   <tr><td>64 bit Windows 10 / 11</td><td>x64</td><td>Tüm bileşenler kullanılabilir. Önerilen.</td></tr>
   <tr><td>ARM64 Windows 11</td><td>x64 (Windows'un emülasyonuyla)</td><td>Tüm bileşenler kullanılabilir.</td></tr>
   <tr><td>ARM64 Windows 10</td><td>x86 (32 bit)</td><td>32 bit satırındaki sınırlar geçerlidir.</td></tr>
-  <tr><td>32 bit Windows 10</td><td>x86</td><td>PHP, Apache, Nginx, Node.js (22 ve öncesi), phpMyAdmin ve Composer kurulur. <b>MariaDB, MySQL, Mailpit ve mkcert</b> 32 bit Windows için artık yayınlanmadığından kurulamaz; sihirbaz bunu açıkça gösterir.</td></tr>
+  <tr><td>32 bit Windows 10</td><td>x86</td><td>PHP, Apache, Nginx, Node.js (22 ve öncesi), phpMyAdmin ve Composer kurulur. <b>MariaDB, MySQL, PostgreSQL, Mailpit ve mkcert</b> 32 bit Windows için artık yayınlanmadığından kurulamaz; sihirbaz bunu açıkça gösterir.</td></tr>
 </table>
 <p>Gerekenler:</p>
 <ul>

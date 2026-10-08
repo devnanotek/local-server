@@ -27,9 +27,9 @@ namespace DevNanotek.Views
         public override void Refresh()
         {
             var app = AppUpdater.Available;
-            var status = app != null ? $" · YENİ SÜRÜM: {app.Version.ToString(3)} (Sürümler sayfasından güncelleyin)"
-                       : AppUpdater.CheckedAt != null ? " · güncel" : "";
-            VersionText.Text = $"DEVNANOTEK Local Server v{App.Version}{status} · MIT lisanslı açık kaynak · {SystemInfo.Summary} · Kök: {Paths.Root}";
+            var status = app != null ? " · " + L.F("YENİ SÜRÜM: {0} (Sürümler sayfasından güncelleyin)", app.Version.ToString(3))
+                       : AppUpdater.CheckedAt != null ? " · " + L.T("güncel") : "";
+            VersionText.Text = L.F("DEVNANOTEK Local Server v{0}{1} · MIT lisanslı açık kaynak · {2} · Kök: {3}", App.Version, status, SystemInfo.Summary, Paths.Root);
         }
 
         private void OpenGitHub_Click(object sender, RoutedEventArgs e) => ProcessRunner.OpenUrl(AppInfo.RepoUrl);

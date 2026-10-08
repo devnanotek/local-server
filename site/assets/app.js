@@ -62,7 +62,7 @@
   /* ---------------- Dil ---------------- */
   var EN = {
     'skip': 'Skip to content',
-    'nav.features': 'Features', 'nav.shots': 'Screenshots', 'nav.linux': 'Linux', 'nav.releases': 'Releases', 'nav.guide': 'Guide (TR)',
+    'nav.features': 'Features', 'nav.shots': 'Screenshots', 'nav.linux': 'Linux', 'nav.releases': 'Releases', 'nav.guide': 'Guide',
     'hero.pill': 'Free · Open source (MIT)',
     'hero.title': 'A <em>local PHP server</em> for Windows and Linux',
     'hero.lead': 'A replacement for XAMPP and Laragon: multiple PHP versions, Apache or Nginx, MariaDB, MySQL, PostgreSQL, phpMyAdmin, a test mailbox and HTTPS. One file, a few clicks to set up, no license nags.',
@@ -81,7 +81,7 @@
     'f8.h': 'Colour status, tray icon', 'f8.p': 'Services are green / yellow / red. Start, stop and see versions from the icon next to the clock.',
     'f9.h': 'Repair and clean removal', 'f9.p': 'Four levels from quick repair to factory reset. Uninstalling leaves no services, hosts entries, PATH, certificates or firewall rules behind.',
     'f10.h': 'Node.js and Composer', 'f10.p': 'node, npm, npx, composer, mysql and psql are ready in the terminal. Great for socket.io and Vue/React builds.',
-    'f11.h': 'Simple interface', 'f11.p': 'Light / dark theme, explanations behind ? icons, a setup wizard on first run. (The app itself is in Turkish.)',
+    'f11.h': 'English / Turkish, simple interface', 'f11.p': 'Opens in English or Turkish to match your Windows language; switch any time in Settings. Light / dark theme, explanations behind ? icons and a setup wizard.',
     'f12.h': 'One file, any PC', 'f12.p': 'A single exe that detects 64-bit, 32-bit and ARM64 by itself. Nothing else to install (.NET 4.8 ships with Windows).',
     'shots.h': 'Screenshots',
     'shots.t1': 'Overview', 'shots.t2': 'Versions', 'shots.t3': 'PHP extensions', 'shots.t4': 'Databases', 'shots.t5': 'Linux check', 'shots.t6': 'Setup wizard', 'shots.t7': 'Tray window',
@@ -131,6 +131,7 @@
     $$('[data-i18n]').forEach(function (el) { var v = t(el.getAttribute('data-i18n')); if (v != null) el.innerHTML = v; });
     document.title = titles[lang][0];
     var md = $('meta[name="description"]'); if (md && titles[lang][1]) md.setAttribute('content', titles[lang][1]);
+    $$('[data-guide]').forEach(function (a) { a.setAttribute('href', lang === 'en' ? 'guide.html' : 'kilavuz.html'); });
     $('#langBtn').textContent = lang === 'en' ? 'TR' : 'EN';
     $('#langBtn').title = lang === 'en' ? 'Türkçe' : 'English';
     $('#themeBtn').title = lang === 'en' ? 'Light / dark' : 'Gündüz / gece';

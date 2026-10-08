@@ -112,7 +112,7 @@ namespace DevNanotek.Views
         {
             bool has = _selected != null && Directory.Exists(_selected);
             Detail.IsEnabled = has;
-            if (!has) { SelName.Text = "Bir klasör seçin"; SelPath.Text = ""; SelUrl.Text = ""; VhostInfo.Text = ""; return; }
+            if (!has) { SelName.Text = L.T("Bir klasör seçin"); SelPath.Text = ""; SelUrl.Text = ""; VhostInfo.Text = ""; return; }
             SelName.Text = Path.GetFileName(_selected.TrimEnd('\\'));
             if (string.IsNullOrEmpty(SelName.Text)) SelName.Text = "httpdocs";
             SelPath.Text = _selected;
@@ -157,7 +157,7 @@ namespace DevNanotek.Views
                 Directory.CreateDirectory(dir);
                 var index = Path.Combine(dir, "index.php");
                 if (!Directory.EnumerateFileSystemEntries(dir).Any())
-                    File.WriteAllText(index, "<?php\n// " + name + "\necho '<h1>" + name.Replace("\\", "/").Replace("'", "") + " çalışıyor!</h1><p>PHP ' . PHP_VERSION . '</p>';\n", new System.Text.UTF8Encoding(false));
+                    File.WriteAllText(index, "<?php\n// " + name + "\necho '<h1>" + name.Replace("\\", "/").Replace("'", "") + L.Pick(" çalışıyor!", " is working!") + "</h1><p>PHP ' . PHP_VERSION . '</p>';\n", new System.Text.UTF8Encoding(false));
                 NewName.Text = "";
                 _selected = dir;
                 Refresh();
@@ -216,7 +216,7 @@ namespace DevNanotek.Views
             int n = Cfg.Vhosts.RemoveAll(v => v.Host == host);
             if (n == 0)
             {
-                UI.Msg("Bu host otomatik oluşturulmuş (Ayarlar > Genel > Otomatik sanal host). Elle silinemez; otomatik özelliği kapatabilirsiniz.");
+                UI.Msg("Bu alan adı otomatik oluşturulmuş (Ayarlar > SSL ve alan adları > Otomatik alan adları). Elle silinemez; otomatik özelliği kapatabilirsiniz.");
                 return;
             }
             Cfg.Save();

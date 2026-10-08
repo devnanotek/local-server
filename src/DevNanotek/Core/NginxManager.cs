@@ -46,8 +46,8 @@ namespace DevNanotek.Core
             Directory.CreateDirectory(Path.Combine(Dir(ver), "temp"));
 
             Templates.EnsureFile(Paths.NginxCustomConf,
-                "# DevNanotek — Nginx için kendi eklemeleriniz (http {} bloğu içinde). Bu dosya asla üzerine yazılmaz.\r\n" +
-                "# Örnek: ek bir server bloğu veya upstream tanımı buraya yazılabilir.\r\n");
+                L.Pick("# DevNanotek — Nginx için kendi eklemeleriniz (http {} bloğu içinde). Bu dosya asla üzerine yazılmaz.\r\n# Örnek: ek bir server bloğu veya upstream tanımı buraya yazılabilir.\r\n",
+                       "# DevNanotek — your own Nginx additions (inside the http {} block). This file is never overwritten.\r\n# Example: add an extra server block or an upstream definition here.\r\n"));
 
             var fcgi = new StringBuilder();
             for (int i = 0; i < cfg.FcgiChildren; i++) fcgi.AppendLine($"        server 127.0.0.1:{cfg.FcgiPort + i};");

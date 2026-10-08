@@ -34,14 +34,14 @@
             </Grid.ColumnDefinitions>
 
             <Border Style="{StaticResource Card}" Padding="8" Margin="0,0,0,14">
-                <TreeView x:Name="Tree" SelectedItemChanged="Tree_SelectedItemChanged"/>
+                <TreeView x:Name="Tree" local:Localizer.Skip="True" SelectedItemChanged="Tree_SelectedItemChanged"/>
             </Border>
 
             <Border Grid.Column="2" Style="{StaticResource Card}">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel x:Name="Detail">
-                        <TextBlock x:Name="SelName" Style="{StaticResource H2}" FontSize="18" Text="Bir klasör seçin"/>
-                        <TextBlock x:Name="SelPath" Style="{StaticResource MutedText}" Margin="0,2,0,14"/>
+                        <TextBlock x:Name="SelName" local:Localizer.Skip="True" Style="{StaticResource H2}" FontSize="18" Text="Bir klasör seçin"/>
+                        <TextBlock x:Name="SelPath" local:Localizer.Skip="True" Style="{StaticResource MutedText}" Margin="0,2,0,14"/>
 
                         <TextBlock Style="{StaticResource Caption}" Text="ADRES" Margin="0,0,0,6"/>
                         <DockPanel Margin="0,0,0,14">
@@ -94,7 +94,7 @@
                                     <DockPanel Margin="0,3">
                                         <Button DockPanel.Dock="Right" Style="{StaticResource IconBtn}" Content="&#xE711;" ToolTip="Kaldır" Tag="{Binding Host}" Click="VhostListRemove_Click" Margin="0"/>
                                         <Button DockPanel.Dock="Right" Style="{StaticResource IconBtn}" Content="&#xE774;" ToolTip="Aç" Tag="{Binding Host}" Click="VhostListOpen_Click"/>
-                                        <TextBlock VerticalAlignment="Center" Foreground="{DynamicResource Text}" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap">
+                                        <TextBlock local:Localizer.Skip="True" VerticalAlignment="Center" Foreground="{DynamicResource Text}" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap">
                                             <Run Text="{Binding Host, Mode=OneWay}" FontWeight="SemiBold"/><Run Text="   "/><Run Text="{Binding DocRoot, Mode=OneWay}" Foreground="{DynamicResource Muted}"/>
                                         </TextBlock>
                                     </DockPanel>

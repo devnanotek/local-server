@@ -159,15 +159,19 @@ namespace DevNanotek.Views
             _sv?.ScrollToEnd();
         }
 
-        public string AllText => string.Join(Environment.NewLine, Lines.Select(l => l.Text));
+        /// <summary>Kopyalanan günlük metni (arayüz dilinde).</summary>
+        public string AllText => string.Join(Environment.NewLine, Lines.Select(l => L.T(l.Text)));
 
+        /// <summary>Satır rengi; Türkçe kaynak metne ve (günlükten gelen) İngilizce metne göre.</summary>
         public static Level Classify(string t)
         {
             var s = t.ToLowerInvariant();
-            if (t.StartsWith("✖") || s.Contains("hata") || s.Contains("başarısız") || s.Contains("engelle") || s.Contains("kurulamadı") || s.Contains("başlatılamadı"))
+            if (t.StartsWith("✖") || s.Contains("hata") || s.Contains("başarısız") || s.Contains("engelle") || s.Contains("kurulamadı") || s.Contains("başlatılamadı")
+                || s.Contains("error") || s.Contains("failed") || s.Contains("blocked") || s.Contains("could not"))
                 return Level.Error;
-            if (t.StartsWith("⚠") || s.Contains("uyarı")) return Level.Warn;
-            if (t.StartsWith("✔") || s.Contains("kuruldu") || s.Contains("tamamlandı") || s.Contains("uygulandı") || s.Contains("hazır") || s.Contains("geçti") || s.Contains("başarılı"))
+            if (t.StartsWith("⚠") || s.Contains("uyarı") || s.Contains("warning")) return Level.Warn;
+            if (t.StartsWith("✔") || s.Contains("kuruldu") || s.Contains("tamamlandı") || s.Contains("uygulandı") || s.Contains("hazır") || s.Contains("geçti") || s.Contains("başarılı")
+                || s.Contains("installed") || s.Contains("completed") || s.Contains("applied") || s.Contains("ready") || s.Contains("passed") || s.Contains("success"))
                 return Level.Ok;
             return Level.Off;
         }

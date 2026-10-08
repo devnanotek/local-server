@@ -3,6 +3,22 @@
 Bu dosyadaki her bölüm, GitHub'da aynı numaralı sürümün notları olarak yayınlanır.
 Sürüm numaraları [Anlamsal Sürümleme](https://semver.org/lang/tr/) kurallarına uyar: `ANA.KÜÇÜK.YAMA`.
 
+## [1.3.0] - 2026-10-08
+
+### Eklenenler
+- **İngilizce arayüz (English interface):** Program ilk açılışta Windows'un görüntü diline göre başlar: Windows Türkçe ise Türkçe, başka bir dildeyse İngilizce.
+  - **Ayarlar → Genel → Dil / Language** ile istediğiniz zaman değişir (Cihazın dili / Türkçe / English). Program kapanıp yeni dille yeniden açılır, servisler durmaz.
+  - Kurulum sihirbazının sağ üstünde de dil seçimi var.
+  - Bildirimler, iletişim kutuları, tepsi menüsü, günlük kayıtları, komut satırı çıktısı ve Linux uyumluluk raporu da seçilen dilde.
+  - `http://localhost` açılış sayfası programın diliyle açılır.
+  - İngilizce kullanım kılavuzu: `docs\Guide.html` (Yardım → Tam kılavuz dile göre açılır).
+- Yeni `custom.conf` / `custom.cnf` dosyalarının açıklama satırları ve kısayol adları da dile göre yazılır.
+
+### Düzeltilenler
+- Kurulum sihirbazının alt çubuğunda uzun metin düğmelerin üstüne binmiyor.
+- Linux uyumluluk denetiminde "Bağlantı" kategorisinin adı "Dosya bağlantısı" oldu (veritabanı bağlantısıyla karışmasın).
+- Otomatik alan adı uyarısındaki menü yolu düzeltildi (Ayarlar > SSL ve alan adları).
+
 ## [1.2.0] - 2026-10-08
 
 ### Eklenenler

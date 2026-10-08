@@ -54,8 +54,8 @@ jobs:
           New-Item -ItemType Directory -Force out | Out-Null
           Copy-Item build/release/DevNanotek.exe out/
           Copy-Item linux/devnanotek.sh, linux/KURULUM.md out/
-          Copy-Item src/DevNanotek/Resources/Kilavuz.html out/
-          $files = 'DevNanotek.exe', 'devnanotek.sh', 'KURULUM.md', 'Kilavuz.html'
+          Copy-Item src/DevNanotek/Resources/Kilavuz.html, src/DevNanotek/Resources/Guide.html out/
+          $files = 'DevNanotek.exe', 'devnanotek.sh', 'KURULUM.md', 'Kilavuz.html', 'Guide.html'
           $sums = $files | ForEach-Object { '{0}  {1}' -f (Get-FileHash "out/$_" -Algorithm SHA256).Hash.ToLower(), $_ }
           [IO.File]::WriteAllText('out/SHA256SUMS.txt', ($sums -join "`n") + "`n")
 
@@ -80,4 +80,5 @@ jobs:
             out/devnanotek.sh
             out/KURULUM.md
             out/Kilavuz.html
+            out/Guide.html
             out/SHA256SUMS.txt

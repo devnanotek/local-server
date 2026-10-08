@@ -102,11 +102,11 @@ namespace DevNanotek
             if (_tray != null && app != null && _announcedApp != app.Version)
             {
                 _announcedApp = app.Version;
-                try { _tray.ShowBalloonTip(5000, "DEVNANOTEK " + app.Version.ToString(3) + " yayınlandı", "Sürümler sayfasından tek tıkla güncelleyebilirsiniz.", WinForms.ToolTipIcon.Info); } catch { }
+                try { _tray.ShowBalloonTip(5000, L.F("DEVNANOTEK {0} yayınlandı", app.Version.ToString(3)), L.T("Sürümler sayfasından tek tıkla güncelleyebilirsiniz."), WinForms.ToolTipIcon.Info); } catch { }
             }
             else if (n > 0 && _lastUpdateCount >= 0 && n > _lastUpdateCount && _tray != null)
             {
-                try { _tray.ShowBalloonTip(4000, "DEVNANOTEK", n + " bileşen için yeni sürüm var. Sürümler sayfasından güncelleyebilirsiniz.", WinForms.ToolTipIcon.Info); } catch { }
+                try { _tray.ShowBalloonTip(4000, "DEVNANOTEK", L.F("{0} bileşen için yeni sürüm var. Sürümler sayfasından güncelleyebilirsiniz.", n), WinForms.ToolTipIcon.Info); } catch { }
             }
             _lastUpdateCount = n;
             if (_current is VersionsView || _current is HelpView) RefreshCurrentView();
@@ -273,7 +273,7 @@ namespace DevNanotek
                     try { _tray.Icon = TrayIcons.Get(r.Overall); _lastIconLevel = r.Overall; } catch (Exception ex) { Logger.Warn("Tepsi simgesi: " + ex.Message); }
                 }
                 // NotifyIcon.Text en fazla 63 karakter olabilir
-                var tip = "DEVNANOTEK — " + r.OverallText;
+                var tip = "DEVNANOTEK — " + L.T(r.OverallText);
                 var ver = php != null && !string.IsNullOrEmpty(php.Version) ? "\nPHP " + php.Version : "";
                 tip += ver;
                 _tray.Text = tip.Length > 63 ? tip.Substring(0, 63) : tip;
@@ -370,20 +370,20 @@ namespace DevNanotek
                     if (sri != null) _tray.Icon = new System.Drawing.Icon(sri.Stream, WinForms.SystemInformation.SmallIconSize);
                 }
                 var menu = new WinForms.ContextMenuStrip();
-                menu.Items.Add("Durum penceresi", null, (s, e) => TogglePopup());
-                menu.Items.Add("DEVNANOTEK'i Göster", null, (s, e) => ShowFromTray());
+                menu.Items.Add(L.T("Durum penceresi"), null, (s, e) => TogglePopup());
+                menu.Items.Add(L.T("DEVNANOTEK'i Göster"), null, (s, e) => ShowFromTray());
                 menu.Items.Add(new WinForms.ToolStripSeparator());
-                menu.Items.Add("▶ Tümünü Başlat", null, async (s, e) => await StartAllFromTray());
-                menu.Items.Add("■ Tümünü Durdur", null, async (s, e) => await StopAllFromTray());
+                menu.Items.Add(L.T("▶ Tümünü Başlat"), null, async (s, e) => await StartAllFromTray());
+                menu.Items.Add(L.T("■ Tümünü Durdur"), null, async (s, e) => await StopAllFromTray());
                 menu.Items.Add(new WinForms.ToolStripSeparator());
                 menu.Items.Add("localhost", null, (s, e) => ProcessRunner.OpenUrl(UI.LocalhostUrl()));
                 menu.Items.Add("phpMyAdmin", null, (s, e) => ProcessRunner.OpenUrl(UI.LocalhostUrl() + "phpmyadmin/"));
                 menu.Items.Add("Mailpit", null, (s, e) => ProcessRunner.OpenUrl(MailpitManager.UiUrl(AppConfig.Current)));
-                menu.Items.Add("httpdocs klasörü", null, (s, e) => ProcessRunner.OpenFolder(AppConfig.Current.EffectiveDocRoot));
+                menu.Items.Add(L.T("httpdocs klasörü"), null, (s, e) => ProcessRunner.OpenFolder(AppConfig.Current.EffectiveDocRoot));
                 menu.Items.Add("Terminal", null, (s, e) => UI.OpenTerminal(AppConfig.Current.EffectiveDocRoot));
-                menu.Items.Add("Onar / Sıfırla…", null, (s, e) => OpenResetWindow());
+                menu.Items.Add(L.T("Onar / Sıfırla…"), null, (s, e) => OpenResetWindow());
                 menu.Items.Add(new WinForms.ToolStripSeparator());
-                menu.Items.Add("Çıkış", null, (s, e) => ExitApp());
+                menu.Items.Add(L.T("Çıkış"), null, (s, e) => ExitApp());
                 _tray.ContextMenuStrip = menu;
                 // tek sol tık: durum penceresi · çift tık: programı aç · sağ tık: menü
                 _tray.MouseUp += (s, e) => { if (e.Button == WinForms.MouseButtons.Left) Dispatcher.BeginInvoke(new Action(TogglePopup)); };
@@ -466,7 +466,7 @@ namespace DevNanotek
         {
             if (_trayHintShown || _tray == null) return;
             _trayHintShown = true;
-            try { _tray.ShowBalloonTip(2500, "DEVNANOTEK", "Arka planda çalışmaya devam ediyor. Simgeye çift tıklayarak açabilirsiniz.", WinForms.ToolTipIcon.Info); } catch { }
+            try { _tray.ShowBalloonTip(2500, "DEVNANOTEK", L.T("Arka planda çalışmaya devam ediyor. Simgeye çift tıklayarak açabilirsiniz."), WinForms.ToolTipIcon.Info); } catch { }
         }
 
         /// <summary>Windows kapanıyor/oturum kapanıyor: kapanışı asla engelleme.</summary>
@@ -493,8 +493,13 @@ namespace DevNanotek
 
         public async void ExitApp() => await ExitAppAsync(false);
 
-        /// <param name="restart">true: servislere dokunmadan programı kapatıp yeniden açar (fabrika ayarlarından sonra).</param>
-        public async System.Threading.Tasks.Task ExitAppAsync(bool restart)
+        /// <summary>Arayüz dili değişti: program servislere dokunmadan kapanıp yeni dille yeniden açılır.</summary>
+        /// <param name="page">Yeniden açılınca gösterilecek sayfa (ör. "settings"); null: Genel Bakış.</param>
+        public async void RestartForLanguage(string page) => await ExitAppAsync(true, page == null ? null : "--open " + page);
+
+        /// <param name="restart">true: servislere dokunmadan programı kapatıp yeniden açar (fabrika ayarlarından ve dil değişikliğinden sonra).</param>
+        /// <param name="extraArgs">Yeniden açılan programa verilecek ek parametreler.</param>
+        public async System.Threading.Tasks.Task ExitAppAsync(bool restart, string extraArgs = null)
         {
             if (_exiting) return;
             _exiting = true;
@@ -513,7 +518,7 @@ namespace DevNanotek
                 try
                 {
                     (Application.Current as App)?.ReleaseSingleInstance();
-                    System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(Paths.ExePath, "--no-self-install") { UseShellExecute = true });
+                    System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(Paths.ExePath, "--no-self-install" + (string.IsNullOrEmpty(extraArgs) ? "" : " " + extraArgs)) { UseShellExecute = true });
                 }
                 catch (Exception ex) { Logger.Error("Yeniden başlatılamadı", ex); }
             }
@@ -569,12 +574,15 @@ namespace DevNanotek
             return true;
         }
 
-        public static void Msg(string text) { if (Silent) { Logger.Info("[msg] " + text); return; } if (TryToast(Level.Off, text)) return; MessageBox.Show(text, Caption, MessageBoxButton.OK, MessageBoxImage.Information); }
-        public static void Warn(string text) { if (Silent) { Logger.Warn("[warn] " + text); return; } if (TryToast(Level.Warn, text)) return; MessageBox.Show(text, Caption, MessageBoxButton.OK, MessageBoxImage.Warning); }
-        public static void Err(string text) { if (Silent) { Logger.Error("[err] " + text); return; } MessageBox.Show(text, Caption, MessageBoxButton.OK, MessageBoxImage.Error); }
+        // metinler Türkçe verilir; İngilizce arayüzde L.T ile çevrilir
+        public static void Msg(string text) { text = L.T(text); if (Silent) { Logger.Info("[msg] " + text); return; } if (TryToast(Level.Off, text)) return; MessageBox.Show(text, Caption, MessageBoxButton.OK, MessageBoxImage.Information); }
+        public static void Warn(string text) { text = L.T(text); if (Silent) { Logger.Warn("[warn] " + text); return; } if (TryToast(Level.Warn, text)) return; MessageBox.Show(text, Caption, MessageBoxButton.OK, MessageBoxImage.Warning); }
+        public static void Err(string text) { text = L.T(text); if (Silent) { Logger.Error("[err] " + text); return; } MessageBox.Show(text, Caption, MessageBoxButton.OK, MessageBoxImage.Error); }
         /// <summary>Başarılı işlem: yeşil bildirim.</summary>
-        public static void Done(string text) { if (Silent) { Logger.Info("[ok] " + text); return; } if (TryToast(Level.Ok, text)) return; MessageBox.Show(text, Caption, MessageBoxButton.OK, MessageBoxImage.Information); }
-        public static bool Confirm(string text) { if (Silent) { Logger.Info("[confirm->hayır] " + text); return false; } return MessageBox.Show(text, Caption, MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes; }
+        public static void Done(string text) { text = L.T(text); if (Silent) { Logger.Info("[ok] " + text); return; } if (TryToast(Level.Ok, text)) return; MessageBox.Show(text, Caption, MessageBoxButton.OK, MessageBoxImage.Information); }
+        public static bool Confirm(string text) => ConfirmRaw(L.T(text));
+        /// <summary>Çevrilmeden sorulur (ör. dil değişikliği sorusu yeni dilde yazılır).</summary>
+        public static bool ConfirmRaw(string text) { if (Silent) { Logger.Info("[confirm->hayır] " + text); return false; } return MessageBox.Show(text, Caption, MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes; }
 
         public static string LocalhostUrl()
         {
@@ -595,7 +603,7 @@ namespace DevNanotek
             var cfg = AppConfig.Current;
             var env = EnvPath.ToolEnv(cfg);
             if (string.IsNullOrEmpty(dir) || !Directory.Exists(dir)) dir = Paths.Root;
-            var banner = $"echo DEVNANOTEK terminali — PHP {cfg.PhpVersion}  Node {cfg.NodeVersion}  ({dir}) & echo Komutlar: php, composer, node, npm, mysql, mysqldump" +
+            var banner = "echo " + L.F("DEVNANOTEK terminali — PHP {0}  Node {1}  ({2})", cfg.PhpVersion, cfg.NodeVersion, dir) + " & echo " + L.T("Komutlar:") + " php, composer, node, npm, mysql, mysqldump" +
                          (PostgreSqlManager.IsActive(cfg) ? ", psql, pg_dump" : "") + ", mailpit, mkcert" + (string.IsNullOrEmpty(run) ? "" : " & " + run);
             var psi = new System.Diagnostics.ProcessStartInfo("cmd.exe", "/k " + banner) { UseShellExecute = false, WorkingDirectory = dir };
             foreach (var kv in env) psi.EnvironmentVariables[kv.Key] = kv.Value;

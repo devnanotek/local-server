@@ -77,9 +77,9 @@ namespace DevNanotek.Views
 
         public static string Tail(string path, int lines)
         {
-            if (!File.Exists(path)) return "(dosya henüz yok: " + path + ")";
+            if (!File.Exists(path)) return L.F("(dosya henüz yok: {0})", path);
             var text = Stack.TailFile(path, lines);
-            return string.IsNullOrWhiteSpace(text) ? "(boş)" : text;
+            return string.IsNullOrWhiteSpace(text) ? L.T("(boş)") : text;
         }
 
         private void Open_Click(object sender, RoutedEventArgs e)

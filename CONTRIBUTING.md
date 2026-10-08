@@ -32,7 +32,11 @@ Test kökünü değiştirmek için `DEVNANOTEK_HOME` ortam değişkenini kullan�
 - `site/`: GitHub Pages sitesi.
 
 ### Kurallar
-- Arayüz metinleri ve kod yorumları Türkçedir.
+- Arayüz metinleri kaynakta Türkçe yazılır, kod yorumları Türkçedir.
+- **İngilizce arayüz:** Program Türkçe metni ekranda gösterirken `Core/Lang/En.*.cs` sözlüğünden çevirir (`L.T`). Yeni bir metin eklediğinizde İngilizcesini ilgili sözlük dosyasına `"Türkçe", "English",` çifti olarak ekleyin. Değişken içeren metinler için `{0}`, `{1}` kalıpları kullanılır: `"PHP {0} kuruldu.", "PHP {0} installed.",`.
+  - Denetim: `dotnet run --project tools/i18n-check -- check src/DevNanotek tools/i18n-check/ignore.txt` — eksik çeviri varsa listeler; GitHub'daki derleme de bu denetimi yapar.
+  - Kullanıcı verisi gösteren alanlar (klasör adı, veritabanı adı) çevrilmemeli: XAML'de `local:Localizer.Skip="True"`.
+  - İngilizce kılavuz: `src/DevNanotek/Resources/Guide.html` (Türkçesi `Kilavuz.html`).
 - Windows'ta değişiklik yapan her şey (servis, hosts, PATH, güvenlik duvarı) kaldırma sırasında geri alınmalıdır (`Uninstaller.cs`).
 
 ## Sürüm yayınlama (bakımcılar)

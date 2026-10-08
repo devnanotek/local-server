@@ -93,13 +93,13 @@ namespace DevNanotek.Core
             {
                 switch (NativeArch)
                 {
-                    case "arm64": return "ARM64 (" + (IsWindows11 ? "x64" : "x86") + " bileşenleri)";
+                    case "arm64": return L.F("ARM64 ({0} bileşenleri)", IsWindows11 ? "x64" : "x86");
                     case "x86": return "32 bit";
                     default: return "64 bit";
                 }
             }
         }
 
-        public static string Summary => $"{WindowsName} · {ArchTitle} · derleme {Build}";
+        public static string Summary => L.F("{0} · {1} · derleme {2}", WindowsName, ArchTitle, Build);
     }
 }

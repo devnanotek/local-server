@@ -91,8 +91,8 @@ namespace DevNanotek.Views
             if (_report == null) return;
             var d = new Microsoft.Win32.SaveFileDialog
             {
-                FileName = "linux-uyumluluk-" + Path.GetFileName(_root.TrimEnd('\\')) + "-" + DateTime.Now.ToString("yyyyMMdd-HHmm") + ".txt",
-                Filter = "Metin dosyası (*.txt)|*.txt",
+                FileName = L.Pick("linux-uyumluluk-", "linux-compat-") + Path.GetFileName(_root.TrimEnd('\\')) + "-" + DateTime.Now.ToString("yyyyMMdd-HHmm") + ".txt",
+                Filter = L.T("Metin dosyası (*.txt)|*.txt"),
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)
             };
             if (d.ShowDialog(this) != true) return;

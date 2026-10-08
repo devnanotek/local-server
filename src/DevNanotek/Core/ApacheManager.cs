@@ -41,8 +41,8 @@ namespace DevNanotek.Core
             var docroot = Paths.Fwd(cfg.EffectiveDocRoot);
 
             Templates.EnsureFile(Paths.ApacheCustomConf,
-                "# DevNanotek — Apache için kendi eklemeleriniz. Bu dosya asla üzerine yazılmaz.\r\n" +
-                "# Örnek: Node/socket.io uygulamasını /app altında yayınla\r\n" +
+                L.Pick("# DevNanotek — Apache için kendi eklemeleriniz. Bu dosya asla üzerine yazılmaz.\r\n# Örnek: Node/socket.io uygulamasını /app altında yayınla\r\n",
+                       "# DevNanotek — your own Apache additions. This file is never overwritten.\r\n# Example: serve a Node/socket.io app under /app\r\n") +
                 "#   ProxyPass \"/app/\" \"http://127.0.0.1:3000/\"\r\n" +
                 "#   ProxyPassReverse \"/app/\" \"http://127.0.0.1:3000/\"\r\n" +
                 "#   ProxyPass \"/socket.io/\" \"ws://127.0.0.1:3000/socket.io/\"\r\n");

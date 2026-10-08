@@ -53,8 +53,9 @@ namespace DevNanotek.Core
             var engine = cfg.DbEngine; var v = cfg.DbVersion;
             if (!IsInstalled(engine, v)) throw new Exception(EngineTitle(engine) + " kurulu değil.");
             Templates.EnsureFile(CustomCnf,
-                "# DevNanotek — veritabanı için kendi eklemeleriniz ([mysqld] bölümüne eklenir). Bu dosya asla üzerine yazılmaz.\r\n" +
-                "# Örnek:\r\n# sql_mode=\"\"\r\n# innodb_buffer_pool_size=1G\r\n# lower_case_table_names=2\r\n");
+                L.Pick("# DevNanotek — veritabanı için kendi eklemeleriniz ([mysqld] bölümüne eklenir). Bu dosya asla üzerine yazılmaz.\r\n# Örnek:\r\n",
+                       "# DevNanotek — your own database settings (added to the [mysqld] section). This file is never overwritten.\r\n# Example:\r\n") +
+                "# sql_mode=\"\"\r\n# innodb_buffer_pool_size=1G\r\n# lower_case_table_names=2\r\n");
 
             var extra = new StringBuilder();
             if (engine == Comp.MySql)

@@ -61,13 +61,20 @@ namespace DevNanotek.Core
                 var desktop = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
                 var startMenu = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Programs), "DevNanotek");
                 Directory.CreateDirectory(startMenu);
-                CreateShortcut(Path.Combine(desktop, "DevNanotek.lnk"), target, "", "DevNanotek yerel sunucu yöneticisi");
-                CreateShortcut(Path.Combine(startMenu, "DevNanotek.lnk"), target, "", "DevNanotek yerel sunucu yöneticisi");
-                CreateShortcut(Path.Combine(startMenu, "httpdocs klasörü.lnk"), Paths.HttpDocs, "", "Projeleriniz");
-                var guide = Path.Combine(Paths.Docs, "Kilavuz.html");
-                if (File.Exists(guide)) CreateShortcut(Path.Combine(startMenu, "DevNanotek Kılavuzu.lnk"), guide, "", "Kullanım kılavuzu");
+                CreateShortcut(Path.Combine(desktop, "DevNanotek.lnk"), target, "", L.T("DevNanotek yerel sunucu yöneticisi"));
+                CreateShortcut(Path.Combine(startMenu, "DevNanotek.lnk"), target, "", L.T("DevNanotek yerel sunucu yöneticisi"));
+                LanguageShortcut(startMenu, "httpdocs klasörü.lnk", "httpdocs folder.lnk", Paths.HttpDocs, L.T("Projeleriniz"));
+                var guide = GuideFile;
+                if (File.Exists(guide)) LanguageShortcut(startMenu, "DevNanotek Kılavuzu.lnk", "DevNanotek Guide.lnk", guide, L.T("Kullanım kılavuzu"));
             }
             catch (Exception ex) { Logger.Warn("Kısayol oluşturulamadı: " + ex.Message); }
+        }
+
+        /// <summary>Adı arayüz diline göre değişen kısayol: diğer dildeki eski kısayol silinir.</summary>
+        private static void LanguageShortcut(string dir, string trName, string enName, string target, string description)
+        {
+            try { var old = Path.Combine(dir, L.Pick(enName, trName)); if (File.Exists(old)) File.Delete(old); } catch { }
+            CreateShortcut(Path.Combine(dir, L.Pick(trName, enName)), target, "", description);
         }
 
         private static void CreateShortcut(string lnk, string target, string args, string description)
@@ -105,13 +112,18 @@ namespace DevNanotek.Core
             catch (Exception ex) { Logger.Warn("Kısayollar silinemedi: " + ex.Message); }
         }
 
-        /// <summary>Gömülü kullanım kılavuzunu C:\devnanotek\docs\Kilavuz.html olarak yazar.</summary>
+        /// <summary>Arayüz dilindeki kılavuz: docs\Kilavuz.html (Türkçe) veya docs\Guide.html (İngilizce).</summary>
+        public static string GuideFile => Path.Combine(Paths.Docs, L.Pick("Kilavuz.html", "Guide.html"));
+
+        /// <summary>Gömülü kullanım kılavuzlarını (Türkçe ve İngilizce) docs klasörüne yazar; arayüz dilindekinin yolunu döndürür.</summary>
         public static string WriteGuide()
         {
-            var file = Path.Combine(Paths.Docs, "Kilavuz.html");
-            try { Templates.WriteIfChanged(file, Templates.Load("Kilavuz.html")); }
-            catch (Exception ex) { Logger.Warn("Kılavuz yazılamadı: " + ex.Message); }
-            return file;
+            foreach (var name in new[] { "Kilavuz.html", "Guide.html" })
+            {
+                try { Templates.WriteIfChanged(Path.Combine(Paths.Docs, name), Templates.Load(name)); }
+                catch (Exception ex) { Logger.Warn("Kılavuz yazılamadı: " + name + " — " + ex.Message); }
+            }
+            return GuideFile;
         }
 
         /// <summary>Linux sürümünü (devnanotek.sh + KURULUM.md) docs\linux klasörüne yazar. Satır sonları LF kalır.</summary>

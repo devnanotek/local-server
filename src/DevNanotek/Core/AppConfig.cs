@@ -58,6 +58,7 @@ namespace DevNanotek.Core
         public string DocumentRoot { get; set; } = "";        // boş => C:\devnanotek\httpdocs
         public bool SetupCompleted { get; set; } = false;
         public string Theme { get; set; } = "system";         // system | light | dark
+        public string Language { get; set; } = "";            // "" = cihazın dili (Türkçe ise Türkçe, değilse İngilizce) | tr | en
         public DateTime? CatalogUpdatedAt { get; set; }
         public List<string> PinnedProjects { get; set; } = new List<string>();
         public List<VhostEntry> Vhosts { get; set; } = new List<VhostEntry>();   // elle eklenen sanal hostlar
@@ -113,6 +114,7 @@ namespace DevNanotek.Core
             VhostTld = VhostTld.Trim().TrimStart('.').ToLowerInvariant();
             if (PinnedProjects == null) PinnedProjects = new List<string>();
             if (Theme != "light" && Theme != "dark") Theme = "system";
+            if (Language != L.Turkish && Language != L.English) Language = "";
             if (Vhosts == null) Vhosts = new List<VhostEntry>();
             Vhosts.RemoveAll(v => v == null || string.IsNullOrWhiteSpace(v.Host) || string.IsNullOrWhiteSpace(v.DocRoot));
             return this;

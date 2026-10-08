@@ -128,7 +128,7 @@ namespace DevNanotek.Core
         public static void SetDescription(string name, string description)
         {
             if (!Exists(name)) return;
-            ProcessRunner.Run("sc.exe", $"description \"{name}\" \"{description.Replace("\"", "'")}\"");
+            ProcessRunner.Run("sc.exe", $"description \"{name}\" \"{L.T(description).Replace("\"", "'")}\""); // services.msc'de arayüz dilinde
         }
 
         /// <summary>Servis çökerse otomatik yeniden başlat.</summary>

@@ -427,7 +427,8 @@
                         <Border BorderBrush="{DynamicResource Line}" BorderThickness="0,0,0,1">
                             <TabPanel IsItemsHost="True" Background="Transparent"/>
                         </Border>
-                        <ContentPresenter Grid.Row="1" ContentSource="SelectedContent" Margin="0,14,0,0"/>
+                        <!-- PART_SelectedContentHost: sekme içeriği ekran okuyuculara / UI Automation'a görünsün -->
+                        <ContentPresenter x:Name="PART_SelectedContentHost" Grid.Row="1" ContentSource="SelectedContent" Margin="0,14,0,0"/>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

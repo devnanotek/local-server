@@ -24,6 +24,17 @@
                     <StackPanel Margin="0,0,10,10">
                         <GroupBox>
                             <GroupBox.Header>
+                                <StackPanel Orientation="Horizontal"><TextBlock Text="Dil / Language"/><local:InfoTip Text="Program ilk açılışta Windows'un diline göre başlar: Windows Türkçe ise Türkçe, başka bir dildeyse İngilizce. Buradan istediğiniz zaman değiştirebilirsiniz; program kapanıp yeni dille yeniden açılır, servisler etkilenmez."/></StackPanel>
+                            </GroupBox.Header>
+                            <ComboBox x:Name="CbLanguage" Width="280" HorizontalAlignment="Left" SelectionChanged="Language_Changed">
+                                <ComboBoxItem x:Name="LangAuto" Tag=""/>
+                                <ComboBoxItem Tag="tr" Content="Türkçe"/>
+                                <ComboBoxItem Tag="en" Content="English"/>
+                            </ComboBox>
+                        </GroupBox>
+
+                        <GroupBox>
+                            <GroupBox.Header>
                                 <StackPanel Orientation="Horizontal"><TextBlock Text="Görünüm"/><local:InfoTip Text="Sistem: Windows'un açık/koyu ayarını izler. Sol alttaki tema düğmesiyle de hızlıca değiştirebilirsiniz."/></StackPanel>
                             </GroupBox.Header>
                             <StackPanel Orientation="Horizontal">
@@ -229,7 +240,7 @@
                                     <Button Style="{StaticResource IconBtn}" Content="&#xE72C;" ToolTip="Listeyi yenile" Click="ListDb_Click"/>
                                     <Button Style="{StaticResource Small}" Content="phpMyAdmin" Click="Pma_Click"/>
                                 </StackPanel>
-                                <TextBlock x:Name="DbList" FontFamily="{StaticResource FontMono}" FontSize="12.5" Foreground="{DynamicResource Muted}" Margin="0,10,0,0"/>
+                                <TextBlock x:Name="DbList" local:Localizer.Skip="True" FontFamily="{StaticResource FontMono}" FontSize="12.5" Foreground="{DynamicResource Muted}" Margin="0,10,0,0"/>
                             </StackPanel>
                         </GroupBox>
                         <GroupBox>
@@ -269,7 +280,7 @@
                                         <Button Style="{StaticResource IconBtn}" Content="&#xE72C;" ToolTip="Listeyi yenile" Click="PgListDb_Click"/>
                                         <Button Style="{StaticResource Small}" Content="Adminer" Click="PgAdminer_Click"/>
                                     </StackPanel>
-                                    <TextBlock x:Name="PgDbList" FontFamily="{StaticResource FontMono}" FontSize="12.5" Foreground="{DynamicResource Muted}" Margin="0,8,0,0"/>
+                                    <TextBlock x:Name="PgDbList" local:Localizer.Skip="True" FontFamily="{StaticResource FontMono}" FontSize="12.5" Foreground="{DynamicResource Muted}" Margin="0,8,0,0"/>
                                     <WrapPanel Margin="0,8,0,0">
                                         <Button Style="{StaticResource Small}" Content="Yedek al" Click="PgBackup_Click"/>
                                         <Button Style="{StaticResource Small}" Content="Yedekten geri yükle…" Click="PgRestore_Click"/>
@@ -325,7 +336,7 @@
                         </GroupBox>
                         <GroupBox Header="hosts dosyasındaki kayıtlar">
                             <StackPanel>
-                                <TextBlock x:Name="HostsList" FontFamily="{StaticResource FontMono}" FontSize="12.5" Foreground="{DynamicResource Muted}"/>
+                                <TextBlock x:Name="HostsList" local:Localizer.Skip="True" FontFamily="{StaticResource FontMono}" FontSize="12.5" Foreground="{DynamicResource Muted}"/>
                                 <Button Style="{StaticResource Small}" Content="hosts dosyasını aç" HorizontalAlignment="Left" Margin="0,10,0,0" Click="HostsOpen_Click"/>
                             </StackPanel>
                         </GroupBox>

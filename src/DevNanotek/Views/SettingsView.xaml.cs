@@ -89,6 +89,10 @@ namespace DevNanotek.Views
             var tm = ThemeManager.Mode;
             RbThemeSystem.IsChecked = tm == "system"; RbThemeLight.IsChecked = tm == "light"; RbThemeDark.IsChecked = tm == "dark";
             _loadingTheme = false;
+            _loadingLang = true;
+            LangAuto.Content = L.F("Cihazın dili — {0}", L.DeviceLanguage == L.Turkish ? "Türkçe" : "English");
+            CbLanguage.SelectedItem = CbLanguage.Items.OfType<ComboBoxItem>().FirstOrDefault(i => (i.Tag as string ?? "") == (c.Language ?? "")) ?? LangAuto;
+            _loadingLang = false;
             RefreshDefender();
 
             // PHP
@@ -112,7 +116,7 @@ namespace DevNanotek.Views
             // SSL
             RefreshSslInfo();
             var hosts = HostsFile.GetManagedHosts();
-            HostsList.Text = hosts.Count == 0 ? "(kayıt yok)" : string.Join("\r\n", hosts.Select(h => "127.0.0.1  " + h));
+            HostsList.Text = hosts.Count == 0 ? L.T("(kayıt yok)") : string.Join("\r\n", hosts.Select(h => "127.0.0.1  " + h));
 
             AboutText.Text = $"DEVNANOTEK Local Server v{App.Version} · MIT lisanslı açık kaynak · devnanotek.net\r\nKaynak kod: {AppInfo.RepoUrl}\r\n{SystemInfo.Summary}\r\nKök klasör: {Paths.Root}\r\nProgram: {Paths.ExePath}\r\nGünlük: {Paths.AppLog}";
 
@@ -198,7 +202,7 @@ namespace DevNanotek.Views
 
         private void BrowseDocRoot_Click(object sender, RoutedEventArgs e)
         {
-            using (var d = new System.Windows.Forms.FolderBrowserDialog { Description = "Belge kökü (localhost) klasörünü seçin", SelectedPath = Cfg.EffectiveDocRoot })
+            using (var d = new System.Windows.Forms.FolderBrowserDialog { Description = L.T("Belge kökü (localhost) klasörünü seçin"), SelectedPath = Cfg.EffectiveDocRoot })
                 if (d.ShowDialog() == System.Windows.Forms.DialogResult.OK) TbDocRoot.Text = d.SelectedPath;
         }
 
@@ -326,8 +330,8 @@ namespace DevNanotek.Views
         {
             var p = CustomConfPath;
             _confLoadedFor = p;
-            try { ConfText.Text = File.Exists(p) ? File.ReadAllText(p, Encoding.UTF8) : "# " + p + " (henüz oluşturulmadı — kaydedince oluşur)\r\n"; }
-            catch (Exception ex) { ConfText.Text = "# okunamadı: " + ex.Message; }
+            try { ConfText.Text = File.Exists(p) ? File.ReadAllText(p, Encoding.UTF8) : "# " + p + L.T(" (henüz oluşturulmadı — kaydedince oluşur)") + "\r\n"; }
+            catch (Exception ex) { ConfText.Text = "# " + L.F("okunamadı: {0}", ex.Message); }
         }
 
         private async void ConfSave_Click(object sender, RoutedEventArgs e)
@@ -399,9 +403,9 @@ namespace DevNanotek.Views
 
         private async void ListDb_Click(object sender, RoutedEventArgs e)
         {
-            if (!WindowsServices.IsRunning(WindowsServices.Db)) { DbList.Text = "(veritabanı çalışmıyor)"; return; }
+            if (!WindowsServices.IsRunning(WindowsServices.Db)) { DbList.Text = L.T("(veritabanı çalışmıyor)"); return; }
             var list = await Task.Run(() => DbManager.Databases(Cfg));
-            DbList.Text = list.Count == 0 ? "(bağlanılamadı)" : string.Join("   ", list);
+            DbList.Text = list.Count == 0 ? L.T("(bağlanılamadı)") : string.Join("   ", list);
         }
 
         private void Pma_Click(object sender, RoutedEventArgs e) => ProcessRunner.OpenUrl(UI.LocalhostUrl() + "phpmyadmin/");
@@ -417,7 +421,7 @@ namespace DevNanotek.Views
         private async void Restore_Click(object sender, RoutedEventArgs e)
         {
             if (!DbReady()) return;
-            var d = new Microsoft.Win32.OpenFileDialog { Filter = "SQL dosyası (*.sql)|*.sql|Tüm dosyalar|*.*", InitialDirectory = Paths.Backups };
+            var d = new Microsoft.Win32.OpenFileDialog { Filter = L.T("SQL dosyası (*.sql)|*.sql|Tüm dosyalar|*.*"), InitialDirectory = Paths.Backups };
             if (d.ShowDialog() != true) return;
             if (!UI.Confirm("Seçilen yedek geri yüklenecek. Aynı isimli veritabanlarındaki tablolar yedekteki haliyle DEĞİŞTİRİLİR. Devam?")) return;
             var ok = await Main.RunBusyAsync("Geri yükleniyor", async log => { await Task.Run(() => DbManager.Restore(Cfg, d.FileName, log)); });
@@ -464,9 +468,9 @@ namespace DevNanotek.Views
 
         private async void PgListDb_Click(object sender, RoutedEventArgs e)
         {
-            if (!PostgreSqlManager.IsActive(Cfg) || !WindowsServices.IsRunning(WindowsServices.PostgreSql)) { PgDbList.Text = "(PostgreSQL çalışmıyor)"; return; }
+            if (!PostgreSqlManager.IsActive(Cfg) || !WindowsServices.IsRunning(WindowsServices.PostgreSql)) { PgDbList.Text = L.T("(PostgreSQL çalışmıyor)"); return; }
             var list = await Task.Run(() => PostgreSqlManager.Databases(Cfg));
-            PgDbList.Text = list.Count == 0 ? "(bağlanılamadı)" : string.Join("   ", list);
+            PgDbList.Text = list.Count == 0 ? L.T("(bağlanılamadı)") : string.Join("   ", list);
         }
 
         private void PgAdminer_Click(object sender, RoutedEventArgs e)
@@ -486,7 +490,7 @@ namespace DevNanotek.Views
         private async void PgRestore_Click(object sender, RoutedEventArgs e)
         {
             if (!PgReady()) return;
-            var d = new Microsoft.Win32.OpenFileDialog { Filter = "SQL dosyası (*.sql)|*.sql|Tüm dosyalar|*.*", InitialDirectory = Paths.Backups };
+            var d = new Microsoft.Win32.OpenFileDialog { Filter = L.T("SQL dosyası (*.sql)|*.sql|Tüm dosyalar|*.*"), InitialDirectory = Paths.Backups };
             if (d.ShowDialog() != true) return;
             if (!UI.Confirm("Seçilen yedek PostgreSQL'e geri yüklenecek. Yedekteki veritabanları silinip yedekteki haliyle yeniden oluşturulur. Devam?")) return;
             var ok = await Main.RunBusyAsync("PostgreSQL geri yükleniyor", async log => { await Task.Run(() => PostgreSqlManager.Restore(Cfg, d.FileName, log)); });
@@ -585,6 +589,43 @@ namespace DevNanotek.Views
             ThemeManager.SetMode(mode);
         }
 
+        // ---- dil ----
+        private bool _loadingLang;
+        private void Language_Changed(object sender, SelectionChangedEventArgs e)
+        {
+            if (_loadingLang || !IsLoaded) return;
+            var setting = (CbLanguage.SelectedItem as ComboBoxItem)?.Tag as string ?? "";
+            var cfg = AppConfig.Current;
+            if (setting == (cfg.Language ?? "")) return;
+            if (L.Resolve(setting) == L.Code)
+            {
+                // görünen dil değişmiyor (ör. "cihazın dili" → aynı dil): yalnız kaydet
+                cfg.Language = setting; cfg.Save();
+                return;
+            }
+            // soru, seçim olayı bittikten sonra (açılır liste kapanınca) ve yeni dilde sorulur
+            Dispatcher.BeginInvoke(new Action(() => AskLanguage(setting)), System.Windows.Threading.DispatcherPriority.Background);
+        }
+
+        private void AskLanguage(string setting)
+        {
+            var cfg = AppConfig.Current;
+            var en = L.Resolve(setting) == L.English;
+            var msg = en
+                ? "DEVNANOTEK will close and reopen in English.\n\nYour services and projects are not affected. Continue?"
+                : "DEVNANOTEK kapanıp Türkçe olarak yeniden açılacak.\n\nServisleriniz ve projeleriniz etkilenmez. Devam edilsin mi?";
+            if (!UI.ConfirmRaw(msg))
+            {
+                _loadingLang = true;
+                CbLanguage.SelectedItem = CbLanguage.Items.OfType<ComboBoxItem>().FirstOrDefault(i => (i.Tag as string ?? "") == (cfg.Language ?? "")) ?? LangAuto;
+                _loadingLang = false;
+                return;
+            }
+            cfg.Language = setting; cfg.Save();
+            Logger.Info("Arayüz dili değişti: " + (setting == "" ? "cihazın dili" : setting));
+            Main.RestartForLanguage("settings");
+        }
+
         // ---- Defender istisnası (isteğe bağlı hızlandırma) ----
         private bool _defenderOn;
         private async void RefreshDefender()
@@ -636,7 +677,7 @@ namespace DevNanotek.Views
                 var sb = new StringBuilder();
                 var ports = new List<Tuple<string, int>>
                 {
-                    Tuple.Create("HTTP", c.HttpPort), Tuple.Create("HTTPS", c.HttpsPort), Tuple.Create("Veritabanı", c.DbPort),
+                    Tuple.Create("HTTP", c.HttpPort), Tuple.Create("HTTPS", c.HttpsPort), Tuple.Create(L.T("Veritabanı"), c.DbPort),
                     Tuple.Create("SMTP", c.SmtpPort), Tuple.Create("Mailpit", c.MailpitUiPort)
                 };
                 if (PostgreSqlManager.IsActive(c)) ports.Add(Tuple.Create("PostgreSQL", c.PgPort));
@@ -644,11 +685,11 @@ namespace DevNanotek.Views
                 foreach (var p in ports)
                 {
                     var o = PortUtil.WhoListens(p.Item2);
-                    sb.AppendLine($"{p.Item1,-12} {p.Item2,-6} {(o == null ? "boş" : o.ProcessName + " (PID " + o.Pid + ")" + (o.ProcessPath != null ? "  " + o.ProcessPath : ""))}");
+                    sb.AppendLine($"{p.Item1,-12} {p.Item2,-6} {(o == null ? L.Pick("boş", "free") : o.ProcessName + " (PID " + o.Pid + ")" + (o.ProcessPath != null ? "  " + o.ProcessPath : ""))}");
                 }
                 var conflicts = PortUtil.Conflicts(c, new[] { "httpd", "nginx", "mysqld", "mariadbd", "postgres", "mailpit", "php-cgi", "DevNanotek", "DevNanotek-fcgi" });
-                if (conflicts.Count > 0) { sb.AppendLine(); sb.AppendLine("ÇAKIŞMALAR:"); foreach (var m in conflicts) sb.AppendLine("• " + m); }
-                else { sb.AppendLine(); sb.AppendLine("Çakışma yok."); }
+                if (conflicts.Count > 0) { sb.AppendLine(); sb.AppendLine(L.T("ÇAKIŞMALAR:")); foreach (var m in conflicts) sb.AppendLine("• " + L.T(m)); }
+                else { sb.AppendLine(); sb.AppendLine(L.T("Çakışma yok.")); }
                 return sb.ToString();
             });
             UI.Msg(text);

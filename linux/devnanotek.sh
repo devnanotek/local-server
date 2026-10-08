@@ -15,7 +15,7 @@
 # =============================================================================
 set -o pipefail
 
-DN_VERSION="1.2.0"
+DN_VERSION="1.3.0"
 DN_ROOT="${DN_ROOT:-/opt/devnanotek}"
 DN_DOCS="$DN_ROOT/httpdocs"
 DN_ETC="$DN_ROOT/etc"
@@ -944,6 +944,33 @@ $isWin    = DIRECTORY_SEPARATOR === '\\';
 $hasPma     = is_dir("$dnRoot/bin/phpmyadmin") || is_dir("$dnRoot/phpmyadmin");
 $hasAdminer = is_dir("$dnRoot/bin/adminer") || is_dir("$dnRoot/adminer");
 
+// ---- dil: DEVNANOTEK'in arayüz dili (etc/language), yoksa tarayıcının dili ----
+$lang = strtolower(trim((string)@file_get_contents("$dnRoot/etc/language")));
+if ($lang !== 'tr' && $lang !== 'en') $lang = stripos($_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? '', 'tr') === 0 ? 'tr' : 'en';
+$EN = [
+    'PHP mysqli eklentisi kapalı' => 'The PHP mysqli extension is off',
+    'Veritabanı çalışmıyor — DEVNANOTEK\'ten başlatın' => 'The database isn\'t running — start it from DEVNANOTEK',
+    'Çalışıyor · root şifresi tanımlı (phpMyAdmin\'de girin)' => 'Running · a root password is set (enter it in phpMyAdmin)',
+    'Bağlanılamadı' => 'Couldn\'t connect',
+    'Çalışıyor · bağlanılamadı' => 'Running · couldn\'t connect',
+    'Çalışıyor · PHP pgsql eklentisi kapalı' => 'Running · the PHP pgsql extension is off',
+    '%d eklenti' => '%d extensions',
+    'Web sunucu' => 'Web server',
+    'Çalışıyor' => 'Running',
+    'root kullanıcısı · şifresiz' => 'user root · no password',
+    'postgres kullanıcısı · şifresiz' => 'user postgres · no password',
+    'Test e-posta · Mailpit' => 'Test email · Mailpit',
+    'Giden e-postalar burada toplanır' => 'Outgoing emails are collected here',
+    'Mailpit çalışmıyor' => 'Mailpit isn\'t running',
+    'Gelen kutusu' => 'Inbox',
+    'Projeler' => 'Projects',
+    'Henüz proje yok.' => 'No projects yet.',
+    'Belge kökünün içine bir klasör ekleyin:' => 'Add a folder inside the document root:',
+    '+%d daha' => '+%d more',
+    'Yüklü eklentiler (%d)' => 'Loaded extensions (%d)',
+];
+$t = fn(string $s): string => $lang === 'en' ? ($EN[$s] ?? $s) : $s;
+
 function dn_port_open(int $port): bool {
     $s = @fsockopen('127.0.0.1', $port, $no, $str, 0.3);
     if ($s) { fclose($s); return true; }
@@ -953,15 +980,15 @@ function dn_port_open(int $port): bool {
 // ---- MariaDB / MySQL ----
 $db = ['ok' => false, 'ver' => '', 'msg' => ''];
 if (!function_exists('mysqli_connect')) {
-    $db['msg'] = 'PHP mysqli eklentisi kapalı';
+    $db['msg'] = $t('PHP mysqli eklentisi kapalı');
 } elseif (!dn_port_open($dbPort)) {
-    $db['msg'] = 'Veritabanı çalışmıyor — DEVNANOTEK\'ten başlatın';
+    $db['msg'] = $t('Veritabanı çalışmıyor — DEVNANOTEK\'ten başlatın');
 } else {
     mysqli_report(MYSQLI_REPORT_OFF);
     $c = @mysqli_connect('127.0.0.1', 'root', '', '', $dbPort);
     if ($c) { $db['ok'] = true; $db['ver'] = mysqli_get_server_info($c); mysqli_close($c); }
-    elseif (mysqli_connect_errno() === 1045) { $db['msg'] = 'Çalışıyor · root şifresi tanımlı (phpMyAdmin\'de girin)'; $db['ok'] = null; }
-    else { $db['msg'] = mysqli_connect_error() ?: 'Bağlanılamadı'; }
+    elseif (mysqli_connect_errno() === 1045) { $db['msg'] = $t('Çalışıyor · root şifresi tanımlı (phpMyAdmin\'de girin)'); $db['ok'] = null; }
+    else { $db['msg'] = mysqli_connect_error() ?: $t('Bağlanılamadı'); }
 }
 
 // ---- PostgreSQL (isteğe bağlı: yalnız port açıksa gösterilir) ----
@@ -971,8 +998,8 @@ if (dn_port_open($pgPort)) {
     if (function_exists('pg_connect')) {
         $pc = @pg_connect('host=127.0.0.1 port=' . $pgPort . ' user=postgres dbname=postgres connect_timeout=2');
         if ($pc) { $pg['ok'] = true; $pg['ver'] = pg_parameter_status($pc, 'server_version') ?: ''; pg_close($pc); }
-        else { $pg['msg'] = 'Çalışıyor · bağlanılamadı'; }
-    } else { $pg['msg'] = 'Çalışıyor · PHP pgsql eklentisi kapalı'; }
+        else { $pg['msg'] = $t('Çalışıyor · bağlanılamadı'); }
+    } else { $pg['msg'] = $t('Çalışıyor · PHP pgsql eklentisi kapalı'); }
 }
 $mailUp = dn_port_open($smtpPort);
 
@@ -996,7 +1023,7 @@ $ext = get_loaded_extensions(); sort($ext, SORT_FLAG_CASE | SORT_STRING);
 $h = fn($s) => htmlspecialchars((string)$s, ENT_QUOTES, 'UTF-8');
 ?>
 <!doctype html>
-<html lang="tr">
+<html lang="<?= $lang ?>">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -1062,18 +1089,18 @@ $h = fn($s) => htmlspecialchars((string)$s, ENT_QUOTES, 'UTF-8');
     <div class="card">
       <div class="label">PHP</div>
       <div class="val"><?= PHP_VERSION ?></div>
-      <div class="note"><?= $h(PHP_SAPI) ?> · <?= count($ext) ?> eklenti</div>
+      <div class="note"><?= $h(PHP_SAPI) ?> · <?= $h(sprintf($t('%d eklenti'), count($ext))) ?></div>
       <div class="links"><a class="btn" href="/?phpinfo=1">phpinfo()</a></div>
     </div>
     <div class="card">
-      <div class="label">Web sunucu</div>
-      <div class="val"><span class="dot ok"></span><?= $h(explode(' ', $_SERVER['SERVER_SOFTWARE'] ?? 'Web sunucu')[0]) ?></div>
+      <div class="label"><?= $h($t('Web sunucu')) ?></div>
+      <div class="val"><span class="dot ok"></span><?= $h(explode(' ', $_SERVER['SERVER_SOFTWARE'] ?? $t('Web sunucu'))[0]) ?></div>
       <div class="note"><?= $h($host) ?> · <?= $https ? 'HTTPS' : 'HTTP' ?></div>
     </div>
     <div class="card">
       <div class="label">MariaDB / MySQL · port <?= $dbPort ?></div>
-      <div class="val"><span class="dot <?= $db['ok'] ? 'ok' : ($db['ok'] === null ? 'warn' : '') ?>"></span><?= $db['ok'] ? $h($db['ver']) : ($db['ok'] === null ? 'Çalışıyor' : 'Bağlanılamadı') ?></div>
-      <div class="note"><?= $db['ok'] ? 'root kullanıcısı · şifresiz' : $h($db['msg']) ?></div>
+      <div class="val"><span class="dot <?= $db['ok'] ? 'ok' : ($db['ok'] === null ? 'warn' : '') ?>"></span><?= $db['ok'] ? $h($db['ver']) : ($db['ok'] === null ? $h($t('Çalışıyor')) : $h($t('Bağlanılamadı'))) ?></div>
+      <div class="note"><?= $db['ok'] ? $h($t('root kullanıcısı · şifresiz')) : $h($db['msg']) ?></div>
       <div class="links">
         <?php if ($hasPma): ?><a class="btn" href="/phpmyadmin/">phpMyAdmin</a><?php endif; ?>
         <?php if ($hasAdminer): ?><a class="btn" href="/adminer/go.php?db=mysql">Adminer</a><?php endif; ?>
@@ -1082,22 +1109,22 @@ $h = fn($s) => htmlspecialchars((string)$s, ENT_QUOTES, 'UTF-8');
     <?php if ($pg !== null): ?>
     <div class="card">
       <div class="label">PostgreSQL · port <?= $pgPort ?></div>
-      <div class="val"><span class="dot <?= $pg['ok'] ? 'ok' : 'warn' ?>"></span><?= $pg['ok'] ? $h($pg['ver']) : 'Çalışıyor' ?></div>
-      <div class="note"><?= $pg['ok'] ? 'postgres kullanıcısı · şifresiz' : $h($pg['msg']) ?></div>
+      <div class="val"><span class="dot <?= $pg['ok'] ? 'ok' : 'warn' ?>"></span><?= $pg['ok'] ? $h($pg['ver']) : $h($t('Çalışıyor')) ?></div>
+      <div class="note"><?= $pg['ok'] ? $h($t('postgres kullanıcısı · şifresiz')) : $h($pg['msg']) ?></div>
       <?php if ($hasAdminer): ?><div class="links"><a class="btn" href="/adminer/go.php?db=pgsql">Adminer</a></div><?php endif; ?>
     </div>
     <?php endif; ?>
     <div class="card">
-      <div class="label">Test e-posta · Mailpit</div>
+      <div class="label"><?= $h($t('Test e-posta · Mailpit')) ?></div>
       <div class="val"><span class="dot <?= $mailUp ? 'ok' : 'warn' ?>"></span>SMTP 127.0.0.1:<?= $smtpPort ?></div>
-      <div class="note"><?= $mailUp ? 'Giden e-postalar burada toplanır' : 'Mailpit çalışmıyor' ?></div>
-      <div class="links"><a class="btn" href="http://<?= $h($hostOnly) ?>:<?= $mailPort ?>/" target="_blank" rel="noopener">Gelen kutusu</a></div>
+      <div class="note"><?= $h($mailUp ? $t('Giden e-postalar burada toplanır') : $t('Mailpit çalışmıyor')) ?></div>
+      <div class="links"><a class="btn" href="http://<?= $h($hostOnly) ?>:<?= $mailPort ?>/" target="_blank" rel="noopener"><?= $h($t('Gelen kutusu')) ?></a></div>
     </div>
   </div>
 
-  <h2>Projeler <code><?= $h($root) ?></code></h2>
+  <h2><?= $h($t('Projeler')) ?> <code><?= $h($root) ?></code></h2>
   <?php if (!$projects): ?>
-    <div class="empty">Henüz proje yok.<br>Belge kökünün içine bir klasör ekleyin: <code>GITHUB/proje1</code> → <a href="/GITHUB/proje1/">localhost/GITHUB/proje1</a></div>
+    <div class="empty"><?= $h($t('Henüz proje yok.')) ?><br><?= $h($t('Belge kökünün içine bir klasör ekleyin:')) ?> <code>GITHUB/proje1</code> → <a href="/GITHUB/proje1/">localhost/GITHUB/proje1</a></div>
   <?php else: ?>
   <div class="grid">
     <?php foreach ($projects as $p): $abs = "$root/$p"; $subs = dn_dirs($abs); ?>
@@ -1108,7 +1135,7 @@ $h = fn($s) => htmlspecialchars((string)$s, ENT_QUOTES, 'UTF-8');
           <?php foreach (array_slice($subs, 0, 24) as $s): ?>
             <a href="<?= $h(dn_link("$p/$s", "$abs/$s")) ?>"><?= $h($s) ?></a>
           <?php endforeach; ?>
-          <?php if (count($subs) > 24): ?><span class="note">+<?= count($subs) - 24 ?> daha</span><?php endif; ?>
+          <?php if (count($subs) > 24): ?><span class="note"><?= $h(sprintf($t('+%d daha'), count($subs) - 24)) ?></span><?php endif; ?>
         </div>
         <?php endif; ?>
       </div>
@@ -1118,7 +1145,7 @@ $h = fn($s) => htmlspecialchars((string)$s, ENT_QUOTES, 'UTF-8');
 
   <h2>PHP</h2>
   <details class="card">
-    <summary>Yüklü eklentiler (<?= count($ext) ?>)</summary>
+    <summary><?= $h(sprintf($t('Yüklü eklentiler (%d)'), count($ext))) ?></summary>
     <div class="ext"><?= $h(implode(' · ', $ext)) ?></div>
   </details>
 

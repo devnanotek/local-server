@@ -10,10 +10,11 @@ namespace DevNanotek.Core
         private static readonly object Lock = new object();
         public static event Action<string> Message;
 
-        public static void Info(string msg) => Write("BILGI", msg);
-        public static void Warn(string msg) => Write("UYARI", msg);
-        public static void Error(string msg) => Write("HATA ", msg);
-        public static void Error(string msg, Exception ex) => Write("HATA ", msg + " :: " + ex.GetType().Name + ": " + ex.Message);
+        // günlük, arayüz diliyle yazılır (İngilizce arayüzde iletiler L.T ile çevrilir)
+        public static void Info(string msg) => Write(L.Pick("BILGI", "INFO "), L.T(msg));
+        public static void Warn(string msg) => Write(L.Pick("UYARI", "WARN "), L.T(msg));
+        public static void Error(string msg) => Write(L.Pick("HATA ", "ERROR"), L.T(msg));
+        public static void Error(string msg, Exception ex) => Write(L.Pick("HATA ", "ERROR"), L.T(msg) + " :: " + ex.GetType().Name + ": " + L.T(ex.Message));
 
         private static void Write(string level, string msg)
         {

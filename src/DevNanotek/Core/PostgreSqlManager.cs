@@ -52,8 +52,9 @@ namespace DevNanotek.Core
             Directory.CreateDirectory(Paths.EtcPostgreSql);
             Directory.CreateDirectory(Paths.LogsPostgreSql);
             Templates.EnsureFile(CustomConf,
-                "# DEVNANOTEK - PostgreSQL icin kendi ayarlariniz (postgresql.conf bicimi). Bu dosya asla uzerine yazilmaz.\r\n" +
-                "# Ornek:\r\n# shared_buffers = 512MB\r\n# work_mem = 16MB\r\n# max_connections = 200\r\n");
+                L.Pick("# DEVNANOTEK - PostgreSQL icin kendi ayarlariniz (postgresql.conf bicimi). Bu dosya asla uzerine yazilmaz.\r\n# Ornek:\r\n",
+                       "# DEVNANOTEK - your own PostgreSQL settings (postgresql.conf format). This file is never overwritten.\r\n# Example:\r\n") +
+                "# shared_buffers = 512MB\r\n# work_mem = 16MB\r\n# max_connections = 200\r\n");
             var sb = new StringBuilder();
             sb.AppendLine("# DEVNANOTEK - PostgreSQL ayarlari. BU DOSYA OTOMATIK URETILIR; kendi ayarlariniz icin custom.conf");
             sb.AppendLine($"port = {cfg.PgPort}");

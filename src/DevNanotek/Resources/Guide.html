@@ -1,0 +1,535 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DEVNANOTEK Guide</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23232425'/%3E%3Cpath d='M16 14h17c11 0 18 7 18 18S44 50 33 50H16V14zm10 9v18h6c6 0 9-3 9-9s-3-9-9-9h-6z' fill='%23FAA41A'/%3E%3C/svg%3E">
+<style>
+  /* DEVNANOTEK palette (devnanotek.net) — light / dark */
+  :root{--bg:#FAF9F7;--card:#FFFFFF;--line:#E7E1D5;--txt:#232425;--muted:#6E675B;--acc:#9A6400;--gold:#FAA41A;--code:#F4F1EB;--warn:#FFF4DE;--warnline:#F5A524;--ok:#E3F5EC;--okline:#22B573}
+  @media (prefers-color-scheme: dark){:root{--bg:#1B1C1D;--card:#232425;--line:#333436;--txt:#F2EFE8;--muted:#A49B8C;--acc:#FFB43A;--code:#2A2B2D;--warn:#3A2E14;--warnline:#F5A524;--ok:#143024;--okline:#22B573}}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--txt);font:16px/1.65 "Segoe UI",system-ui,-apple-system,Roboto,sans-serif}
+  .wrap{max-width:980px;margin:0 auto;padding:32px 20px 80px}
+  header{display:flex;gap:16px;align-items:center;margin-bottom:28px}
+  .logo{width:56px;height:56px;flex:none;display:block}
+  .brand{margin:0 0 6px;display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap;font-size:16px;font-weight:600}
+  .wordmark{height:30px;width:auto;display:block}
+  .wordmark .n{fill:var(--txt)}
+  h2{margin:44px 0 12px;font-size:22px;padding-top:8px;border-top:1px solid var(--line)}
+  h3{margin:24px 0 8px;font-size:17px}
+  p{margin:8px 0}
+  a{color:var(--acc)}
+  code{background:var(--code);border:1px solid var(--line);border-radius:6px;padding:1px 6px;font:13.5px Consolas,"Cascadia Mono",monospace}
+  pre{background:var(--code);border:1px solid var(--line);border-radius:10px;padding:14px 16px;overflow:auto;font:13.5px/1.5 Consolas,"Cascadia Mono",monospace}
+  pre code{background:none;border:0;padding:0}
+  td,th,p,li{overflow-wrap:anywhere}
+  td code,p code,li code{word-break:break-word}
+  table{border-collapse:collapse;width:100%;margin:10px 0;font-size:15px}
+  th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+  th{background:var(--code)}
+  .muted{color:var(--muted)}
+  .note{background:var(--warn);border-left:4px solid var(--warnline);padding:10px 14px;border-radius:8px;margin:12px 0}
+  .tip{background:var(--ok);border-left:4px solid var(--okline);padding:10px 14px;border-radius:8px;margin:12px 0}
+  nav{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 18px;columns:2;column-gap:28px}
+  nav a{display:block;text-decoration:none;padding:2px 0}
+  .steps{counter-reset:s;list-style:none;padding:0}
+  .steps li{counter-increment:s;position:relative;padding:6px 0 6px 42px}
+  .steps li::before{content:counter(s);position:absolute;left:0;top:6px;width:28px;height:28px;border-radius:50%;background:var(--gold);color:#232425;display:grid;place-items:center;font-weight:700;font-size:14px}
+  .dot{display:inline-block;width:10px;height:10px;border-radius:50%;vertical-align:middle;margin-right:4px}
+  @media (max-width:640px){nav{columns:1}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <svg class="logo" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="16" fill="#232425"/><path d="M16 14h17c11 0 18 7 18 18S44 50 33 50H16V14zm10 9v18h6c6 0 9-3 9-9s-3-9-9-9h-6z" fill="#FAA41A"/></svg>
+  <div>
+    <h1 class="brand">
+      <svg class="wordmark" viewBox="4 24 426 72" role="img" aria-label="DEVNANOTEK">
+        <path fill="#FAA41A" d="M15.1,35L15.1,85 20.7,85C22.5,85 23.9,84.5 24.9,83.4 25.8,82.3 26.3,80.6 26.3,78.2L26.3,41.8C26.3,39.4 25.8,37.7 24.9,36.6 23.9,35.5 22.5,35 20.7,35L15.1,35z M4.1,25L20.9,25C26.4,25 30.5,26.5 33.2,29.4 35.9,32.3 37.3,36.6 37.3,42.3L37.3,77.7C37.3,83.4 35.9,87.7 33.2,90.6 30.5,93.5 26.4,95 20.9,95L4.1,95 4.1,25z M48.7,25L78.7,25 78.7,35 59.7,35 59.7,53.5 74.8,53.5 74.8,63.5 59.7,63.5 59.7,85 78.7,85 78.7,95 48.7,95 48.7,25z M86.1,25L97.2,25 104.4,79.3 104.6,79.3 111.8,25 121.9,25 111.3,95 96.7,95 86.1,25z"/>
+        <path class="n" d="M131.2,25L145,25 155.7,66.9 155.9,66.9 155.9,25 165.7,25 165.7,95 154.4,95 141.2,43.9 141,43.9 141,95 131.2,95 131.2,25z M193.3,37.2L188.5,71.8 198.4,71.8 193.5,37.2 193.3,37.2z M186.4,25L201.3,25 212.7,95 201.7,95 199.7,81.1 199.7,81.3 187.2,81.3 185.2,95 175,95 186.4,25z M222,25L235.8,25 246.5,66.9 246.7,66.9 246.7,25 256.5,25 256.5,95 245.2,95 232,43.9 231.8,43.9 231.8,95 222,95 222,25z M284.6,34C280.8,34,278.9,36.3,278.9,40.9L278.9,79.1C278.9,83.7 280.8,86 284.6,86 288.4,86 290.3,83.7 290.3,79.1L290.3,40.9C290.3,36.3,288.4,34,284.6,34z M284.6,24C290,24 294.1,25.5 297,28.6 299.9,31.7 301.3,36 301.3,41.6L301.3,78.4C301.3,84 299.9,88.3 297,91.4 294.1,94.5 290,96 284.6,96 279.2,96 275.1,94.5 272.2,91.4 269.3,88.3 267.9,84 267.9,78.4L267.9,41.6C267.9,36 269.3,31.7 272.2,28.6 275.1,25.5 279.2,24 284.6,24z M309.8,25L343.8,25 343.8,35 332.3,35 332.3,95 321.3,95 321.3,35 309.8,35 309.8,25z M353.1,25L383.1,25 383.1,35 364.1,35 364.1,53.5 379.2,53.5 379.2,63.5 364.1,63.5 364.1,85 383.1,85 383.1,95 353.1,95 353.1,25z M393.4,25L404.4,25 404.4,54.5 418.4,25 429.4,25 416.3,50.7 429.6,95 418.1,95 408.8,63.8 404.4,72.7 404.4,95 393.4,95 393.4,25z"/>
+      </svg>
+      <span>User Guide</span>
+    </h1>
+    <div class="muted">A local PHP · MariaDB/MySQL · PostgreSQL · Apache/Nginx · Node.js development server for Windows and Linux — free · <a href="https://devnanotek.net">devnanotek.net</a></div>
+  </div>
+</header>
+
+<nav>
+  <a href="#what">1. What is DEVNANOTEK?</a>
+  <a href="#setup">2. First-time setup</a>
+  <a href="#ui">3. Interface, language, light / dark mode</a>
+  <a href="#folders">4. Folder layout</a>
+  <a href="#projects">5. Projects and addresses</a>
+  <a href="#db">6. Databases (phpMyAdmin, Navicat)</a>
+  <a href="#php">7. PHP version, php.ini, extensions</a>
+  <a href="#web">8. Apache / Nginx and custom rules</a>
+  <a href="#ssl">9. HTTPS and domains (project.test)</a>
+  <a href="#mail">10. Test email (Mailpit)</a>
+  <a href="#node">11. Node.js and socket.io</a>
+  <a href="#versions">12. New versions and updates</a>
+  <a href="#service">13. Run mode, startup and shutdown</a>
+  <a href="#repair">14. Repair and reset</a>
+  <a href="#security">15. Security and local network access</a>
+  <a href="#speed">16. Speed: why is phpMyAdmin slow the first time?</a>
+  <a href="#other">17. Other computers, 32 / 64-bit</a>
+  <a href="#hosting">18. Moving to hosting</a>
+  <a href="#trouble">19. Troubleshooting</a>
+  <a href="#cli">20. Command line</a>
+  <a href="#uninstall">21. Uninstalling (Control Panel)</a>
+  <a href="#tray">22. The icon next to the clock</a>
+  <a href="#linux">23. Linux version</a>
+</nav>
+
+<h2 id="what">1. What is DEVNANOTEK?</h2>
+<p>DEVNANOTEK is a free local server manager, similar to XAMPP and Laragon. It isn't tied to a closed bundle; it downloads every component from its official source:</p>
+<table>
+  <tr><th>Component</th><th>Source</th><th>What it does</th></tr>
+  <tr><td>PHP (7.4 – 8.5)</td><td>windows.php.net</td><td>Install several versions and switch with one click.</td></tr>
+  <tr><td>Apache 2.4</td><td>apachelounge.com</td><td>Web server with .htaccess support (works like cPanel/Plesk).</td></tr>
+  <tr><td>Nginx</td><td>nginx.org</td><td>Optional, lighter web server.</td></tr>
+  <tr><td>MariaDB / MySQL</td><td>mariadb.org / mysql.com</td><td>Database with a version of your choice.</td></tr>
+  <tr><td>PostgreSQL (optional)</td><td>postgresql.org (EDB packages)</td><td>A second database that runs alongside MariaDB/MySQL.</td></tr>
+  <tr><td>SQLite</td><td>built into PHP</td><td>File-based database; nothing to install.</td></tr>
+  <tr><td>SQL Server driver (optional)</td><td>Microsoft</td><td>Lets PHP connect to SQL Server.</td></tr>
+  <tr><td>phpMyAdmin</td><td>phpmyadmin.net</td><td><code>http://localhost/phpmyadmin</code></td></tr>
+  <tr><td>Adminer</td><td>adminer.org</td><td>Single-page manager for all databases: <code>http://localhost/adminer</code></td></tr>
+  <tr><td>Mailpit</td><td>github.com/axllent/mailpit</td><td>Test mailbox that catches outgoing emails.</td></tr>
+  <tr><td>mkcert</td><td>github.com/FiloSottile/mkcert</td><td>Local HTTPS certificate that your browser trusts.</td></tr>
+  <tr><td>Node.js, Composer</td><td>nodejs.org, getcomposer.org</td><td>Ready to use in the terminal.</td></tr>
+</table>
+<p>The key difference: Apache/Nginx, the database and Mailpit run as <b>real Windows services</b>. Your sites work even when the app window is closed. When the computer shuts down, Windows stops the services cleanly, and if a service crashes, Windows restarts it automatically.</p>
+
+<h2 id="setup">2. First-time setup</h2>
+<ol class="steps">
+  <li>Double-click <code>DevNanotek.exe</code>. The app asks for administrator permission; it needs it to install services and edit the hosts file.</li>
+  <li>The app copies itself to <code>C:\devnanotek\app</code> and adds shortcuts to the Desktop and the Start menu. Use those shortcuts from now on; you can delete the exe you downloaded.</li>
+  <li>The <b>Setup wizard</b> opens. The top shows your Windows version and architecture (64-bit / 32-bit / ARM64); the right files are chosen automatically. Choose the PHP version, the web server (Apache is recommended), the database, the tools and the run mode, then click <b>Install and start</b>. You can switch the language in the top right corner of the wizard.</li>
+  <li>The components are downloaded and installed (about 200 MB). When it's done, click <b>Open localhost</b> to open <a href="http://localhost/">http://localhost</a>.</li>
+</ol>
+<div class="tip">If you skipped the wizard, you can reopen it at any time with <b>Versions → Setup wizard</b>.</div>
+<div class="note">If XAMPP, Laragon or WAMP is running, close it first. They use the same ports (80, 443, 3306). The wizard warns you if it finds a conflict.</div>
+<div class="note"><b>Smart App Control:</b> when this Windows 11 feature is on, it blocks unsigned or newly released programs — including Apache's DLLs, Mailpit, Nginx and DevNanotek.exe itself. It's the most common reason XAMPP and Laragon "break on their own". DEVNANOTEK detects it and shows a warning on the Overview page. See section 19 for details.</div>
+
+<h2 id="ui">3. Interface, language, light / dark mode</h2>
+<p>The left menu has six pages: <b>Overview</b>, <b>Projects</b>, <b>Versions</b>, <b>Settings</b>, <b>Logs</b> and <b>Help</b>. The box at the bottom left shows the service status with colored dots; click it to open the tray status window.</p>
+<h3>Language (Türkçe / English)</h3>
+<p>On first launch the app follows the Windows display language: <b>Turkish</b> if Windows is in Turkish, <b>English</b> for any other language. You can change it at any time in <b>Settings → General → Language / Dil</b>; the same choice is in the top right corner of the setup wizard. The options are <b>Device language</b> (follows Windows), <b>Türkçe</b> and <b>English</b>.</p>
+<p>When you change the language, the app closes and reopens in the new language; your services keep running. Notifications, log entries, command-line output, the <code>http://localhost</code> start page and this guide follow the chosen language too (Turkish guide: <code>docs\Kilavuz.html</code>).</p>
+<h3>Light / dark mode</h3>
+<p>The theme button at the bottom left (screen / sun / moon icon) cycles through <b>System → Light → Dark</b>. The same choice is in <b>Settings → General → Appearance</b>. With "System" selected, the app follows the Windows light/dark setting and switches automatically when the Windows theme changes. The window title bar follows the theme too.</p>
+<h3>Explanations and notifications</h3>
+<ul>
+  <li>To keep the screen clean, explanations sit behind the <b>?</b> icons. Hover over one to see the explanation.</li>
+  <li>Results appear as colored notifications in the bottom right: <span class="dot" style="background:#22B573"></span><b>green</b> for success, <span class="dot" style="background:#F5A524"></span><b>yellow</b> for warnings, <span class="dot" style="background:#E5484D"></span><b>red</b> for errors. Notifications with more information have a <b>Details</b> link.</li>
+  <li>Long operations (installation, repair) show their progress log in the same colors.</li>
+</ul>
+
+<h2 id="folders">4. Folder layout</h2>
+<pre><code>C:\devnanotek\
+├─ httpdocs\        ← YOUR PROJECTS (localhost points here)
+├─ app\             ← DevNanotek.exe
+├─ bin\             ← php\php-8.4.x, apache\httpd-2.4.x, mariadb\mariadb-11.4.x, nodejs\…, phpmyadmin, mailpit …
+│   ├─ current\     ← links to the active PHP / Node / DB version (PATH uses these)
+│   └─ shims\       ← composer.cmd, mysql.cmd …
+├─ data\            ← DATABASES (mariadb-11.4, mysql-8.4, postgresql-17 … each branch has its own folder)
+├─ etc\             ← configuration (apache\httpd.conf, apache\custom.conf, nginx\…, db\my.ini, ssl\…)
+├─ logs\            ← apache, nginx, php, db, mailpit logs
+├─ backups\         ← database backups (.sql)
+├─ docs\            ← this guide
+├─ tmp\             ← temporary session and upload files
+└─ config.json      ← DEVNANOTEK settings</code></pre>
+<div class="tip">To back up your projects, copy the <code>httpdocs</code> folder. To back up your databases, use <b>Settings → Database → Back up</b>.</div>
+
+<h2 id="projects">5. Projects and addresses</h2>
+<p>Organize <code>httpdocs</code> any way you like. You can nest folders as deep as you want:</p>
+<table>
+  <tr><th>Folder</th><th>Browser address</th></tr>
+  <tr><td><code>C:\devnanotek\httpdocs\GITHUB\project1</code></td><td><code>http://localhost/GITHUB/project1/</code></td></tr>
+  <tr><td><code>C:\devnanotek\httpdocs\clients\abc\site</code></td><td><code>http://localhost/clients/abc/site/</code></td></tr>
+  <tr><td><code>C:\devnanotek\httpdocs\test.php</code></td><td><code>http://localhost/test.php</code></td></tr>
+</table>
+<p>The <code>http://localhost</code> start page shows:</p>
+<ul>
+  <li>the PHP version and a phpinfo link</li>
+  <li>MariaDB/MySQL, PostgreSQL and Mailpit status (with colored dots)</li>
+  <li>one-click sign-in to phpMyAdmin and Adminer</li>
+  <li>your projects</li>
+</ul>
+<p>The page follows the light/dark theme and the app language. You can delete or change <code>httpdocs\index.php</code>; the app never touches a page you wrote yourself. When the app is updated, the previous DEVNANOTEK page is replaced with the new one and the old one is kept as <code>index.php.yedek-DATE</code>. To bring back the default page: <b>Settings → System → Restore the start page</b>.</p>
+<p>On the <b>Projects</b> page you can browse the folder tree, create a <b>New project</b>, and open a project in the browser, Explorer, a terminal or VS Code.</p>
+<div class="note"><b>Projects in subfolders:</b> in Laravel, WordPress and similar apps, set <code>APP_URL</code> or the site address to the subfolder (e.g. <code>http://localhost/GITHUB/project1/public</code>). For projects that need a root address, create a domain (section 9).</div>
+
+<h2 id="db">6. Databases</h2>
+<table>
+  <tr><th>Setting</th><th>Value</th></tr>
+  <tr><td>Host</td><td><code>127.0.0.1</code> (or <code>localhost</code>)</td></tr>
+  <tr><td>Port</td><td><code>3306</code></td></tr>
+  <tr><td>User</td><td><code>root</code></td></tr>
+  <tr><td>Password</td><td>empty (you can set one in <b>Settings → Database → root password</b>)</td></tr>
+  <tr><td>Character set</td><td><code>utf8mb4</code> (accented characters and emoji work fine)</td></tr>
+</table>
+<h3>phpMyAdmin</h3>
+<p><a href="http://localhost/phpmyadmin/">http://localhost/phpmyadmin</a> signs you in automatically. For security it's reachable from this computer only. Section 16 explains why the first load can take a few seconds.</p>
+<h3>Navicat / HeidiSQL / DBeaver</h3>
+<p>Create a new <b>MySQL</b> connection: host <code>127.0.0.1</code>, port <code>3306</code>, user <code>root</code>, empty password. MariaDB works with the "MySQL" connection type too.</p>
+<h3>Connecting from PHP</h3>
+<pre><code>$pdo = new PDO('mysql:host=127.0.0.1;port=3306;dbname=mydatabase;charset=utf8mb4', 'root', '', [
+    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+]);</code></pre>
+<h3>Changing versions and moving data</h3>
+<p>Each database <b>branch</b> has its own data folder (for example <code>data\mariadb-11.4</code>). Patch updates within the same branch (11.4.13 → 11.4.14) use the same data. When you switch to another branch (such as 11.4 → 11.8), the old data doesn't show up in the new version automatically, but it isn't deleted either. To move it:</p>
+<ol>
+  <li>While the old version is active, use <b>Settings → Database → Back up</b>.</li>
+  <li>On <b>Versions → Database</b>, install the new version and click <b>Activate</b>.</li>
+  <li>Use <b>Settings → Database → Restore from backup</b>.</li>
+</ol>
+<p>For extra MySQL settings (e.g. <code>sql_mode</code>, <code>lower_case_table_names</code>), use <b>Settings → Database → Extra settings (custom.cnf)</b>. This file is never overwritten.</p>
+
+<h3>PostgreSQL</h3>
+<p>PostgreSQL is optional and runs <b>alongside</b> MariaDB/MySQL (a separate service on port 5432). To install it, choose a version under <b>Versions → Database → PostgreSQL</b> and click <b>Install</b>; you can also pick it in the setup wizard. Versions 14–18 are available. The RECOMMENDED one is the major version before the newest.</p>
+<table>
+  <tr><th>Setting</th><th>Value</th></tr>
+  <tr><td>Host</td><td><code>127.0.0.1</code></td></tr>
+  <tr><td>Port</td><td><code>5432</code> (Settings → General → Ports)</td></tr>
+  <tr><td>User</td><td><code>postgres</code></td></tr>
+  <tr><td>Password</td><td>not needed (connections from this computer are accepted without a password)</td></tr>
+  <tr><td>Encoding</td><td>UTF8</td></tr>
+</table>
+<pre><code>$pdo = new PDO('pgsql:host=127.0.0.1;port=5432;dbname=postgres', 'postgres', '');
+
+# Laravel .env
+DB_CONNECTION=pgsql
+DB_HOST=127.0.0.1
+DB_PORT=5432
+DB_USERNAME=postgres
+DB_PASSWORD=</code></pre>
+<ul>
+  <li>When it's installed, PHP's <code>pgsql</code> and <code>pdo_pgsql</code> extensions are turned on automatically.</li>
+  <li><code>psql</code>, <code>pg_dump</code> and <code>createdb</code> are ready in the terminal.</li>
+  <li>There is one data folder per major version (<code>data\postgresql-17</code>); data is kept across patch updates.</li>
+  <li>Under <b>Settings → Database → PostgreSQL</b> you can create databases, back up (<code>pg_dumpall</code>) and restore. Put your own settings in <code>custom.conf</code>.</li>
+</ul>
+
+<h3>SQLite</h3>
+<p>SQLite is file-based and needs no server. PHP's <code>pdo_sqlite</code> and <code>sqlite3</code> extensions are on by default:</p>
+<pre><code>$pdo = new PDO('sqlite:' . __DIR__ . '/data.sqlite');</code></pre>
+<p>You can open <code>.sqlite</code> files with Adminer: choose "SQLite" as the system on the sign-in screen and type the file's full path.</p>
+
+<h3>SQL Server</h3>
+<p>To let PHP connect to Microsoft SQL Server, click <b>Versions → Tools → SQL Server driver → Install</b>. The installation:</p>
+<ul>
+  <li>adds the <code>sqlsrv</code> and <code>pdo_sqlsrv</code> extensions to every installed PHP version (8.1 and later) and turns them on;</li>
+  <li>installs <b>Microsoft ODBC Driver 18</b> too, if you accept Microsoft's license.</li>
+</ul>
+<p>SQL Server itself is not installed; you connect to an existing server (Docker, a remote server or SQL Server Express):</p>
+<pre><code>$pdo = new PDO('sqlsrv:Server=127.0.0.1,1433;Database=test;TrustServerCertificate=1', 'sa', 'password');</code></pre>
+
+<h3>Adminer — all databases in one place</h3>
+<p><a href="http://localhost/adminer/">http://localhost/adminer</a> manages MySQL/MariaDB, PostgreSQL, SQLite and SQL Server. For local use it allows sign-in without a password, and it's reachable from this computer only. The <b>Adminer</b> button on the Overview page and the links on the start page take you straight into the right database. phpMyAdmin keeps working as before.</p>
+
+<h2 id="php">7. PHP</h2>
+<h3>Changing versions</h3>
+<p>Install the versions you want on <b>Versions → PHP</b> by clicking <b>Install</b>. Choose the active version from the list under <b>Overview → Active versions</b> and click <b>Switch</b>, or use <b>Activate</b> on the Versions page. For a version that isn't listed (e.g. <code>8.2.12</code>), type the number in the field at the top and click <b>Add and install</b>.</p>
+<div class="tip">Use the same PHP version locally as your hosting does. Version differences cause most surprise errors.</div>
+<h3>Extensions: gd, zip, intl… (quick access)</h3>
+<p>You can turn the extensions projects often need on or off in two places:</p>
+<ul>
+  <li><b>Overview → Active versions → Extensions (gd, zip…)</b>: a small window opens. Flip the switches and click <b>Save and apply</b>.</li>
+  <li><b>Settings → PHP → Quick settings → Common extensions</b>: saved together with the php.ini values.</li>
+</ul>
+<p>The list includes gd, zip, intl, mbstring, curl, openssl, fileinfo, exif, soap, sodium, mysqli, pdo_mysql, pdo_pgsql, pgsql, pdo_sqlite, sqlite3, gmp, xsl, ftp, sockets, ldap, bz2, gettext, tidy and opcache. The <b>?</b> icon explains what each one does. The web server restarts by itself. If an extension fails to load, you get a warning and that extension is turned off. The common ones (gd, zip, intl, mbstring, curl…) are already on by default.</p>
+<h3>php.ini settings</h3>
+<p>The <b>Settings → PHP</b> tab has three sections:</p>
+<ul>
+  <li><b>Quick settings</b>: switches for common extensions and values such as <code>memory_limit</code>, <code>upload_max_filesize</code>, <code>post_max_size</code>, <code>max_execution_time</code>, <code>display_errors</code> and <code>date.timezone</code>. The <b>Development defaults</b> button resets them to the recommended values.</li>
+  <li><b>Extensions</b>: tick intl, gd, zip, mysqli, pdo_mysql, curl, soap, sodium and others to turn them on or off.</li>
+  <li><b>php.ini</b>: edit the whole file. A <code>php.ini.bak</code> backup is taken before every save.</li>
+</ul>
+<p>When you save, the web server restarts by itself. If PHP reports warnings at startup, the app tells you. Each PHP version has its own <code>php.ini</code>.</p>
+<p>The defaults suit development: 512M memory and upload limit, 300 s execution time, errors shown on the page, time zone <code>Europe/Istanbul</code> (change it under Quick settings), OPcache on.</p>
+<h3>Terminal, Composer and PHP commands</h3>
+<p><b>Overview → Terminal</b>, or the <b>Terminal</b> button on the Projects page, opens a command prompt set up with the active versions:</p>
+<pre><code>php -v
+composer install
+composer create-project laravel/laravel blog
+node -v &amp;&amp; npm install
+mysql -u root
+mysqldump -u root mydatabase &gt; backup.sql</code></pre>
+<p>If "Make php, composer, node and mysql work in every terminal (PATH)" is on, these commands work in every terminal (including the VS Code terminal, in newly opened windows).</p>
+
+<h2 id="web">8. Apache / Nginx</h2>
+<p><b>Apache is recommended.</b> Like cPanel and Plesk servers, it reads <code>.htaccess</code> files and has <code>mod_rewrite</code> on. If you choose <b>Nginx</b>, PHP runs through a php-cgi pool (FastCGI) and <code>.htaccess</code> files are not read.</p>
+<p>Make the choice under <b>Settings → General → Web server and document root</b> and click <b>Save and apply</b>.</p>
+<h3>Your own rules (custom.conf)</h3>
+<p><code>httpd.conf</code> and <code>nginx.conf</code> are generated automatically; don't edit them by hand. Put your own additions in the <code>custom.conf</code> file on the <b>Settings → Web server</b> tab and click <b>Test, save, apply</b>. The configuration is tested before saving. If there's an error, the change is <b>rolled back automatically</b>, so the server keeps working.</p>
+<pre><code># Apache custom.conf example: serve a Node app under /app (including socket.io)
+ProxyPass        "/app/socket.io/" "ws://127.0.0.1:3000/socket.io/"
+ProxyPass        "/app/"           "http://127.0.0.1:3000/"
+ProxyPassReverse "/app/"           "http://127.0.0.1:3000/"</code></pre>
+
+<h2 id="ssl">9. HTTPS and domains</h2>
+<h3>HTTPS</h3>
+<p>If mkcert is installed, <a href="https://localhost/">https://localhost</a> opens in the browser without warnings. DEVNANOTEK creates a local root certificate and adds it to the Windows trusted certificates. The certificate is valid only on your computer. Chrome and Edge pick it up right away; you may need to restart Firefox once.</p>
+<p>PHP's curl/openssl settings trust this certificate as well, so calls to <code>https://project.test</code> from PHP don't fail verification.</p>
+<h3>Domain (project.test)</h3>
+<p>To open a project by its own domain, select the folder on the <b>Projects</b> page. Type <code>project1.test</code> in the <b>Domain (virtual host)</b> box and click <b>Create</b>. The hosts file, the web server and the SSL certificate are updated automatically. The project now opens at <code>http://project1.test</code> and <code>https://project1.test</code>.</p>
+<p>If the folder has <code>public\index.php</code> and no index file at its root (Laravel, Symfony), the document root becomes <code>public</code> automatically.</p>
+<p>If you turn on <b>Settings → SSL and domains → Create a domain for each top-level folder</b>, every top-level folder in <code>httpdocs</code> automatically becomes <code>foldername.test</code>.</p>
+<div class="note">Use the <code>.test</code> suffix. Browsers force <code>.dev</code> and <code>.app</code> to HTTPS, and <code>.local</code> can cause slowdowns on the network.</div>
+
+<h2 id="mail">10. Test email (Mailpit)</h2>
+<p>Emails sent with PHP's <code>mail()</code> function or over SMTP <b>never reach real recipients</b>. They all appear in the inbox at <a href="http://localhost:8025/">http://localhost:8025</a>, so no email reaches a customer by accident.</p>
+<table>
+  <tr><th>Setting</th><th>Value</th></tr>
+  <tr><td>SMTP server</td><td><code>127.0.0.1</code></td></tr>
+  <tr><td>Port</td><td><code>1025</code></td></tr>
+  <tr><td>Encryption</td><td>none (a user name and password are accepted if you set them)</td></tr>
+</table>
+<pre><code>// PHPMailer
+$mail-&gt;isSMTP();
+$mail-&gt;Host = '127.0.0.1';
+$mail-&gt;Port = 1025;
+$mail-&gt;SMTPAuth = false;
+$mail-&gt;SMTPAutoTLS = false;
+
+# Laravel .env
+MAIL_MAILER=smtp
+MAIL_HOST=127.0.0.1
+MAIL_PORT=1025
+MAIL_ENCRYPTION=null</code></pre>
+
+<h2 id="node">11. Node.js and socket.io</h2>
+<p>Node.js, npm and npx are ready in the terminal. You can install several Node versions and switch between them on the Overview page. The switch applies to newly opened terminals.</p>
+<pre><code>cd C:\devnanotek\httpdocs\GITHUB\chat
+npm install socket.io express
+node server.js            # e.g. http://localhost:3000</code></pre>
+<p>During development, Node apps run in the terminal. Your PHP page can connect to the socket.io server directly at <code>http://localhost:3000</code>. You can also serve it through Apache (section 8).</p>
+
+<h2 id="versions">12. New versions and updates</h2>
+<p>DEVNANOTEK checks the official sources for new versions of PHP, MariaDB, MySQL, Node.js, Apache, Nginx, phpMyAdmin and the other tools <b>automatically every 12 hours</b>. To check right away, click <b>Versions → Check now</b>. The top of the page shows when the last check ran and your computer's architecture.</p>
+<h3>The RECOMMENDED badge</h3>
+<p>One version of each component is marked <b>RECOMMENDED</b>. The choice is based on hosting compatibility and stability:</p>
+<table>
+  <tr><th>Component</th><th>Recommended</th></tr>
+  <tr><td>PHP</td><td>The branch before the newest (the most common on hosting, with mature extensions). E.g. 8.4 once 8.5 is out.</td></tr>
+  <tr><td>MariaDB / MySQL</td><td>The newest long-term support (LTS) version.</td></tr>
+  <tr><td>Node.js</td><td>The newest LTS version.</td></tr>
+  <tr><td>Nginx</td><td>The stable branch.</td></tr>
+</table>
+<p>Only the newest patch of each branch is listed, so the list stays short. You can install any version and switch with <b>Activate</b>; you don't have to use the recommended one.</p>
+<h3>Updates</h3>
+<p>When a new patch is released in the <b>same branch</b> as an installed component (e.g. PHP 8.3.30 → 8.3.35):</p>
+<ul>
+  <li>An orange number appears next to <b>Versions</b> in the left menu and the tray icon shows a short notification.</li>
+  <li>On the card at the top of the Versions page, click <b>Update</b> (one at a time) or <b>Update all</b>.</li>
+  <li>The update installs the new version, carries over your <code>php.ini</code> settings, switches the active version and restarts the services. For MariaDB, the tables are upgraded with <code>mariadb-upgrade</code>; MySQL does this itself on first start. The data stays in the same folder. If everything succeeds, the old patch is removed.</li>
+</ul>
+<div class="tip">Major version changes (such as PHP 8.3 → 8.4 or MariaDB 11.4 → 11.8) are never done automatically; since they can break your projects, you decide when to switch.</div>
+<h3>Updating DEVNANOTEK itself</h3>
+<p>The app is open source and new releases are published on <a href="https://github.com/devnanotek/local-server/releases">GitHub Releases</a>. It checks for a new version at startup and every 6 hours. When a new version is out:</p>
+<ul>
+  <li>The tray icon shows a notification once, and a card describing what's new appears at the top of the <b>Versions</b> page.</li>
+  <li>Click <b>Update now</b>. The new <code>DevNanotek.exe</code> is downloaded to your Downloads folder and its version is verified.</li>
+  <li>The app closes, the new version opens and installs itself into <code>C:\devnanotek\app</code>.</li>
+</ul>
+<p>Your services, projects and settings stay as they are. To update by hand, download the new exe from the project site (<a href="https://devnanotek.github.io/local-server/">devnanotek.github.io/local-server</a>) and run it. The <b>Help</b> page shows which version you have.</p>
+
+<h2 id="service">13. Run mode, startup and shutdown</h2>
+<p>The <b>Start with the computer</b> switch on the Overview page toggles between the two run modes with one click. The same choice is in <b>Settings → General → Run mode</b> and in the setup wizard.</p>
+<table>
+  <tr><th>Mode</th><th>What happens?</th><th>When to use it</th></tr>
+  <tr><td><b>Always on</b> (switch on)</td><td>Services start automatically when the computer starts. Your sites work even when the app is closed. The app opens in the tray.</td><td>Your main development computer.</td></tr>
+  <tr><td><b>Only when I open it</b> (switch off)</td><td>Nothing starts when the computer starts. Services start when you open DEVNANOTEK and stop when you choose "Exit" from the tray menu.</td><td>Computers you work on now and then, where you don't want anything running in the background.</td></tr>
+</table>
+<p>You can also change the parts of the mode one by one with the checkboxes under <b>Settings → General → Run mode</b>.</p>
+<h3>How do the services behave?</h3>
+<table>
+  <tr><th>Situation</th><th>What happens?</th></tr>
+  <tr><td>The computer started</td><td>In "Always on" mode the services start automatically; <code>localhost</code> works even if the app isn't open.</td></tr>
+  <tr><td>You closed the app window (X)</td><td>The app minimizes to the tray; the services keep running.</td></tr>
+  <tr><td>"Exit" from the tray</td><td>In "Only when I open it" mode the services stop; in "Always on" mode they keep running.</td></tr>
+  <tr><td>You shut down the computer</td><td>Windows stops the services cleanly; the database shuts down cleanly.</td></tr>
+  <tr><td>Power failure</td><td>MariaDB/MySQL (InnoDB) repairs itself on the next start.</td></tr>
+  <tr><td>A service crashed</td><td>Windows restarts it automatically after 5 / 15 / 60 seconds.</td></tr>
+</table>
+<p>You can also see the services in the Windows "Services" console: <code>DevNanotek-Apache</code>, <code>DevNanotek-Nginx</code>, <code>DevNanotek-PHP-FCGI</code>, <code>DevNanotek-DB</code>, <code>DevNanotek-Mailpit</code>, <code>DevNanotek-PostgreSQL</code>.</p>
+
+<h2 id="repair">14. Repair and reset</h2>
+<p>If PHP, MySQL/MariaDB or Apache breaks, click the <b>wrench icon (Repair / Reset)</b> at the top right of the Overview page. The same window is on the Settings → System tab and in the tray menu. There are four levels; start with the lightest:</p>
+<table>
+  <tr><th>Option</th><th>What it does</th><th>What is kept</th></tr>
+  <tr><td><b>1. Quick repair</b></td><td>Removes and reinstalls the Windows services, regenerates the whole configuration and starts the services.</td><td>Everything.</td></tr>
+  <tr><td><b>2. Full repair</b></td><td>Deletes and reinstalls the PHP, Apache/Nginx, MariaDB/MySQL, phpMyAdmin, Mailpit and tools you use. <code>php.ini</code>, <code>custom.conf</code> and <code>custom.cnf</code> return to their defaults.</td><td>Databases and projects. The old settings files are backed up.</td></tr>
+  <tr><td><b>3. Reset database</b></td><td>For when the database won't start at all. It first takes a <code>.sql</code> backup of all databases, moves the data folder to the backups, then sets up an empty database. The root password is cleared.</td><td>Projects. The old data stays in the backup.</td></tr>
+  <tr><td><b>4. Factory reset</b></td><td>Removes the services, hosts entries, PATH entries, SSL certificate and autostart. Deletes the programs, logs and temporary files. The app restarts and the setup wizard begins.</td><td>Projects (<code>httpdocs</code>). Databases and settings are moved to the backups.</td></tr>
+</table>
+<p>Backups go to the <code>C:\devnanotek\backups\sifirlama-DATE</code> folder. To get your old databases back, use <b>Settings → Database → Restore from backup</b> and pick the <code>.sql</code> file there.</p>
+<div class="tip">If the app's window doesn't open at all, you can also repair from a command prompt opened as administrator:</div>
+<pre><code>"C:\devnanotek\app\DevNanotek.exe" --reset quick
+"C:\devnanotek\app\DevNanotek.exe" --reset full
+"C:\devnanotek\app\DevNanotek.exe" --reset db
+"C:\devnanotek\app\DevNanotek.exe" --reset factory</code></pre>
+
+<h2 id="security">15. Security and local network access</h2>
+<p>By default the web server is reachable from <b>this computer only</b> (<code>127.0.0.1</code> and <code>::1</code>). This means:</p>
+<ul>
+  <li>On shared networks such as cafés and hotels, nobody else can reach your sites or phpMyAdmin.</li>
+  <li>Windows Firewall doesn't ask "allow access?", and no firewall rule is added.</li>
+</ul>
+<h3>Testing from a phone or another computer</h3>
+<p>Tick <b>Settings → General → Access from the local network</b> and click <b>Save and apply</b>. Devices on the same network can then reach your sites at <code>http://THIS-COMPUTERS-IP</code>. A firewall rule is added for <b>Private</b> (home/work) networks only; access stays closed on public networks. Untick the box when you're done; the rule is removed too.</p>
+<p>Database access from the network is a separate setting: <b>Settings → Database → Database access from devices on the network</b>. If you turn it on, be sure to set a root password.</p>
+<p>phpMyAdmin is always reachable from this computer only.</p>
+
+<h2 id="speed">16. Speed: why is phpMyAdmin slow the first time?</h2>
+<p>It isn't a fault. phpMyAdmin consists of thousands of PHP files. On first load, two things happen:</p>
+<ol>
+  <li>PHP compiles these files and stores them in <b>OPcache</b>. Later loads come from the cache.</li>
+  <li><b>Windows Defender</b> scans each file the first time it's read.</li>
+</ol>
+<p>DEVNANOTEK eases this in two ways:</p>
+<ul>
+  <li>After the services start, <code>localhost</code> and phpMyAdmin are opened once in the background to <b>warm them up</b>, so the cache is ready when you open them.</li>
+  <li>Optionally, <b>Settings → System → Speed → Exclude from Defender scanning</b> takes the <code>C:\devnanotek</code> folder out of scanning. This speeds up the first load noticeably. It's a security trade-off: only put code you trust in this folder. The exclusion is removed when DEVNANOTEK is uninstalled.</li>
+</ul>
+<p class="muted">Example measurement: phpMyAdmin first load ≈ 0.5 s, later loads ≈ 0.25 s; localhost ≈ 0.06 s.</p>
+
+<h2 id="other">17. Using it on other computers, 32 / 64-bit</h2>
+<p><code>DevNanotek.exe</code> is a single file. Copy it to another computer and run it to set up the same environment. The app <b>detects</b> the Windows version and processor architecture <b>by itself</b> and downloads the right files:</p>
+<table>
+  <tr><th>Computer</th><th>Components downloaded</th><th>Note</th></tr>
+  <tr><td>64-bit Windows 10 / 11</td><td>x64</td><td>All components are available. Recommended.</td></tr>
+  <tr><td>ARM64 Windows 11</td><td>x64 (through Windows emulation)</td><td>All components are available.</td></tr>
+  <tr><td>ARM64 Windows 10</td><td>x86 (32-bit)</td><td>The limits in the 32-bit row apply.</td></tr>
+  <tr><td>32-bit Windows 10</td><td>x86</td><td>PHP, Apache, Nginx, Node.js (22 and earlier), phpMyAdmin and Composer are installed. <b>MariaDB, MySQL, PostgreSQL, Mailpit and mkcert</b> are no longer published for 32-bit Windows, so they can't be installed; the wizard says so clearly.</td></tr>
+</table>
+<p>Requirements:</p>
+<ul>
+  <li>Windows 10 or Windows 11. The .NET Framework 4.8 the app needs comes with these versions. On Windows 7 / 8.1 the app may open, but current PHP, Apache and database versions may not work; the wizard warns you.</li>
+  <li>An administrator account. The app asks for permission when it opens.</li>
+  <li>An internet connection. Components are downloaded from their official sites during the first setup, about 200 MB.</li>
+  <li>On Windows 11, <b>Smart App Control must be off</b>. Windows 10 doesn't have this feature.</li>
+  <li>Ports 80, 443 and 3306 must not be used by another program (IIS, XAMPP, Laragon, Skype…). If they are, change them in <b>Settings → General → Ports</b>.</li>
+</ul>
+<p>If the Visual C++ Runtime is missing or outdated, the wizard installs it too (for the right architecture).</p>
+
+<h2 id="hosting">18. Moving to hosting (Plesk / cPanel / VPS)</h2>
+<h3>Linux compatibility check</h3>
+<p>Before uploading your project to the server, select the folder on the <b>Projects</b> page and click <b>Linux compatibility → Check</b>. The app scans the files without changing them and lists the problems line by line, in color:</p>
+<table>
+  <tr><th>Check</th><th>Why it matters</th></tr>
+  <tr><td><span class="dot" style="background:#E5484D"></span>Letter-case mismatch (<code>require 'Config.php'</code>, <code>&lt;img src="Logo.PNG"&gt;</code>)</td><td>Works on Windows, but on Linux it gives "file not found" / 404.</td></tr>
+  <tr><td><span class="dot" style="background:#E5484D"></span>Backslashes in paths (<code>lib\db.php</code>) and <code>C:\</code> paths</td><td>On Linux the folder separator is <code>/</code> and there's no <code>C:</code> drive.</td></tr>
+  <tr><td><span class="dot" style="background:#E5484D"></span>Class name and file name with different letter case (<code>class UserModel</code> → <code>userModel.php</code>)</td><td>Composer's autoloader can't find the class on Linux.</td></tr>
+  <tr><td><span class="dot" style="background:#E5484D"></span><code>.sh</code> scripts with CRLF line endings, Windows commands (<code>exec('dir')</code>), COM objects</td><td>They don't work on Linux.</td></tr>
+  <tr><td><span class="dot" style="background:#F5A524"></span>Mixed-case table names (<code>SELECT * FROM Users</code>)</td><td>MySQL table names are case-sensitive on Linux.</td></tr>
+  <tr><td><span class="dot" style="background:#F5A524"></span><code>php_value</code> / <code>php_flag</code> in <code>.htaccess</code></td><td>Error 500 if the server uses PHP-FPM; use <code>.user.ini</code> instead.</td></tr>
+  <tr><td><span class="dot" style="background:#F5A524"></span>File names with non-ASCII characters, PHP files with a BOM</td><td>Corrupted names in FTP transfers and "headers already sent" errors.</td></tr>
+</table>
+<p>Each line explains how to fix it. Double-click a line to open the file at that line in VS Code. You can copy or save the report. <code>vendor</code> and <code>node_modules</code> are not scanned.</p>
+<h3>General rules</h3>
+<ul>
+  <li><b>Letter case:</b> Windows doesn't distinguish upper and lower case in file names; Linux does. <code>require 'Config.php'</code> with <code>config.php</code> works locally but fails on the server. Write file names consistently.</li>
+  <li><b>Table names:</b> on Linux, MySQL table names are case-sensitive too. In queries, write table names exactly as you created them.</li>
+  <li><b>Matching versions:</b> use the same PHP and MariaDB/MySQL versions locally as on the server. Plesk and cPanel usually have MariaDB 10.6/10.11/11.4 or MySQL 8.0/8.4.</li>
+  <li><b>Exporting:</b> phpMyAdmin → Export, or <code>mysqldump -u root mydatabase &gt; backup.sql</code>. Import on the server with phpMyAdmin or <code>mysql</code>.</li>
+  <li><b>Character set:</b> use <code>utf8mb4</code> both locally and on the server.</li>
+  <li><b>Paths:</b> use <code>__DIR__</code> instead of absolute paths like <code>C:\...</code>.</li>
+  <li><b>.htaccess:</b> since you use Apache locally, <code>.htaccess</code> rules that work locally work the same way on cPanel/Plesk (Apache or LiteSpeed).</li>
+</ul>
+
+<h2 id="trouble">19. Troubleshooting</h2>
+<h3>"An Application Control policy has blocked this file" / services never start</h3>
+<p>This is Windows 11's <b>Smart App Control</b>. It won't run programs that lack a digital signature or that Microsoft doesn't recognize yet; for example, new releases of Apache Lounge, Mailpit and Nginx are unsigned. To see its state, run this in PowerShell:</p>
+<pre><code>Get-MpComputerStatus | Select-Object SmartAppControlState</code></pre>
+<p>If the value is <code>On</code>, local server software (DEVNANOTEK, XAMPP, Laragon, some parts of Docker) can't run reliably. To turn it off: <b>Settings → Privacy &amp; security → Windows Security → App &amp; browser control → Smart App Control settings → Off</b>.</p>
+<div class="note">This is a security feature; the decision is yours. Depending on the Windows version, turning it back on later may require resetting Windows. The Windows Defender antivirus does not turn off; it keeps running. On computers used for software development this feature is usually kept off.</div>
+<h3>Apache doesn't start / "port 80 is in use"</h3>
+<p>Check <b>Settings → System → Port check</b> first. Common causes:</p>
+<ul>
+  <li><b>System (PID 4)</b>: IIS or the "World Wide Web Publishing Service" is running. Stop it in the Services console and set it to "Disabled".</li>
+  <li><b>httpd.exe / mysqld.exe</b>: XAMPP or Laragon is running. Close it and turn off its autostart.</li>
+  <li>Skype, VMware or Docker: free the port in that program's settings.</li>
+  <li>Or change the HTTP port to 8080 in <b>Settings → General → Ports</b>. The address then becomes <code>http://localhost:8080</code>.</li>
+</ul>
+<h3>The database doesn't start</h3>
+<p>Check the <b>Logs → Database — errors</b> log. Usually port 3306 is used by another MySQL, or there's an invalid line in <code>custom.cnf</code>. The log icon next to the service on the Overview page opens the right log directly.</p>
+<h3>"VCRUNTIME140.dll not found" or Apache/PHP won't open</h3>
+<p><b>Versions → Tools → Visual C++ Runtime → Install</b>.</p>
+<h3>Antivirus</h3>
+<p>Some antivirus programs block changes to the hosts file or new services. Add the <code>C:\devnanotek</code> folder to the exclusions (for Windows Defender, see section 16).</p>
+<h3>Fix everything</h3>
+<p>Start with <b>Repair / Reset → Quick repair</b>; if that doesn't solve it, try <b>Full repair</b> (section 14).</p>
+
+<h2 id="cli">20. Command line</h2>
+<p>In a command prompt opened as administrator (the output follows the app language):</p>
+<pre><code>"C:\devnanotek\app\DevNanotek.exe" --status          :: service status
+"C:\devnanotek\app\DevNanotek.exe" --start-all       :: start all
+"C:\devnanotek\app\DevNanotek.exe" --stop-all        :: stop all
+"C:\devnanotek\app\DevNanotek.exe" --apply           :: apply the configuration
+"C:\devnanotek\app\DevNanotek.exe" --check-updates   :: check for new versions, list the recommended ones
+"C:\devnanotek\app\DevNanotek.exe" --mode manual     :: run mode: always | manual
+"C:\devnanotek\app\DevNanotek.exe" --install php mariadb node   :: install the recommended versions
+"C:\devnanotek\app\DevNanotek.exe" --install php:8.3.30         :: install a specific version
+"C:\devnanotek\app\DevNanotek.exe" --install postgresql adminer :: add PostgreSQL and Adminer
+"C:\devnanotek\app\DevNanotek.exe" --linux-check C:\devnanotek\httpdocs\GITHUB\project1   :: Linux compatibility report</code></pre>
+
+<h2 id="uninstall">21. Uninstalling</h2>
+<p>DEVNANOTEK appears in the Windows <b>Control Panel → Programs and Features</b> list (and in Settings → Apps) as <b>"DEVNANOTEK Local Server"</b>.</p>
+<ul>
+  <li><b>Uninstall</b>: opens DEVNANOTEK's uninstall window.</li>
+  <li><b>Change</b>: opens the Repair and Reset window (section 14).</li>
+</ul>
+<p>The same uninstall window opens from inside the app with <b>Settings → System → Uninstall DEVNANOTEK…</b>. There are two options:</p>
+<table>
+  <tr><th>Option</th><th>Deleted</th><th>Kept</th></tr>
+  <tr><td><b>Uninstall the app, keep my projects and databases</b> (recommended)</td><td>Services, hosts entries, PATH entries, autostart, SSL certificate, firewall rules, Defender exclusion, tray icon entry, shortcuts, the Control Panel entry, programs (PHP, Apache, MariaDB…), settings files, logs and DevNanotek.exe</td><td><code>httpdocs</code> (projects), <code>data</code> (databases), <code>backups</code>. If you install it again, you pick up where you left off.</td></tr>
+  <tr><td><b>Delete everything</b></td><td>All of the above plus the entire <code>C:\devnanotek</code> folder (including projects and databases). Optionally, a <code>.sql</code> backup of all databases is saved to the Desktop first.</td><td>Only the backup you saved to the Desktop.</td></tr>
+</table>
+<p>If you start the uninstall while the app is open, the running DEVNANOTEK closes itself first. A few seconds after you close the window, the remaining files are deleted too.</p>
+
+<h2 id="tray">22. The icon next to the clock (tray)</h2>
+<p>While DEVNANOTEK is running, an orange <b>D</b> logo appears next to the clock in the bottom right of the screen. The dot in the corner of the logo shows the overall status:</p>
+<table>
+  <tr><th>Dot</th><th>Meaning</th></tr>
+  <tr><td><span class="dot" style="background:#22B573"></span> Green</td><td>All services are running.</td></tr>
+  <tr><td><span class="dot" style="background:#F5A524"></span> Yellow</td><td>One or more services are stopped or starting.</td></tr>
+  <tr><td><span class="dot" style="background:#E5484D"></span> Red</td><td>A service stopped with an error, or a component isn't installed.</td></tr>
+</table>
+<ul>
+  <li><b>Single click</b>: a small status window opens. The services are listed with colored dots, versions and states; the active PHP, web server, database, Node.js, phpMyAdmin and Mailpit versions are shown. You can start and stop each service, and use "Start all / Stop all", localhost, phpMyAdmin and httpdocs shortcuts.</li>
+  <li><b>Double click</b>: the main app window opens.</li>
+  <li><b>Right click</b>: the menu (Show, Start all / Stop all, Repair / Reset, Exit…).</li>
+</ul>
+<p>If you don't see the icon, click the <b>^</b> arrow on the taskbar. Drag the icon from there onto the taskbar to keep it always visible.</p>
+<p>The same colored service list and the active versions are always visible at the bottom of the app's left menu and on the Overview page.</p>
+
+<h2 id="linux">23. Linux version</h2>
+<p>You can set up the same environment on a Linux computer too. The quickest way is to open a terminal as your normal user on Linux and run this command. It downloads the latest version of the script from GitHub and installs it:</p>
+<pre><code>curl -fsSLO https://github.com/devnanotek/local-server/releases/latest/download/devnanotek.sh &amp;&amp; sudo bash devnanotek.sh install</code></pre>
+<p>If you'd rather not download it from the internet, click <b>Help → Get the Linux version</b>. The <code>devnanotek.sh</code> and <code>KURULUM.md</code> files are extracted to the <code>C:\devnanotek\docs\linux</code> folder. Copy the file to the Linux computer and run:</p>
+<pre><code>sudo bash devnanotek.sh install</code></pre>
+<table>
+  <tr><th>Supported</th><th>Details</th></tr>
+  <tr><td>Ubuntu 22.04 / 24.04 / 26.04, Debian 11–13, Linux Mint, Pop!_OS, Zorin</td><td>Multiple PHP versions: ppa:ondrej/php or packages.sury.org</td></tr>
+  <tr><td>AlmaLinux, Rocky, RHEL, CentOS Stream, Oracle, CloudLinux (8–10), Fedora</td><td>Multiple PHP versions: Remi repository · SELinux is configured automatically</td></tr>
+</table>
+<p>The setup wizard asks for: PHP version, Apache or Nginx, MariaDB or MySQL, PostgreSQL, Node.js, Mailpit, phpMyAdmin, Adminer, Composer, local HTTPS and the run mode. After installation the <code>devnanotek</code> command opens the menu. Common commands:</p>
+<pre><code>devnanotek status                       # services: green / yellow / red
+sudo devnanotek php 8.3                 # install and switch PHP version
+sudo devnanotek ext enable gd           # turn on an extension
+sudo devnanotek ini memory_limit 1G     # php.ini setting
+sudo devnanotek vhost add project1.test GITHUB/project1
+sudo devnanotek db backup               # database backup
+sudo devnanotek mode manual             # only when I start it
+sudo devnanotek uninstall               # uninstall (projects are kept)</code></pre>
+<p>Projects live in the <code>/opt/devnanotek/httpdocs</code> folder (a <code>~/httpdocs</code> shortcut is also created in your home folder) and open at <code>http://localhost/folder</code>. PHP runs as your user, so you don't have to deal with file permissions. On Linux, table names are case-sensitive, just like on the server. The Linux script's own messages are in Turkish; see <code>KURULUM.md</code> for details.</p>
+
+<p class="muted" style="margin-top:48px">DEVNANOTEK · <a href="https://devnanotek.net">devnanotek.net</a> · <a href="https://github.com/devnanotek/local-server">GitHub</a> · <a href="https://devnanotek.github.io/local-server/">Project site</a> · Open this guide from the app with <b>Help → Full guide</b>.<br>
+DEVNANOTEK Local Server is open source and distributed under the MIT license. The Bebas Neue font used in the interface is licensed under the SIL Open Font License 1.1.</p>
+</div>
+</body>
+</html>

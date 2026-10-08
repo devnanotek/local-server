@@ -16,8 +16,8 @@
     <RootNamespace>DevNanotek</RootNamespace>
     <StartupObject>DevNanotek.Program</StartupObject>
     <ApplicationIcon>Assets\devnanotek.ico</ApplicationIcon>
-    <Version>1.2.0</Version>
-    <FileVersion>1.2.0.0</FileVersion>
+    <Version>1.3.0</Version>
+    <FileVersion>1.3.0.0</FileVersion>
     <Product>DEVNANOTEK Local Server</Product>
     <AssemblyTitle>DEVNANOTEK Local Server</AssemblyTitle>
     <Description>DEVNANOTEK - PHP / MariaDB / MySQL / Apache / Nginx / Node.js yerel gelistirme sunucusu</Description>

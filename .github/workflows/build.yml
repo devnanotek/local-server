@@ -24,6 +24,10 @@ jobs:
       - name: Derle
         run: dotnet build src/DevNanotek/DevNanotek.csproj -c Release -o build/release --nologo
 
+      # Koddaki her Türkçe metnin İngilizce karşılığı Core/Lang/En.*.cs içinde olmalı
+      - name: Çeviri denetimi (Türkçe / İngilizce)
+        run: dotnet run --project tools/i18n-check -c Release -- check src/DevNanotek tools/i18n-check/ignore.txt
+
       - name: Exe'yi sakla (14 gün)
         uses: actions/upload-artifact@v7
         with:
